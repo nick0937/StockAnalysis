@@ -309,6 +309,53 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
  .acth .vd{justify-self:end}
  .o-vd{align-items:flex-end}
 }
+
+/* ══ 建議標籤系統：視覺重量 = 行動急迫性 ══ */
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:6px;padding:3px 9px;
+ font-size:11.5px;font-weight:700;white-space:nowrap;border:1.5px solid transparent;line-height:1.5}
+.chip i{font-style:normal;font-size:10px;line-height:1;opacity:.9}
+.chip.big{font-size:13.5px;padding:5px 13px;border-radius:7px}
+.chip.big i{font-size:12px}
+/* 買方向：藍，越可行動越深 */
+.e-go{background:#17497f;color:#fff;border-color:#17497f}
+.e-part{background:#3d7ab8;color:#fff;border-color:#3d7ab8}
+.e-wait{background:#fff;color:#1f5fa9;border-color:#9dbcdd}
+/* 不動作：灰，視覺重量最低 */
+.e-no{background:#eef1f5;color:#8b95a3;border-color:#e3e8ee}
+/* 持有：續抱＝低重量白底；賣方向＝琥珀→磚，越急越深 */
+.h-keep{background:#fff;color:#5a6675;border-color:#ccd4de}
+.h-tp{background:#fff8e6;color:#8a5a00;border-color:#e0c27f}
+.h-cut{background:#c07a12;color:#fff;border-color:#c07a12}
+.h-exit{background:#9e3414;color:#fff;border-color:#9e3414}
+/* 分數落點：降為中性外框，不與行動標籤搶視覺 */
+.band{display:inline-block;background:#f2f5f9;color:#5a6675;border:1px solid #dde3ea;
+ border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700;white-space:nowrap}
+/* 總覽建議欄：三層堆疊 */
+.o-vd{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.arow{display:inline-flex;align-items:center;gap:6px}
+.arow u{text-decoration:none;font-size:10.5px;color:var(--ink3);min-width:24px}
+/* 五面向小分：數字回歸中性，改用細條表達強弱 */
+.o-sub b{font-size:13.5px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.o-sub s{display:block;text-decoration:none;width:100%;height:3px;background:var(--line2);
+ border-radius:99px;overflow:hidden;margin-top:2px}
+.o-sub s em{display:block;height:100%;border-radius:99px;background:#9aa8bb}
+.o-sub s.hi em{background:#17497f}
+.o-sub s.lo em{background:#d9dee5}
+/* 圖例 */
+.legend{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fafbfd;
+ margin-bottom:10px;display:grid;gap:6px;min-width:0}
+.lgt{font-size:11.5px;color:var(--ink3)}
+.lgt b{color:var(--ink2)}
+.lgrow{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+.lgrow u{text-decoration:none;font-size:11px;color:var(--ink3);font-weight:700;min-width:26px}
+/* 卡片雙情境標頭沿用 chip */
+.acth .chip{grid-area:v;justify-self:start}
+@media(min-width:640px){
+ .o-vd{align-items:flex-end}
+ .acth .chip{justify-self:end}
+ .legend{grid-template-columns:1fr auto auto;align-items:center}
+}
+@media print{.chip{border:1px solid #999!important;background:#fff!important;color:#000!important}}
 </style></head><body>
 <nav class="nav"><ul><li><a href="#market">大盤</a></li><li><a href="#overview">總覽</a></li><li><a href="#stocks">各個股</a></li><li><a href="#advice">建議書</a></li></ul></nav><div class="wrap">
 <header class="hero" id="top">
@@ -356,86 +403,99 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <p class="para small">權重：籌碼面 30%、技術面 20%、基本面 20%、大盤面 20%、消息面 10%。
   基本面 20% 內部：月營收動能 20%、三率與 EPS 趨勢 30%、財務結構 20%、獲利品質 20%、評價 10%。
   建議對照：≥70 買進｜55–69 觀察偏多｜45–54 觀察｜&lt;45 減碼／賣出。</p>
+  <div class="legend">
+    <span class="lgt">標籤讀法：顏色深淺代表<b>該採取行動的急迫性</b>，不是好壞</span>
+    <span class="lgrow"><u>空手</u><span class="chip e-go"><i>●</i>可買進</span><span class="chip e-part"><i>◎</i>分批買進</span><span class="chip e-wait"><i>○</i>等回檔再買</span><span class="chip e-no"><i>✕</i>不建議買進</span></span>
+    <span class="lgrow"><u>持有</u><span class="chip h-keep"><i>✓</i>續抱</span><span class="chip h-tp"><i>✓</i>續抱並設停利</span><span class="chip h-cut"><i>▼</i>逢高減碼</span><span class="chip h-exit"><i>✕</i>近期出場</span></span>
+  </div>
   <div class="ovt"><div class="ovh"><span class="o-rk">排名</span><span class="o-nm">個股</span><span class="o-px">收盤</span><span class="o-cg">漲跌%</span><span class="o-sc">綜合</span><span class="o-sub">五面向小分</span><span class="o-vd">建議</span></div><article class="ovr">
   <span class="o-rk">#1</span>
   <span class="o-nm"><a href="#s1717">長興<em>1717</em></a></span>
   <span class="o-px up">70.00</span>
   <span class="o-cg up">+5.74%</span>
   <span class="o-sc"><b class="s70b">73</b></span>
-  <span class="o-sub"><i><u>籌碼</u><b class="s70b">76</b></i><i><u>技術</u><b class="s70b">72</b></i><i><u>基本</u><b class="s70b">81</b></i><i><u>大盤</u><b class="s55b">61</b></i><i><u>消息</u><b class="s70b">74</b></i></span>
-  <span class="o-vd"><span class="vd s70v">買進</span>
-    <span class="vd2"><i>空手</i><b class="s45v">等回檔再買</b></span>
-    <span class="vd2"><i>持有</i><b class="s70v">續抱</b></span></span>
+  <span class="o-sub"><i><u>籌碼</u><b>76</b><s class="mb hi"><em style="width:76%"></em></s></i><i><u>技術</u><b>72</b><s class="mb hi"><em style="width:72%"></em></s></i><i><u>基本</u><b>81</b><s class="mb hi"><em style="width:81%"></em></s></i><i><u>大盤</u><b>61</b><s class="mb mid"><em style="width:61%"></em></s></i><i><u>消息</u><b>74</b><s class="mb hi"><em style="width:74%"></em></s></i></span>
+  <span class="o-vd">
+    <span class="band">分數 買進</span>
+    <span class="arow"><u>空手</u><span class="chip e-wait"><i>○</i>等回檔再買</span></span>
+    <span class="arow"><u>持有</u><span class="chip h-keep"><i>✓</i>續抱</span></span></span>
 </article><article class="ovr">
   <span class="o-rk">#2</span>
   <span class="o-nm"><a href="#s8070">長華*<em>8070</em></a></span>
   <span class="o-px up">48.80</span>
   <span class="o-cg up">+3.06%</span>
   <span class="o-sc"><b class="s55b">67</b></span>
-  <span class="o-sub"><i><u>籌碼</u><b class="s55b">67</b></i><i><u>技術</u><b class="s55b">64</b></i><i><u>基本</u><b class="s70b">75</b></i><i><u>大盤</u><b class="s55b">60</b></i><i><u>消息</u><b class="s55b">66</b></i></span>
-  <span class="o-vd"><span class="vd s55v">觀察偏多</span>
-    <span class="vd2"><i>空手</i><b class="s45v">等回檔再買</b></span>
-    <span class="vd2"><i>持有</i><b class="s70v">續抱</b></span></span>
+  <span class="o-sub"><i><u>籌碼</u><b>67</b><s class="mb mid"><em style="width:67%"></em></s></i><i><u>技術</u><b>64</b><s class="mb mid"><em style="width:64%"></em></s></i><i><u>基本</u><b>75</b><s class="mb hi"><em style="width:75%"></em></s></i><i><u>大盤</u><b>60</b><s class="mb mid"><em style="width:60%"></em></s></i><i><u>消息</u><b>66</b><s class="mb mid"><em style="width:66%"></em></s></i></span>
+  <span class="o-vd">
+    <span class="band">分數 觀察偏多</span>
+    <span class="arow"><u>空手</u><span class="chip e-wait"><i>○</i>等回檔再買</span></span>
+    <span class="arow"><u>持有</u><span class="chip h-keep"><i>✓</i>續抱</span></span></span>
 </article><article class="ovr">
   <span class="o-rk">#3</span>
   <span class="o-nm"><a href="#s4763">材料*-KY<em>4763</em></a></span>
   <span class="o-px up">50.00</span>
   <span class="o-cg up">+0.20%</span>
   <span class="o-sc"><b class="s55b">66</b></span>
-  <span class="o-sub"><i><u>籌碼</u><b class="s55b">68</b></i><i><u>技術</u><b class="s70b">70</b></i><i><u>基本</u><b class="s55b">63</b></i><i><u>大盤</u><b class="s55b">69</b></i><i><u>消息</u><b class="s45b">50</b></i></span>
-  <span class="o-vd"><span class="vd s55v">觀察偏多</span>
-    <span class="vd2"><i>空手</i><b class="s55v">分批買進</b></span>
-    <span class="vd2"><i>持有</i><b class="s70v">續抱</b></span></span>
+  <span class="o-sub"><i><u>籌碼</u><b>68</b><s class="mb mid"><em style="width:68%"></em></s></i><i><u>技術</u><b>70</b><s class="mb hi"><em style="width:70%"></em></s></i><i><u>基本</u><b>63</b><s class="mb mid"><em style="width:63%"></em></s></i><i><u>大盤</u><b>69</b><s class="mb mid"><em style="width:69%"></em></s></i><i><u>消息</u><b>50</b><s class="mb mid"><em style="width:50%"></em></s></i></span>
+  <span class="o-vd">
+    <span class="band">分數 觀察偏多</span>
+    <span class="arow"><u>空手</u><span class="chip e-part"><i>◎</i>分批買進</span></span>
+    <span class="arow"><u>持有</u><span class="chip h-keep"><i>✓</i>續抱</span></span></span>
 </article><article class="ovr">
   <span class="o-rk">#4</span>
   <span class="o-nm"><a href="#s6548">長科*<em>6548</em></a></span>
   <span class="o-px up">75.70</span>
   <span class="o-cg up">+4.56%</span>
   <span class="o-sc"><b class="s55b">66</b></span>
-  <span class="o-sub"><i><u>籌碼</u><b class="s55b">60</b></i><i><u>技術</u><b class="s55b">68</b></i><i><u>基本</u><b class="s55b">66</b></i><i><u>大盤</u><b class="s70b">73</b></i><i><u>消息</u><b class="s55b">62</b></i></span>
-  <span class="o-vd"><span class="vd s55v">觀察偏多</span>
-    <span class="vd2"><i>空手</i><b class="s45v">等回檔再買</b></span>
-    <span class="vd2"><i>持有</i><b class="s55v">續抱並設停利</b></span></span>
+  <span class="o-sub"><i><u>籌碼</u><b>60</b><s class="mb mid"><em style="width:60%"></em></s></i><i><u>技術</u><b>68</b><s class="mb mid"><em style="width:68%"></em></s></i><i><u>基本</u><b>66</b><s class="mb mid"><em style="width:66%"></em></s></i><i><u>大盤</u><b>73</b><s class="mb hi"><em style="width:73%"></em></s></i><i><u>消息</u><b>62</b><s class="mb mid"><em style="width:62%"></em></s></i></span>
+  <span class="o-vd">
+    <span class="band">分數 觀察偏多</span>
+    <span class="arow"><u>空手</u><span class="chip e-wait"><i>○</i>等回檔再買</span></span>
+    <span class="arow"><u>持有</u><span class="chip h-tp"><i>✓</i>續抱並設停利</span></span></span>
 </article><article class="ovr">
   <span class="o-rk">#5</span>
   <span class="o-nm"><a href="#s8422">可寧衛*<em>8422</em></a></span>
   <span class="o-px up">26.80</span>
   <span class="o-cg up">+1.90%</span>
   <span class="o-sc"><b class="s55b">63</b></span>
-  <span class="o-sub"><i><u>籌碼</u><b class="s70b">82</b></i><i><u>技術</u><b class="s55b">60</b></i><i><u>基本</u><b class="s45b">45</b></i><i><u>大盤</u><b class="s55b">60</b></i><i><u>消息</u><b class="s45b">52</b></i></span>
-  <span class="o-vd"><span class="vd s55v">觀察偏多</span>
-    <span class="vd2"><i>空手</i><b class="s00v">不建議買進</b></span>
-    <span class="vd2"><i>持有</i><b class="s45v">逢高減碼</b></span></span>
+  <span class="o-sub"><i><u>籌碼</u><b>82</b><s class="mb hi"><em style="width:82%"></em></s></i><i><u>技術</u><b>60</b><s class="mb mid"><em style="width:60%"></em></s></i><i><u>基本</u><b>45</b><s class="mb mid"><em style="width:45%"></em></s></i><i><u>大盤</u><b>60</b><s class="mb mid"><em style="width:60%"></em></s></i><i><u>消息</u><b>52</b><s class="mb mid"><em style="width:52%"></em></s></i></span>
+  <span class="o-vd">
+    <span class="band">分數 觀察偏多</span>
+    <span class="arow"><u>空手</u><span class="chip e-no"><i>✕</i>不建議買進</span></span>
+    <span class="arow"><u>持有</u><span class="chip h-cut"><i>▼</i>逢高減碼</span></span></span>
 </article><article class="ovr">
   <span class="o-rk">#6</span>
   <span class="o-nm"><a href="#s5371">中光電<em>5371</em></a></span>
   <span class="o-px up">85.60</span>
   <span class="o-cg up">+3.13%</span>
   <span class="o-sc"><b class="s45b">54</b></span>
-  <span class="o-sub"><i><u>籌碼</u><b class="s55b">58</b></i><i><u>技術</u><b class="s55b">58</b></i><i><u>基本</u><b class="s00b">34</b></i><i><u>大盤</u><b class="s55b">68</b></i><i><u>消息</u><b class="s00b">44</b></i></span>
-  <span class="o-vd"><span class="vd s45v">觀察</span>
-    <span class="vd2"><i>空手</i><b class="s00v">不建議買進</b></span>
-    <span class="vd2"><i>持有</i><b class="s00v">近期出場</b></span></span>
+  <span class="o-sub"><i><u>籌碼</u><b>58</b><s class="mb mid"><em style="width:58%"></em></s></i><i><u>技術</u><b>58</b><s class="mb mid"><em style="width:58%"></em></s></i><i><u>基本</u><b>34</b><s class="mb lo"><em style="width:34%"></em></s></i><i><u>大盤</u><b>68</b><s class="mb mid"><em style="width:68%"></em></s></i><i><u>消息</u><b>44</b><s class="mb lo"><em style="width:44%"></em></s></i></span>
+  <span class="o-vd">
+    <span class="band">分數 觀察</span>
+    <span class="arow"><u>空手</u><span class="chip e-no"><i>✕</i>不建議買進</span></span>
+    <span class="arow"><u>持有</u><span class="chip h-exit"><i>✕</i>近期出場</span></span></span>
 </article><article class="ovr">
   <span class="o-rk">#7</span>
   <span class="o-nm"><a href="#s6411">晶焱<em>6411</em></a></span>
   <span class="o-px up">77.10</span>
   <span class="o-cg up">+0.65%</span>
   <span class="o-sc"><b class="s00b">43</b></span>
-  <span class="o-sub"><i><u>籌碼</u><b class="s00b">34</b></i><i><u>技術</u><b class="s00b">34</b></i><i><u>基本</u><b class="s55b">58</b></i><i><u>大盤</u><b class="s45b">47</b></i><i><u>消息</u><b class="s45b">46</b></i></span>
-  <span class="o-vd"><span class="vd s00v">減碼／賣出</span>
-    <span class="vd2"><i>空手</i><b class="s00v">不建議買進</b></span>
-    <span class="vd2"><i>持有</i><b class="s45v">逢反彈減碼</b></span></span>
+  <span class="o-sub"><i><u>籌碼</u><b>34</b><s class="mb lo"><em style="width:34%"></em></s></i><i><u>技術</u><b>34</b><s class="mb lo"><em style="width:34%"></em></s></i><i><u>基本</u><b>58</b><s class="mb mid"><em style="width:58%"></em></s></i><i><u>大盤</u><b>47</b><s class="mb mid"><em style="width:47%"></em></s></i><i><u>消息</u><b>46</b><s class="mb mid"><em style="width:46%"></em></s></i></span>
+  <span class="o-vd">
+    <span class="band">分數 減碼／賣出</span>
+    <span class="arow"><u>空手</u><span class="chip e-no"><i>✕</i>不建議買進</span></span>
+    <span class="arow"><u>持有</u><span class="chip h-cut"><i>▼</i>逢反彈減碼</span></span></span>
 </article><article class="ovr">
   <span class="o-rk">#8</span>
   <span class="o-nm"><a href="#s2231">為升<em>2231</em></a></span>
   <span class="o-px up">99.00</span>
   <span class="o-cg up">+0.20%</span>
   <span class="o-sc"><b class="s00b">40</b></span>
-  <span class="o-sub"><i><u>籌碼</u><b class="s00b">44</b></i><i><u>技術</u><b class="s00b">44</b></i><i><u>基本</u><b class="s00b">23</b></i><i><u>大盤</u><b class="s45b">51</b></i><i><u>消息</u><b class="s00b">28</b></i></span>
-  <span class="o-vd"><span class="vd s00v">減碼／賣出</span>
-    <span class="vd2"><i>空手</i><b class="s00v">不建議買進</b></span>
-    <span class="vd2"><i>持有</i><b class="s00v">近期出場</b></span></span>
+  <span class="o-sub"><i><u>籌碼</u><b>44</b><s class="mb lo"><em style="width:44%"></em></s></i><i><u>技術</u><b>44</b><s class="mb lo"><em style="width:44%"></em></s></i><i><u>基本</u><b>23</b><s class="mb lo"><em style="width:23%"></em></s></i><i><u>大盤</u><b>51</b><s class="mb mid"><em style="width:51%"></em></s></i><i><u>消息</u><b>28</b><s class="mb lo"><em style="width:28%"></em></s></i></span>
+  <span class="o-vd">
+    <span class="band">分數 減碼／賣出</span>
+    <span class="arow"><u>空手</u><span class="chip e-no"><i>✕</i>不建議買進</span></span>
+    <span class="arow"><u>持有</u><span class="chip h-exit"><i>✕</i>近期出場</span></span></span>
 </article></div>
   <a class="top" href="#top">↑ 回頂端</a>
 </section>
@@ -494,12 +554,12 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <div class="acts">
   <div class="act">
     <div class="acth"><span class="actw">空手時</span><span class="actq">現在是適合的買入點嗎？</span>
-      <span class="vd s45v">等回檔再買</span></div>
+      <span class="chip e-wait big"><i>○</i>等回檔再買</span></div>
     <p class="actp">不是好的買點——不在於公司不好，而在於今天的價位。K 值 87.35、20 日乖離率 +10.18%、%B 84.77 三項同時是 8 檔最高，今日單日已漲 5.74%，此刻進場等於承擔短線回檔風險去換一個已經反映的利多（Q2 財報與三案擴產在 8/7 盤後就公布了）。較合理的做法是等回測 5 日線 66.50 元附近且不跌破再進，約有 5% 的價差空間；若急於建立部位，也應該只先放三分之一，其餘等 8/13 統一證券法說會後再決定。月線 63.53 元跌破則本波法人連買行情視為結束，屆時不該再承接。</p>
   </div>
   <div class="act">
     <div class="acth"><span class="actw">已持有</span><span class="actq">應該立即或近期賣出嗎？</span>
-      <span class="vd s70v">續抱</span></div>
+      <span class="chip h-keep big"><i>✓</i>續抱</span></div>
     <p class="actp">不必賣，這是 8 檔中基本面最扎實的一檔：2026Q2 三率同步走升、EPS 0.72 元 YoY +140%、近四季 CFO÷淨利 2.07 為 8 檔最高、近四季自由現金流 +31.91 億元也是 8 檔唯一明顯為正，三大法人連 4 日淨買超 10,105 張、家數差 -421 為 8 檔最集中。續抱的三個檢查點：一、跌破月線 63.53 元出場（本波起漲的結構破壞）；二、上檔布林上軌 72.83 元與 CB 轉換價 75.70 元可分批停利，後者會出現轉換賣壓；三、8/13 法說會前若又急漲，可先減碼三成鎖利，法說後常見獲利了結。另外 08/10 融資增 172 張、券餘暴增 40%，追價與放空同時進場，短線波動會比前幾日大。</p>
   </div>
 </div>
@@ -562,12 +622,12 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <div class="acts">
   <div class="act">
     <div class="acth"><span class="actw">空手時</span><span class="actq">現在是適合的買入點嗎？</span>
-      <span class="vd s45v">等回檔再買</span></div>
+      <span class="chip e-wait big"><i>○</i>等回檔再買</span></div>
     <p class="actp">現在不是理想買點但差距不大。K 值 79.83 已接近高檔、今日 +3.06% 是量比 0.66 的量縮上漲，追價的說服力不足。本檔真正的吸引力在於價值面而非動能：現金殖利率 5.55%（8 檔次高）、股價淨值比僅 1.29 倍、負債比由 49.40% 降到 39.01%。以領息或淨值保護為目的的話，回檔到月線 47.31 元附近（約 -3%）進場的風險報酬比明顯較好。若要現價進場，建議減半部位，並以 10 日線 45.81 元為停損。</p>
   </div>
   <div class="act">
     <div class="acth"><span class="actw">已持有</span><span class="actq">應該立即或近期賣出嗎？</span>
-      <span class="vd s70v">續抱</span></div>
+      <span class="chip h-keep big"><i>✓</i>續抱</span></div>
     <p class="actp">不必賣。08/10 融資再減 153 張、外資買超 404 張且持股比重升至 11.41%、大戶 400 張以上回升至 69.18%，籌碼三項同向轉好；7 月營收 22.32 億元 YoY +33.63% 創 40 個月新高。但要清楚自己抱的是什麼：Q2 淨利率 13.63% 高於營益率 11.90%，獲利仍由業外主導；配息率 196% 依賴處分股票部位（未實現利益約 73 億元），股市回落時配息能力會同步下降。檢查點：跌破 10 日線 45.81 元減碼；季線 51.78 元為波段停利參考。另注意本檔與 6548 長科* 為母子公司且已被回買 5.82% 股權，兩檔同時持有等於重複押注。</p>
   </div>
 </div>
@@ -630,12 +690,12 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <div class="acts">
   <div class="act">
     <div class="acth"><span class="actw">空手時</span><span class="actq">現在是適合的買入點嗎？</span>
-      <span class="vd s55v">分批買進</span></div>
+      <span class="chip e-part big"><i>◎</i>分批買進</span></div>
     <p class="actp">可以開始分批，但要用對理由、也要挑對時機。這檔的邏輯是價值型配置——本益比 9.65 倍為 8 檔最低、現金殖利率 6.11% 為 8 檔最高、負債比僅 6.15%、流動比 1,311.55%，幾乎沒有財務風險；技術面 MACD 今日剛翻紅、RSI 57.04 為 8 檔最強。⚠ 但絕對不要用「AI 伺服器／低損耗 CCL」的理由買——經查證這個題材完全不存在，本公司是菸用二醋酸纖維絲束化工廠。時機上有一個明確變數：Q2 財報法定期限 8/14 且至今連董事會日期都未公告，考量 2026Q1 EPS 已 YoY -44.96%、累計營收 -24.98%，財報有下修風險。建議先進三分之一，其餘等 Q2 財報出爐後再決定；季線 46.09 元為停損。</p>
   </div>
   <div class="act">
     <div class="acth"><span class="actw">已持有</span><span class="actq">應該立即或近期賣出嗎？</span>
-      <span class="vd s70v">續抱</span></div>
+      <span class="chip h-keep big"><i>✓</i>續抱</span></div>
     <p class="actp">不必賣。籌碼結構是 8 檔中改善最明確的：融資連兩日大減（08/07 -1,951 張、08/10 -146 張）、券餘再減 8 張、券資比 0.09% 為 8 檔最低，散戶持續退場；外資持股 47.19% 維持高檔，大戶 400 張以上升至 56.61%。但要有心理準備：這是「便宜且穩健、但成長在衰退」的標的，2026Q1 三率全部低於去年同季，近四季 CFO÷淨利 0.54、自由現金流 -8.31 億元，不要期待它跟著大盤衝。檢查點：上檔年線 51.82 元與布林上軌 51.63 元的 51.6~51.8 元密集區可部分停利；跌破季線 46.09 元出場；Q2 財報若三率再度惡化應重新評估。</p>
   </div>
 </div>
@@ -698,12 +758,12 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <div class="acts">
   <div class="act">
     <div class="acth"><span class="actw">空手時</span><span class="actq">現在是適合的買入點嗎？</span>
-      <span class="vd s45v">等回檔再買</span></div>
+      <span class="chip e-wait big"><i>○</i>等回檔再買</span></div>
     <p class="actp">現階段不宜追價，關鍵卡在季線。今日盤中最高 77.50 元已觸及季線 76.51 元但收盤 75.70 元未站上，而且量比僅 0.61 屬量縮上漲，這種型態的突破失敗率偏高；20 日乖離率已 +7.08%。更重要的是，本檔漂亮的損益表（三率三升、EPS 創 15 季新高）並沒有現金流支持——近四季 CFO÷淨利 僅 0.52、自由現金流 -21.96 億元，加上 8/7 重訊揭露有價證券投資占業主權益 107.23%，評價卻已到本益比 34.10 倍、殖利率 1.78%。建議等「帶量（量比回到 1 以上）站穩季線 76.51 元」才進場，或回測月線 70.69 元附近再評估。</p>
   </div>
   <div class="act">
     <div class="acth"><span class="actw">已持有</span><span class="actq">應該立即或近期賣出嗎？</span>
-      <span class="vd s55v">續抱並設停利</span></div>
+      <span class="chip h-tp big"><i>✓</i>續抱並設停利</span></div>
     <p class="actp">可以續抱，但要把停利點設出來，不要無限期持有。續抱的理由是本業真的在成長：7 月營收 15.556 億元 YoY +35.44% 創 40 個月新高、連 5 個月成長，Q2 三率三升、EPS 0.71 元創 15 季新高，60 日超額報酬 +44.40 個百分點為 8 檔最強。但有三個不能忽略的結構問題：近四季只有約一半的獲利變成營業現金（CFO÷淨利 0.52）；流動比自去年同季 290.86% 降到 200.50%；資產有 64.91% 是有價證券、且占業主權益 107.23%（主要為母公司長華股票），等於間接押注長華股價。檢查點：跌破月線 70.69 元出場；季線 76.51 元若連續三日站不上可先減碼三成；08/10 融資增 106 張屬散戶追價，若後續融資持續增加而法人轉賣，應提高警覺。</p>
   </div>
 </div>
@@ -766,12 +826,12 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <div class="acts">
   <div class="act">
     <div class="acth"><span class="actw">空手時</span><span class="actq">現在是適合的買入點嗎？</span>
-      <span class="vd s00v">不建議買進</span></div>
+      <span class="chip e-no big"><i>✕</i>不建議買進</span></div>
     <p class="actp">不建議新進場。這檔綜合 63 分幾乎全靠籌碼面 82 分撐起，財報面只有 45 分，兩者方向完全相反。外資連兩日買超 5,323 張、持股比重由 4.99% 墊高到 5.32% 是事實，但經窮盡檢索確認查無任何公開新聞、標案或政策消息佐證，這種買盤的持續性無法驗證。另一邊的財報事實很明確：2026Q2 毛利率由去年同季 59.61% 崩到 31.74%、營益率由 48.34% 降至 24.37%（BOT 工程認列稀釋）、2026Q1 單季營業現金流 -12.20 億元、近四季 CFO÷淨利 0.12 為 8 檔最差、負債比升至 55.71%，另有 25 億元 CB 待發行。若仍要參與，必須明確定位為「籌碼面短線交易」而非投資，部位減半、停損設在月線 25.93 元，且 27.1~27.3 元（季線＋年線）未帶量突破前不加碼。</p>
   </div>
   <div class="act">
     <div class="acth"><span class="actw">已持有</span><span class="actq">應該立即或近期賣出嗎？</span>
-      <span class="vd s45v">逢高減碼</span></div>
+      <span class="chip h-cut big"><i>▼</i>逢高減碼</span></div>
     <p class="actp">建議逢高減碼，但不必急殺。短線有外資買盤支撐，%B 已 81.03 接近布林上軌 27.33 元，上檔季線 27.12 元與年線 27.19 元形成密集壓力帶，這個區間就是減碼的機會。減碼的理由是結構性的、不是短線的：毛利率一年掉 27.9 個百分點代表獲利品質已經改變；近四季自由現金流 -23.02 億元、負債比升到 55.71%、25 億元 CB 完成後還有股權稀釋；加上半年內至少 4 次財報更正公告，資訊品質也要打折。操作上：27.1~27.3 元區間減一半，跌破月線 25.93 元（外資買盤失效訊號）出清剩餘部位。如果是為 4.47% 殖利率而抱，要留意配息率已達 92.9%、獲利一旦回落配息會同步下滑。</p>
   </div>
 </div>
@@ -834,12 +894,12 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <div class="acts">
   <div class="act">
     <div class="acth"><span class="actw">空手時</span><span class="actq">現在是適合的買入點嗎？</span>
-      <span class="vd s00v">不建議買進</span></div>
+      <span class="chip e-no big"><i>✕</i>不建議買進</span></div>
     <p class="actp">不建議新進場，理由是時間而非價格。8/21 是最後交易日，之後 8/24 起停止買賣、9/3 才換股為中光電投控（3718），中間約 7 個交易日完全無法應變——現在買進等於在流動性即將中斷前接手。上檔空間也很有限：FactSet 彙總目標價中位數 88 元，距今日收盤 85.60 元只有 2.80%。基本面則是連兩季本業虧損（2026Q2 營益率 -0.83%、單季 EPS -0.20 元、H1 -0.50 元），近四季營業現金流為 -5.12 億元淨流出。唯一的多方訊號是外資持股由 14.51% 升至 15.21%、大戶 400 張以上由 41.24% 跳到 43.55%，但同期投信連 5 日賣超、券資比升到 14.44% 為 8 檔最高，多空分歧極大。</p>
   </div>
   <div class="act">
     <div class="acth"><span class="actw">已持有</span><span class="actq">應該立即或近期賣出嗎？</span>
-      <span class="vd s00v">近期出場</span></div>
+      <span class="chip h-exit big"><i>✕</i>近期出場</span></div>
     <p class="actp">【這是本期唯一有明確時間壓力的一檔】除非你已經決定要持有到 9/3 換成中光電投控（3718），否則應在 8/21 前處理完畢，剩餘可交易日只有 8/11、12、13、14、17、18、19、20、21 共 9 天（本報告產出時已剩 8 天）。換股比例 1:1、無現金找補，持有到基準日者帳面股數不變，所以「換股」本身不會有損失；真正的風險是 8/24~9/3 期間完全無法交易，若這段時間大盤或產業有變化，你沒有任何應變空間。從基本面看也沒有非抱不可的理由：連兩季虧損、近四季 CFO -5.12 億元、股利由 1.50 元砍到 0.50 元（殖利率 0.58%）。操作上：85~88 元（FactSet 中位數附近）是相對合理的出場區；跌破月線 82.87 元則不必再等，直接處理。特別提醒券資比 14.44% 且連四日攀升，停牌前可能出現軋空或強制平倉的雙向劇烈波動。</p>
   </div>
 </div>
@@ -902,12 +962,12 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <div class="acts">
   <div class="act">
     <div class="acth"><span class="actw">空手時</span><span class="actq">現在是適合的買入點嗎？</span>
-      <span class="vd s00v">不建議買進</span></div>
+      <span class="chip e-no big"><i>✕</i>不建議買進</span></div>
     <p class="actp">不建議買進。收盤 77.10 元只站上 6 條均線中的 1 條（10 日線 75.23 元），5 日線、月線、季線、半年線、年線全部壓在上方，是 8 檔中最差的均線結構；60 日乖離率 -16.04%、RSI 40.30、近 20 日報酬 -17.27% 也都是 8 檔最弱。籌碼面法人幾乎零參與——今日成交僅 389 張、20 日均量 512 張，流動性極差、進出滑價成本高。本業問題在本期已經查明：Q2 毛利率 33.09%（去年同季 43.10%）、營益率僅 2.54%（去年同季 13.94%），EPS 1.76 元中約 1.71 億元來自業外，本業幾乎不賺錢。若要等，觀察點是「站回月線 79.13 元並見到量能放大」，在那之前沒有進場理由。</p>
   </div>
   <div class="act">
     <div class="acth"><span class="actw">已持有</span><span class="actq">應該立即或近期賣出嗎？</span>
-      <span class="vd s45v">逢反彈減碼</span></div>
+      <span class="chip h-cut big"><i>▼</i>逢反彈減碼</span></div>
     <p class="actp">建議逢反彈減碼，但不必恐慌殺低。不必急的理由是財務結構仍穩健：負債比僅 25.17%、流動比 254.87%、每股淨值 49.77 元對應股價淨值比僅約 1.55 倍，近四季 CFO÷淨利 1.05 也還在合格線上，下檔有淨值保護。但也沒有續抱的理由：本業營益率已掉到 2.54%，EPS 靠業外撐，而業外（金融資產評價或處分）能見度低、不可預測；2025 年 EPS 3.18 元仍低於 2022~2024 年的 4.20~4.97 元，獲利尚未回到前循環水準；殖利率僅 2.88%。操作上：以 5 日線 77.26 元為減碼觸發（今日收盤 77.10 元、差 0.16 元），反彈至月線 79.13 元可再減；跌破 10 日線 75.23 元則應加快處理，下方支撐要看到布林下軌 69.16 元與 52 週低點 65.40 元一帶。</p>
   </div>
 </div>
@@ -970,12 +1030,12 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <div class="acts">
   <div class="act">
     <div class="acth"><span class="actw">空手時</span><span class="actq">現在是適合的買入點嗎？</span>
-      <span class="vd s00v">不建議買進</span></div>
+      <span class="chip e-no big"><i>✕</i>不建議買進</span></div>
     <p class="actp">不建議買進，而且這不是技術面判斷，是一連串事實：近四季（2025Q2~2026Q1）合計稅後淨利 -4.89 億元仍為虧損、7 月營收 -13.16%、累計 1–7 月 -13.00%、毛利率由去年同季 41.74% 降至 36.71%、負債比升到 58.45%、近四季自由現金流 -1.16 億元、財報狗排除地雷股健診通過 0%（0/6）。流動性也是問題：今日成交僅 219 張、量比 0.23，股價由極少量短線資金決定——8/6 在成交 879 張的情況下拉到漲停，經窮盡檢索確認查無任何公開新聞佐證。無人機／軍工題材自 3 月政策宣示至今，營收與獲利完全沒有反映，屬純想像而非實際出貨。上方 102~105 元是月線、季線、半年線、年線四條擠在一起的密集壓力帶，量能完全不足以突破。</p>
   </div>
   <div class="act">
     <div class="acth"><span class="actw">已持有</span><span class="actq">應該立即或近期賣出嗎？</span>
-      <span class="vd s00v">近期出場</span></div>
+      <span class="chip h-exit big"><i>✕</i>近期出場</span></div>
     <p class="actp">建議近期出場。持有的理由已經很難成立：本業與現金流雙負、營收連續兩位數年減、股利 0.5 元來自資本公積而非盈餘（殖利率僅 0.51%、近五年填息機率 50%）。兩個近期日程反而是風險而非機會：8/11（本報告產出翌日）董事會通過 Q2 財報，去年同季為 EPS -1.05 元，市場對虧損財報有戒心；8/17 除息 0.5 元，不值得為 0.51% 的殖利率承擔除息後的填息風險。操作上：5 日線 97.56 元為短線多空分界，今日收 99.00 元僅在其上 1.5%，跌破即應處理；10 日線 95.02 元為最後停損。若想等反彈，102~105 元的密集壓力帶是唯一有意義的出場區，但以目前 20 日均量僅 966 張的量能，能否觸及並不樂觀。唯一的短線正面訊號是 08/10 券餘由 157 張減至 113 張、券資比由 6.06% 降到 4.37%，空單部分回補，但幅度不足以改變結論。</p>
   </div>
 </div>
@@ -990,7 +1050,7 @@ td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line
   <h3 class="sh">一句話總結</h3>
   <p class="para lead">加權指數 8/10 收 44,928.76 點（+702.85 點、+1.59%），一舉收復季線並站上全部 6 條均線，成交金額由 8,207 億元增至 8,486 億元、三大法人買超 731.67 億元（外資 +517.14 億），MACD 紅柱連四日擴大，環境分由上期的 62 分升至 76 分；但 K 值已 83.92 進入高檔鈍化區、近 20 日報酬仍為 -1.00%，屬「多頭轉強但已進入追價區」。櫃買指數同日 +1.93% 更強。本期為 08/11 補跑版：補上 08/10 當晚 21:00 才公布的融資融券後，8 檔的籌碼面全部重評，排名與建議因此出現變動——1717 長興仍為唯一買進（73 分，三率三升、CFO÷淨利 2.07 為 8 檔最高、近四季自由現金流 +31.91 億元），但融資單日增 172 張、券餘暴增 40% 使籌碼面由 80 降至 76；8070 長華*（67）因融資續減升至第 2，4763 材料*-KY（66）、6548 長科*（66）、8422 可寧衛*（63）為觀察偏多；5371 中光電由 55 降至 54，**建議由觀察偏多下修為觀察**，主因停牌前空單持續累積（券資比 14.44% 為 8 檔最高、連四日攀升）；6411 晶焱（43）、2231 為升（40）維持減碼／賣出。本期最重要的發現仍是三檔「損益表好看但現金流不支持」：6548 CFO÷淨利 0.52、8422 僅 0.12（8 檔最差、毛利率由 59.61% 崩至 31.74%）、5371 近四季 CFO 為 -5.12 億元淨流出。</p>
   <h3 class="sh">兩種情境的建議總表</h3>
-  <div class="thint">← 可左右滑動 →</div><div class="twrap"><table><thead><tr><th>個股</th><th>綜合分</th><th>分數建議</th><th>空手：是否為買點</th><th>已持有：是否該賣</th><th>收盤</th></tr></thead><tbody><tr><td>長興(1717)</td><td class="num">73</td><td class="num">買進</td><td class="num">等回檔再買</td><td class="num">續抱</td><td class="num">70.00</td></tr><tr><td>長華*(8070)</td><td class="num">67</td><td class="num">觀察偏多</td><td class="num">等回檔再買</td><td class="num">續抱</td><td class="num">48.80</td></tr><tr><td>材料*-KY(4763)</td><td class="num">66</td><td class="num">觀察偏多</td><td class="num">分批買進</td><td class="num">續抱</td><td class="num">50.00</td></tr><tr><td>長科*(6548)</td><td class="num">66</td><td class="num">觀察偏多</td><td class="num">等回檔再買</td><td class="num">續抱並設停利</td><td class="num">75.70</td></tr><tr><td>可寧衛*(8422)</td><td class="num">63</td><td class="num">觀察偏多</td><td class="num">不建議買進</td><td class="num">逢高減碼</td><td class="num">26.80</td></tr><tr><td>中光電(5371)</td><td class="num">54</td><td class="num">觀察</td><td class="num">不建議買進</td><td class="num">近期出場</td><td class="num">85.60</td></tr><tr><td>晶焱(6411)</td><td class="num">43</td><td class="num">減碼／賣出</td><td class="num">不建議買進</td><td class="num">逢反彈減碼</td><td class="num">77.10</td></tr><tr><td>為升(2231)</td><td class="num">40</td><td class="num">減碼／賣出</td><td class="num">不建議買進</td><td class="num">近期出場</td><td class="num">99.00</td></tr></tbody></table></div><p class="tnote">「分數建議」是五面向加權分數落點；右邊兩欄才是實際操作情境——同一檔對「還沒買」與「已經持有」的答案常常不同，例如 1717 長興分數最高但短線過熱，空手應等回檔、持有則可續抱。各檔的完整理由與觸發價位見個股卡片的「建議｜兩種情境」。</p>
+  <div class="thint">← 可左右滑動 →</div><div class="twrap"><table><thead><tr><th>個股</th><th>綜合分</th><th>分數建議</th><th>空手：是否為買點</th><th>已持有：是否該賣</th><th>收盤</th></tr></thead><tbody><tr><td>長興(1717)</td><td class="num">73</td><td class="num">買進</td><td class="num">○ 等回檔再買</td><td class="num">✓ 續抱</td><td class="num">70.00</td></tr><tr><td>長華*(8070)</td><td class="num">67</td><td class="num">觀察偏多</td><td class="num">○ 等回檔再買</td><td class="num">✓ 續抱</td><td class="num">48.80</td></tr><tr><td>材料*-KY(4763)</td><td class="num">66</td><td class="num">觀察偏多</td><td class="num">◎ 分批買進</td><td class="num">✓ 續抱</td><td class="num">50.00</td></tr><tr><td>長科*(6548)</td><td class="num">66</td><td class="num">觀察偏多</td><td class="num">○ 等回檔再買</td><td class="num">✓ 續抱並設停利</td><td class="num">75.70</td></tr><tr><td>可寧衛*(8422)</td><td class="num">63</td><td class="num">觀察偏多</td><td class="num">✕ 不建議買進</td><td class="num">▼ 逢高減碼</td><td class="num">26.80</td></tr><tr><td>中光電(5371)</td><td class="num">54</td><td class="num">觀察</td><td class="num">✕ 不建議買進</td><td class="num">✕ 近期出場</td><td class="num">85.60</td></tr><tr><td>晶焱(6411)</td><td class="num">43</td><td class="num">減碼／賣出</td><td class="num">✕ 不建議買進</td><td class="num">▼ 逢反彈減碼</td><td class="num">77.10</td></tr><tr><td>為升(2231)</td><td class="num">40</td><td class="num">減碼／賣出</td><td class="num">✕ 不建議買進</td><td class="num">✕ 近期出場</td><td class="num">99.00</td></tr></tbody></table></div><p class="tnote">「分數建議」是五面向加權分數落點；右邊兩欄才是實際操作情境——同一檔對「還沒買」與「已經持有」的答案常常不同，例如 1717 長興分數最高但短線過熱，空手應等回檔、持有則可續抱。各檔的完整理由與觸發價位見個股卡片的「建議｜兩種情境」。</p>
   <h3 class="sh">依綜合分數分組</h3>
   <div class="grps"><div class="grp"><h4>買進 <span class="cnt">1 檔</span></h4><ul class="glist"><li><a href="#s1717">長興(1717)</a><b class="s70b">73</b><span class="gd">收 70.00（+5.74%）</span></li></ul></div><div class="grp"><h4>觀察偏多 <span class="cnt">4 檔</span></h4><ul class="glist"><li><a href="#s8070">長華*(8070)</a><b class="s55b">67</b><span class="gd">收 48.80（+3.06%）</span></li><li><a href="#s4763">材料*-KY(4763)</a><b class="s55b">66</b><span class="gd">收 50.00（+0.20%）</span></li><li><a href="#s6548">長科*(6548)</a><b class="s55b">66</b><span class="gd">收 75.70（+4.56%）</span></li><li><a href="#s8422">可寧衛*(8422)</a><b class="s55b">63</b><span class="gd">收 26.80（+1.90%）</span></li></ul></div><div class="grp"><h4>觀察 <span class="cnt">1 檔</span></h4><ul class="glist"><li><a href="#s5371">中光電(5371)</a><b class="s45b">54</b><span class="gd">收 85.60（+3.13%）</span></li></ul></div><div class="grp"><h4>減碼／賣出 <span class="cnt">2 檔</span></h4><ul class="glist"><li><a href="#s6411">晶焱(6411)</a><b class="s00b">43</b><span class="gd">收 77.10（+0.65%）</span></li><li><a href="#s2231">為升(2231)</a><b class="s00b">40</b><span class="gd">收 99.00（+0.20%）</span></li></ul></div></div>
   <h3 class="sh">當日關鍵變化</h3>
