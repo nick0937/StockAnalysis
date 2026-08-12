@@ -44,6 +44,16 @@ for c in C.CODES:
 TOT = {c: total_score(S[c]) for c in C.CODES}
 RANK = sorted(C.CODES, key=lambda c: -TOT[c])
 
+# ── 資券是否已公布（自動判斷）──────────────────────────────────────
+# 融資融券約當日 21:00 才公布。若最新列日期 ≠ 基準日，代表尚未公布，
+# 依守則<b>整段略過不顯示</b>，避免讀者誤把落後一日的表當成當日資料。
+_MD = BD[5:].replace("-", "/")                      # 例 "08/12"
+MARGIN_OK = all(CHIP[c]["margin"][0][0] == _MD for c in C.CODES)
+MARGIN_LATEST = CHIP[C.CODES[0]]["margin"][0][0]
+if not MARGIN_OK:
+    print("   ⚠ 資券尚未公布（最新列 %s ≠ 基準日 %s）→ 依守則略過資券變化區塊"
+          % (MARGIN_LATEST, _MD))
+
 O = []
 A = O.append
 idx = IND["idx"]
@@ -75,10 +85,17 @@ A('<div class="meta">'
   '<div><span>五面向權重</span><b>%s</b></div>'
   '</div>' % (BD, WD, GEN_TIME, len(C.CODES),
               "／".join("%s%s" % (w[0][:2], w[1].rstrip("%")) for w in C.WEIGHTS)))
-A('<p class="hint">詳細內容（籌碼四表、月營收與 EPS、判斷理由、完整操作條件）請點'
+_hint_extra = ""
+if not MARGIN_OK:
+    _hint_extra += ("<br>⚠ <b>本報告產出時 %s 的融資融券尚未公布</b>（約當日 21:00 更新，最新可得為 %s），"
+                    "依守則<b>本期略過「資券變化」區塊不顯示</b>，避免落後一日的資料被誤讀為當日數字；"
+                    "融資增減與券資比仍以最新可得值納入籌碼面判讀。隔日補跑即可完整呈現。"
+                    % (BD, MARGIN_LATEST))
+if C.RERUN_NOTE:
+    _hint_extra += "<br>⚠ " + C.RERUN_NOTE
+A('<p class="hint">詳細內容（籌碼三表、月營收與 EPS、判斷理由、完整操作條件）請點'
   '<a href="#overview">總覽</a>中的個股名稱進入卡片；資料來源與完整性說明見'
-  '<a href="#advice">文末建議書</a>。%s</p></header>'
-  % (("<br>⚠ " + C.RERUN_NOTE) if C.RERUN_NOTE else ""))
+  '<a href="#advice">文末建議書</a>。%s</p></header>' % _hint_extra)
 
 # ══════════════════════════════════════════════ 大盤（只留指標）
 A('<section id="market" class="card mkt">')
@@ -227,22 +244,27 @@ for c in RANK:
       % (len(C.CODES), C.N_INST, len(C.CODES) * C.N_INST))
 
     # 4 資券變化
-    A('<h3 class="sh">資券變化（近 %d 個交易日）</h3>' % C.N_MARGIN)
-    r = ""
-    for row in ch["margin"][:C.N_MARGIN]:
-        r += ('<tr><td>%s</td>%s%s%s%s%s%s%s%s%s%s</tr>'
-              % (row[0], num_td(row[1]), num_td(row[2], True), num_td(row[3]),
-                 num_td(row[4], True), num_td(row[5]), num_td(row[6]), num_td(row[7]),
-                 num_td(row[8]), num_td(row[9], True), num_td(row[10])))
-    A(twrap('<table><thead><tr><th>日期</th><th>資餘</th><th>資增</th><th>券餘</th><th>券增</th>'
-            '<th>券資比%%</th><th>資券互抵</th><th>當沖率%%</th><th>收盤價</th><th>漲跌%%</th>'
-            '<th>成交量</th></tr></thead><tbody>%s</tbody></table>' % r))
-    mnote = ('僅資增、券增與漲跌% 套用漲跌配色；餘額、券資比與收盤價為中性數值。'
-             '<b>最新列與行情基準日一致</b>——融資融券於當日 21:00 才公布，'
-             '若在盤後不久產出會落後一日，需隔日補跑。')
-    if ch["note"]:
-        mnote += "<b>⚠ " + ch["note"] + "</b>"
-    A('<p class="tnote">%s</p>' % mnote)
+    # ★ 守則：融資融券約當日 21:00 才公布。若基準日的資券尚未公布，
+    #   <b>整段略過不顯示</b>，不要放一張落後一日的表（會誤導讀者以為是當日資料）。
+    #   是否公布由程式自動判斷（比對最新列日期與基準日），不用手動設旗標。
+    if MARGIN_OK:
+        A('<h3 class="sh">資券變化（近 %d 個交易日）</h3>' % C.N_MARGIN)
+        r = ""
+        for row in ch["margin"][:C.N_MARGIN]:
+            r += ('<tr><td>%s</td>%s%s%s%s%s%s%s%s%s%s</tr>'
+                  % (row[0], num_td(row[1]), num_td(row[2], True), num_td(row[3]),
+                     num_td(row[4], True), num_td(row[5]), num_td(row[6]), num_td(row[7]),
+                     num_td(row[8]), num_td(row[9], True), num_td(row[10])))
+        A(twrap('<table><thead><tr><th>日期</th><th>資餘</th><th>資增</th><th>券餘</th><th>券增</th>'
+                '<th>券資比%%</th><th>資券互抵</th><th>當沖率%%</th><th>收盤價</th><th>漲跌%%</th>'
+                '<th>成交量</th></tr></thead><tbody>%s</tbody></table>' % r))
+        mnote = ('僅資增、券增與漲跌% 套用漲跌配色；餘額、券資比與收盤價為中性數值。'
+                 '<b>最新列與行情基準日一致。</b>')
+        if ch["note"]:
+            mnote += "<b>⚠ " + ch["note"] + "</b>"
+        A('<p class="tnote">%s</p>' % mnote)
+    elif ch["note"]:
+        A('<p class="tnote">⚠ %s</p>' % ch["note"])
 
     # 5 主力進出
     A('<h3 class="sh">主力進出（近 %d 個交易日）</h3>' % C.N_MAIN)

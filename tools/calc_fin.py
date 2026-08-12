@@ -43,9 +43,14 @@ for code in C.CODES:
     qs = inc["q"]
 
     # ── 推算流通股數：三大法人合計張數 ÷ 三大法人持股比重 ──
-    inst0 = CHIP[code]["inst"][0]
-    lots, ratio = f(inst0[10]), f(inst0[12])
-    shares_k = lots / (ratio / 100) if lots and ratio else None   # 仟股
+    # ⚠ 當日的「估計持股」欄位常常還沒更新（空值），必須往下找最新一列有值的，
+    #    不可直接用 inst[0]，否則 shares_k 為 None、每股淨值與 PB 全變「查無」。
+    shares_k, shares_src = None, None
+    for row in CHIP[code]["inst"]:
+        lots, ratio = f(row[10]), f(row[12])
+        if lots and ratio:
+            shares_k, shares_src = lots / (ratio / 100), row[0]
+            break
 
     # ── EPS（面額變更調整）──
     eps_raw = {}
@@ -120,7 +125,8 @@ for code in C.CODES:
     eps4s = sum(x for x in eps4 if x is not None) if all(x is not None for x in eps4) else None
     close = IND["stocks"][code]["close"]
 
-    out[code] = {"latest_q": qs[0], "shares_k": shares_k, "inc": rows, "bs": bs,
+    out[code] = {"latest_q": qs[0], "shares_k": shares_k, "shares_src": shares_src,
+                 "inc": rows, "bs": bs,
                  "cash": cash, "eps4": eps4s,
                  "pe": close / eps4s if eps4s and eps4s > 0 else None,
                  "pb": close / bs[0]["bps"] if bs[0]["bps"] else None,
