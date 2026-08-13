@@ -12,7 +12,10 @@ sys.path.insert(0, BASE)
 import config as C
 from playwright.sync_api import sync_playwright
 
-URL = "file:///" + os.path.join(C.REPO, C.YMD, "index.html").replace("\\", "/")
+# 預設驗當期個股報告；`python verify_rwd.py live` 改驗即時建議頁，`... home` 驗首頁
+TARGET = {"live": "live", "home": ""}.get(sys.argv[1] if len(sys.argv) > 1 else "", C.YMD)
+URL = "file:///" + os.path.join(C.REPO, TARGET, "index.html").replace("\\", "/")
+print("驗證：%s" % URL)
 WIDTHS = [360, 390, 768, 1280]
 fail = 0
 

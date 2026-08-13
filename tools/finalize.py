@@ -95,14 +95,28 @@ for i, d in enumerate(dirs):
         body = body.replace('<span class="new">最新</span>', '')
     lst += '<a class="it" href="./%s/index.html">%s</a>' % (d, body)
 
-head = old[:old.find('<a class="big"')]
+# head 切在 <div class="wrap"> 之後（不要切在第一個 .big，否則加了新按鈕會被併進 head 而重複）
+_W = '<div class="wrap">'
+head = old[:old.find(_W) + len(_W)] + "\n"
 foot = old[old.find('<div class="foot">'):]
+
+# 即時建議按鈕：時間戳取自 build_live.py 寫的 data/live_meta.json
+lv_p = os.path.join(D, "live_meta.json")
+if os.path.exists(lv_p):
+    lv = json.load(open(lv_p, encoding="utf-8"))
+    lv_lab = "%s · %s" % (lv.get("phase", ""), lv.get("quote_time", "")[-5:])
+else:
+    lv_lab = "尚未產生"
+
 open(home_p, "w", encoding="utf-8").write(
-    head + '<a class="big" href="./%s/index.html">閱讀最新一期 · %s/%s/%s</a>\n'
+    head
+    + ' <a class="big lv" href="./live/index.html">⚡ 當日即時投資建議'
+      '<span class="lvt">%s</span></a>\n' % lv_lab
+    + ' <a class="big" href="./%s/index.html">閱讀最新一期 · %s/%s/%s</a>\n'
     % (dirs[0], dirs[0][:4], dirs[0][4:6], dirs[0][6:])
     + ' <h2 class="s">歷史報告（%d 期）</h2>\n' % len(dirs)
     + ' <div class="list">' + lst + '</div>\n ' + foot)
-print("2) index.html 已重建，%d 期" % len(dirs))
+print("2) index.html 已重建，%d 期（含即時建議按鈕：%s）" % (len(dirs), lv_lab))
 
 # ── COMMIT_MSG.txt（★ 最後才寫）───────────────────────────────────
 time.sleep(1.2)   # 確保 mtime 明確晚於首頁

@@ -14,8 +14,9 @@
 | `calc_indicators.py` | ✗ | 本地算全套技術指標 + 相對強弱 → `data/indicators.json` |
 | `calc_fin.py` | ✗ | 由 `inputs/fin_raw.json` 算財報衍生指標 → `data/fin.json` |
 | `build_report.py` | ✗ | 產生 `REPO/YYYYMMDD/index.html` |
+| **`build_live.py`** | ✗ | **當日即時投資建議 → `REPO/live/index.html`（每次覆蓋，盤中可重複跑）** |
 | `finalize.py` | ✗ | 交付前檢查 → 重建首頁 → 寫 `COMMIT_MSG.txt` |
-| `verify_rwd.py` | ✗ | Playwright 四寬度 RWD 驗證 |
+| `verify_rwd.py` | ✗ | Playwright 四寬度 RWD 驗證（可加 `live`／`home` 指定目標） |
 | **`inputs/*.py`** | **★ 每次跑都要更新** | 每日蒐集的資料與判斷（見下） |
 
 `inputs/` 內附的是 **2026-08-11 的完整實際資料**，可直接當範例與格式範本。
@@ -51,6 +52,27 @@ python finalize.py            # 檢查 → 首頁 → COMMIT_MSG（順序已內�
 ```
 
 **不要自己 `git commit`／`push`** —— 由使用者雙擊「建立Commit.bat」處理。
+
+---
+
+## 盤中：當日即時投資建議
+
+```bash
+cd tools
+python build_live.py         # 盤中想看就跑，每次整份覆蓋 REPO/live/index.html
+```
+
+- **只有價格、漲跌、成交量是即時的**（Yahoo，約延遲數分鐘～15 分鐘）。均線、布林、20 日均量、五面向評分一律沿用 `data/indicators.json` 與 `inputs/` 的基準日值，**不用盤中未完成 K 棒重算**。
+- 輸出只有操作動作：空手該不該買／買在哪個區間、持有該不該抱／賣在哪個區間，來源是 `inputs/zones.py` 的買賣區間與 `inputs/scores.py` 的 `ADV` 標籤。
+- **不需要更新任何 `inputs/`**——這支只讀不寫，日報跑完就一直有效，隔天跑完新日報自動換基準。
+- 首頁的入口按鈕由 `finalize.py` 產生，時間戳由 `build_live.py` 就地更新（`<span class="lvt">`）。**第一次啟用要先跑一次 `finalize.py` 才會出現按鈕。**
+- 規格與鐵則見 [`../報告守則.md`](../報告守則.md) 第 12A 節，特別是「日報判減碼／出場者，即時頁不可輸出續抱」。
+
+驗證：
+
+```bash
+python verify_rwd.py live
+```
 
 ---
 
