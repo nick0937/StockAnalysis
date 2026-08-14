@@ -477,6 +477,8 @@ if os.path.exists(home):
     if s2 != s:
         open(home, "w", encoding="utf-8").write(s2)
         print("2) 首頁即時按鈕時間戳已更新：%s" % lab)
+    elif '<span class="lvt">' in s:
+        print("2) 首頁即時按鈕時間戳已是最新：%s" % lab)
     else:
         print("2) 首頁尚無即時按鈕（跑一次 finalize.py 即會產生）")
 
