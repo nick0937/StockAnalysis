@@ -191,7 +191,9 @@ for c in C.CODES:
                      e_ico=e_ico, e_lab=e_lab, h_ico=h_ico, h_lab=h_lab,
                      e_cls=e_cls, e_act=e_act, e_why=e_why,
                      h_cls=h_cls, h_act=h_act, h_why=h_why,
-                     tp=C.TIME_PRESSURE.get(c, "")))
+                     tp=C.TIME_PRESSURE.get(c, ""),
+                     hk=h_kind, sz0=sz[0] if sz else None, sz1=sz[1] if sz else None,
+                     ma5=ma5, ma20=ma20, slab=z["sell_lab"], szone=z["sell_zone"]))
 
 ROWS.sort(key=lambda r: -r["tot"])
 
@@ -247,6 +249,20 @@ h2.s{margin:16px 0 9px;font-size:clamp(15px,4.2vw,19px);padding-left:9px;border-
 .a-warn{color:#b25e00} .a-wait{color:var(--ink2)} .a-no{color:var(--ink3)} .a-hold{color:var(--acc)}
 .tp{margin-top:7px;padding:6px 9px;background:#f3f0ff;border:1px solid #ded6fb;border-radius:7px;
  font-size:12px;color:#4b3fa8;line-height:1.6}
+.sim{margin-top:9px;padding:9px 10px;background:#f6f8fb;border:1px dashed #c3cfdf;border-radius:8px}
+.sim .sh{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px;margin-bottom:7px;font-size:11.5px;color:var(--ink3)}
+.sim .sh b{font-size:12.5px;color:var(--ink2)}
+.simrow{display:flex;gap:7px;align-items:center}
+.simrow input{flex:1;min-width:0;max-width:190px;border:1px solid var(--line);border-radius:7px;
+ padding:7px 10px;font-size:16px;font-variant-numeric:tabular-nums;background:#fff;color:var(--ink)}
+.simrow input:focus{outline:2px solid var(--acc);outline-offset:-1px;border-color:var(--acc)}
+.simx{border:1px solid var(--line);background:#fff;color:var(--ink3);border-radius:7px;
+ padding:7px 12px;font-size:12.5px;cursor:pointer;min-height:36px}
+.simout{margin-top:7px;line-height:1.65}
+.simstat{font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--ink2);margin-bottom:3px}
+.simadv{font-size:13.5px;font-weight:800}
+.simadv .sw{display:block;font-weight:400;font-size:12.5px;color:var(--ink2);margin-top:1px}
+.simwarn{margin-top:4px;font-size:12px;color:#b25e00}
 .foot{margin-top:16px;padding:12px 13px;background:#eef1f5;border:1px solid var(--line);border-radius:var(--r);
  font-size:11.5px;color:var(--ink3);line-height:1.75}
 .foot h3{margin:0 0 4px;font-size:12.5px;color:var(--ink2)}
@@ -254,6 +270,79 @@ h2.s{margin:16px 0 9px;font-size:clamp(15px,4.2vw,19px);padding-left:9px;border-
 @media(min-width:640px){:root{--pad:16px} .act{grid-template-columns:52px minmax(0,1fr)}}
 @media(min-width:1000px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 """
+
+# ── 成本模擬（純前端計算；輸入值存 localStorage，頁面重產後仍保留）──────
+# ★ 這段是 JS 原始碼，輸出時不經過 % 格式化，內含 % 字元無妨。
+SIM_JS = """<script>
+(function(){
+"use strict";
+var FEE=1.00585; // 買賣手續費各 0.1425% ＋ 證交稅 0.3%
+function n1(x){return (x>=0?"+":"")+x.toFixed(1);}
+function f2(x){return x.toLocaleString("zh-Hant-TW",{minimumFractionDigits:2,maximumFractionDigits:2});}
+function money(x){return (x>=0?"+":"-")+Math.abs(Math.round(x)).toLocaleString("zh-Hant-TW");}
+function kls(x){return x>0?"up":(x<0?"dn":"");}
+function advise(d,cost,px){
+  var ret=(px/cost-1)*100, be=cost*FEE;
+  var ma5=parseFloat(d.ma5)||null, ma20=parseFloat(d.ma20)||null;
+  var sz0=d.sz0?parseFloat(d.sz0):null, slab=d.slab, szone=d.szone;
+  var dist=(sz0&&px<sz0)?("距"+slab+"下緣 "+f2(sz0)+" 元還有 "+n1((sz0/px-1)*100)+"%。"):"";
+  var cls,act,why;
+  if(d.hk==="h-exit"||d.hk==="h-cut"){
+    var verb=d.hk==="h-exit"?"出場":"減碼";
+    if(ret>=0){cls="a-sell";act="尚有獲利 "+n1(ret)+"%，趁獲利依日報建議"+verb;
+      why="日報結論已是「"+verb+"」，持有成本再低也不改變趨勢轉弱的判斷；趁還有獲利執行，優於之後被迫停損。";}
+    else{cls="a-cut";act="已虧損 "+n1(ret)+"%，仍應依日報建議"+verb+"，別等回本";
+      why="損益兩平價 "+f2(be)+" 元只是你的成本記號，不是技術支撐；"+verb+"的理由與你的成本無關，凹單只會擴大虧損。";}
+  }else if(sz0!==null&&px>=sz0){
+    if(ret>0){cls="a-sell";act="已進"+slab+"且獲利 "+n1(ret)+"%，分批停利";
+      why="價格已在 "+szone+" 內，獲利入袋優先；其餘部位依原訂移動停利條件。";}
+    else{cls="a-warn";act="價格已到"+slab+"，但你仍虧損 "+n1(ret)+"%——視為減損出場機會";
+      why="成本比"+slab+"還高，別為了回本而凹單；依原訂條件處理"+(ma5?"，跌破 5 日線 "+f2(ma5)+" 元先減碼":"")+"。";}
+  }else if(ret<=-10){
+    if(ma20&&px<ma20){cls="a-cut";act="虧損 "+n1(ret)+"% 且已破月線，建議分批停損";
+      why="虧損超過 10% 停損紀律，月線 "+f2(ma20)+" 元也已失守；攤平或等反彈只會擴大風險。";}
+    else{cls="a-cut";act="虧損 "+n1(ret)+"% 已觸停損紀律，月線失守即出";
+      why="一般停損紀律為 -10%"+(ma20?"；月線 "+f2(ma20)+" 元是最後防線，跌破不要再等":"")+"。";}
+  }else if(ret<=-5){
+    cls="a-warn";act="虧損 "+n1(ret)+"%，進入警戒區";
+    why=(ma20?"先守月線 "+f2(ma20)+" 元；":"")+"虧損擴大到 10% 就應執行停損，別讓小虧變大虧。"+dist;
+  }else if(ret<0){
+    cls="a-hold";act="小幅虧損 "+n1(ret)+"%，依上方原建議操作";
+    why="損益兩平價約 "+f2(be)+" 元（含費）。"+dist;
+  }else if(ret<5){
+    cls="a-hold";act="小幅獲利 "+n1(ret)+"%，續抱等"+slab;
+    why="可把防守價設在損益兩平 "+f2(be)+" 元附近，避免由盈轉虧。"+dist;
+  }else if(ret<15){
+    cls="a-hold";act="獲利 "+n1(ret)+"%，續抱等"+slab+"，防守價上移";
+    why="防守價可上移到 "+f2(Math.max(ma5||0,be))+" 元（5 日線與損益兩平取高者），鎖住既有獲利。"+dist;
+  }else{
+    cls="a-sell";act="獲利已達 "+n1(ret)+"%，可先分批停利，不必等"+slab;
+    why="雖未進 "+szone+"，但保護獲利優先——先出一部分，其餘依原訂移動停利條件。"+dist;
+  }
+  return {ret:ret,be:be,cls:cls,act:act,why:why};
+}
+document.querySelectorAll(".sim").forEach(function(el){
+  var d=el.dataset, inp=el.querySelector("input"), out=el.querySelector(".simout"),
+      clr=el.querySelector(".simx"), key="livecost:"+d.c, px=parseFloat(d.px);
+  function render(){
+    var cost=parseFloat(inp.value);
+    if(!(cost>0)||!(px>0)){out.hidden=true;try{localStorage.removeItem(key);}catch(e){}return;}
+    try{localStorage.setItem(key,inp.value);}catch(e){}
+    var r=advise(d,cost,px), pl=(px-cost)*1000;
+    var html='<div class="simstat">報酬率 <b class="'+kls(r.ret)+'">'+n1(r.ret)+'%</b>　'
+      +'每張帳面損益 <b class="'+kls(pl)+'">'+money(pl)+' 元</b>　'
+      +'含費損益兩平 '+f2(r.be)+' 元</div>'
+      +'<div class="simadv '+r.cls+'">'+r.act+'<span class="sw">'+r.why+'</span></div>';
+    if(cost>px*4||cost<px/4)html+='<div class="simwarn">⚠ 成本與現價差距超過 4 倍，'
+      +'請確認是否輸入錯誤（例如把總金額當成每股成本）。</div>';
+    out.innerHTML=html;out.hidden=false;
+  }
+  inp.addEventListener("input",render);
+  clr.addEventListener("click",function(){inp.value="";render();});
+  try{var s=localStorage.getItem(key);if(s){inp.value=s;render();}}catch(e){}
+});
+})();
+</script>"""
 
 A = [].append
 H = []
@@ -327,6 +416,16 @@ for r in ROWS:
       '<span class="pv">日報建議：%s %s</span>'
       '<span class="v %s">%s</span><span class="w">%s</span></div>'
       % (r["h_ico"], r["h_lab"], r["h_cls"], r["h_act"], r["h_why"]))
+    ga = lambda v: "" if v is None else ("%g" % v)
+    w('<div class="sim" data-c="%s" data-px="%s" data-sz0="%s" data-sz1="%s" '
+      'data-ma5="%s" data-ma20="%s" data-hk="%s" data-slab="%s" data-szone="%s">'
+      '<div class="sh"><b>💰 成本模擬</b><span>輸入你的每股成本，看對「你的部位」的模擬建議（不改變上方日報建議）</span></div>'
+      '<div class="simrow"><input type="number" inputmode="decimal" step="any" min="0" '
+      'placeholder="每股成本（元）" aria-label="%s 持有成本">'
+      '<button type="button" class="simx">清除</button></div>'
+      '<div class="simout" hidden></div></div>'
+      % (r["c"], ga(r["px"]), ga(r["sz0"]), ga(r["sz1"]),
+         ga(r["ma5"]), ga(r["ma20"]), r["hk"], r["slab"], r["szone"], r["name"]))
     if r["tp"]:
         w('<div class="tp"><b>⏳ 時間壓力</b>：%s</div>' % r["tp"])
     w("</div>")
@@ -338,6 +437,13 @@ w('<div class="foot"><h3>這頁在做什麼</h3>'
   '頁面上只有價格、漲跌、成交量是即時的。判斷邏輯固定：'
   '價格落在買進區間內＝可分批買、高於區間＝等回檔、跌破區間下緣＝支撐失守先別接；'
   '持有則依序檢查是否進入停利／減碼／出場區間、是否跌破月線、是否跌破 5 日線。</p>'
+  '<h3>成本模擬怎麼算</h3>'
+  '<p>各卡片的「成本模擬」只在你的瀏覽器內計算（輸入值存在本機瀏覽器，頁面重新產生後仍保留，不會上傳）。'
+  '報酬率＝現價÷成本−1；每張帳面損益＝（現價−成本）×1,000，未含費用；'
+  '損益兩平價＝成本×1.00585（買賣手續費各 0.1425%% 加證交稅 0.3%%）。'
+  '模擬規則：日報已判「減碼／出場」者不因成本高低翻案；'
+  '獲利且已進停利區＝分批停利、獲利達 15%% 可提前部分停利、'
+  '虧損 5%% 進入警戒、虧損 10%% 觸及停損紀律（並以月線為最後防線）。此為規則式試算，非投資建議。</p>'
   '<h3>報價來源與延遲</h3>'
   '<p>Yahoo Finance 即時報價（%s），台股報價通常有數分鐘至 15 分鐘延遲，'
   '成交量為當日累計。本頁每次執行都會整份覆蓋，不保留歷史。</p>'
@@ -348,7 +454,9 @@ w('<div class="foot"><h3>這頁在做什麼</h3>'
   % (C.BASE_DATE, QT.strftime("%Y-%m-%d %H:%M")))
 
 w('</div>\n<p style="text-align:center;color:#7a8798;font-size:11.5px;margin:14px 0 20px">'
-  '產生時間 %s（台北時間）</p>\n</body>\n</html>' % NOW.strftime("%Y-%m-%d %H:%M"))
+  '產生時間 %s（台北時間）</p>' % NOW.strftime("%Y-%m-%d %H:%M"))
+w(SIM_JS)
+w("</body>\n</html>")
 
 os.makedirs(LIVE_DIR, exist_ok=True)
 lp = os.path.join(LIVE_DIR, "index.html")
