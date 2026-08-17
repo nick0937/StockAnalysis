@@ -168,8 +168,14 @@ for c in C.CODES:
         h_why = "月線為中期多空分界，已在其下；不必等回到%s。原訂條件：%s" % (z["sell_lab"], z["sell_cond"])
         ALERTS.append((c, "警", "跌破月線 %s 元" % fmt(ma20)))
     elif ma5 and px < ma5:
-        h_cls, h_act = "a-warn", "跌破 5 日線 %s 元，先縮手" % fmt(ma5)
-        h_why = "短線轉弱但月線 %s 元未破。原訂條件：%s" % (fmt(ma20), z["sell_cond"])
+        # ★ 鐵則：日報判「出場／減碼」者，跌破 5 日線不可弱化成「先縮手」
+        if h_kind in ("h-exit", "h-cut"):
+            h_cls = "a-cut"
+            h_act = "已跌破 5 日線 %s 元，%s不必再等反彈" % (fmt(ma5), base)
+            h_why = "日報結論已是「%s」，短線又轉弱，依原訂條件加快執行。%s" % (ADV[c][5], z["sell_cond"])
+        else:
+            h_cls, h_act = "a-warn", "跌破 5 日線 %s 元，先縮手" % fmt(ma5)
+            h_why = "短線轉弱但月線 %s 元未破。原訂條件：%s" % (fmt(ma20), z["sell_cond"])
     elif h_kind == "h-exit":
         h_cls, h_act = "a-cut", "低於出場區間，仍應在期限內分批出場"
         h_why = ("日報結論是「%s」，不因價格未到 %s 而改為續抱；"
