@@ -198,16 +198,18 @@ LAG = max(0, int((NOW - QT).total_seconds() // 60))   # 來源時間戳會進位
 TODAY = NOW.strftime("%Y-%m-%d")
 SAME_DAY = QT.strftime("%Y-%m-%d") == TODAY
 
-# 盤別：09:00~13:30 為盤中
-_hm = QT.hour * 60 + QT.minute
+# 盤別：09:00~13:30 為盤中。
+# ★ 用本機時間（NOW）判盤別，不能用報價時間（QT）——收盤後 QT 永遠停在 13:30，
+#   若以 QT 判斷，之後每次執行都會誤標成「盤中」。QT 只用來判斷報價新舊。
+_hm = NOW.hour * 60 + NOW.minute
 if not SAME_DAY:
     PHASE, PHASE_CLS = "休市（報價為前一交易日收盤）", "ph-off"
 elif _hm < 9 * 60:
     PHASE, PHASE_CLS = "尚未開盤", "ph-off"
-elif _hm <= 13 * 60 + 30:
+elif _hm < 13 * 60 + 30:
     PHASE, PHASE_CLS = "盤中", "ph-live"
 else:
-    PHASE, PHASE_CLS = "已收盤", "ph-close"
+    PHASE, PHASE_CLS = "已收盤（報價為今日收盤價）", "ph-close"
 
 STALE = QT.strftime("%Y-%m-%d") == C.BASE_DATE   # 報價還停在日報基準日 → 尚未有新行情
 
