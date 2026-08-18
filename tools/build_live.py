@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """當日即時投資建議 → REPO/live/index.html（每次執行直接覆蓋）
 
-用「最新一期日報的買賣區間與雙情境建議」＋「Yahoo 即時報價」，
+用「最新一期日報的買賣區間與雙情境建議」＋「即時報價」，
 只輸出可以立刻執行的動作：空手要不要買／買在哪個區間，持有要不要抱／賣在哪個區間。
 
 ★ 移植時不用改；標的、區間、建議全部來自 config.py 與 inputs/。
@@ -36,20 +36,108 @@ TOT = {c: total_score(S[c]) for c in C.CODES}
 
 
 # ── 抓即時報價 ────────────────────────────────────────────────────
-def quote(sym, tries=4):
-    url = ("https://query1.finance.yahoo.com/v8/finance/chart/"
-           + sym.replace("^", "%5E") + "?range=1d&interval=5m")
+# ★ 來源優先序（2026-08-18 改）。原本只用 Yahoo，實測延遲 15~20 分鐘，
+#   盤中會拿 20 分鐘前的價去比對買賣區間，動作可能已經過期，因此改為：
+#   1) 玩股網 all-quote-info —— 全市場一次取回，時間戳幾乎零延遲，有真正的最新成交價與當日張數
+#   2) 證交所 MIS getStockInfo —— 5 秒揭示的即時快照。個股 z（最新成交價）常回 "-"，
+#      此時退用最佳一檔買賣的中價，來源標記為「證交所(中價)」
+#   3) Yahoo chart —— 延遲 15~20 分鐘，只當最後手段，來源會標明「延遲」
+#   三者都正規化成 Yahoo 的欄位名，後面的判定邏輯完全不必改。
+WG_URL = "https://www.wantgoo.com/investrue/all-quote-info"
+MIS_URL = "https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=%s&json=1&delay=0"
+WG_INDEX, MIS_INDEX = "0000", "tse_t00.tw"     # 加權指數在兩邊的代號
+
+
+def _get(url, tries=3, timeout=25):
     last = None
     for i in range(tries):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
-            with urllib.request.urlopen(req, timeout=25) as r:
-                return json.loads(r.read())["chart"]["result"][0]["meta"]
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.loads(r.read().decode("utf-8", "replace"))
         except Exception as e:
             last = e
             time.sleep(1.2 * (i + 1))
-    print("    ★ %s 取價失敗：%s" % (sym, last))
-    return None
+    raise last
+
+
+def _f(v):
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    return f if f == f else None                # 濾掉 nan
+
+
+def norm_wg(r):
+    """玩股網 → Yahoo 欄位名。volume 單位是張，乘回 1000 股以符合下游算法。"""
+    px = _f(r.get("close"))
+    if not px:
+        return None
+    vol, t = _f(r.get("volume")), r.get("time")
+    return {"regularMarketPrice": px,
+            "previousClose": _f(r.get("previousClose")) or _f(r.get("flat")),
+            "regularMarketDayHigh": _f(r.get("high")),
+            "regularMarketDayLow": _f(r.get("low")),
+            "regularMarketVolume": vol * 1000 if vol is not None else None,
+            "regularMarketTime": int(t / 1000) if t else None,
+            "_src": "玩股網"}
+
+
+def norm_mis(m):
+    """MIS → Yahoo 欄位名。z 為 "-" 時退用最佳一檔買賣中價。"""
+    px, src = _f(m.get("z")), "證交所"
+    if not px:
+        bid = _f((m.get("b") or "").split("_")[0])
+        ask = _f((m.get("a") or "").split("_")[0])
+        px = (bid + ask) / 2 if (bid and ask) else (bid or ask)
+        src = "證交所(中價)"
+    if not px:
+        return None
+    vol, t = _f(m.get("v")), m.get("tlong")
+    return {"regularMarketPrice": px,
+            "previousClose": _f(m.get("y")),
+            "regularMarketDayHigh": _f(m.get("h")),
+            "regularMarketDayLow": _f(m.get("l")),
+            "regularMarketVolume": vol * 1000 if vol is not None else None,
+            "regularMarketTime": int(int(t) / 1000) if t else None,
+            "_src": src}
+
+
+def fetch_wg():
+    try:
+        d = _get(WG_URL)
+    except Exception as e:
+        print("    ★ 玩股網取價失敗，改用備援來源：%s" % e)
+        return {}
+    rows = d if isinstance(d, list) else (d.get("data") or [])
+    return {str(r.get("id", "")): r for r in rows if isinstance(r, dict)}
+
+
+def fetch_mis(chans):
+    try:
+        d = _get(MIS_URL % "|".join(chans))
+    except Exception as e:
+        print("    ★ 證交所取價失敗：%s" % e)
+        return {}
+    return {str(m.get("c", "")): m for m in (d.get("msgArray") or [])}
+
+
+def mis_chan(code):
+    return ("otc_%s.tw" if C.SYM[code].endswith(".TWO") else "tse_%s.tw") % code
+
+
+def quote_yahoo(sym):
+    """最後手段：Yahoo，延遲 15~20 分鐘。"""
+    url = ("https://query1.finance.yahoo.com/v8/finance/chart/"
+           + sym.replace("^", "%5E") + "?range=1d&interval=5m")
+    try:
+        m = dict(_get(url)["chart"]["result"][0]["meta"])
+        m["_src"] = "Yahoo(延遲)"
+        return m
+    except Exception as e:
+        print("    ★ %s Yahoo 取價失敗：%s" % (sym, e))
+        return None
 
 
 def num(m, *keys):
@@ -59,20 +147,46 @@ def num(m, *keys):
             return float(v)
     return None
 
-
 print("=" * 92)
 print("當日即時投資建議")
 print("=" * 92)
 print("依據日報：%s（%s收盤）" % (C.BASE_DATE, C.BASE_WEEKDAY))
 
+# 1) 玩股網一次取回全市場（含加權指數）
+WG = fetch_wg()
 Q = {}
 for c in C.CODES:
-    m = quote(C.SYM[c])
+    m = norm_wg(WG.get(c) or {})
     if m:
         Q[c] = m
-QI = quote(C.INDEX_SYM)
+QI = norm_wg(WG.get(WG_INDEX) or {})
+
+# 2) 缺的用證交所 MIS 補（連同加權指數）
+miss = [c for c in C.CODES if c not in Q]
+if miss or not QI:
+    MIS = fetch_mis([mis_chan(c) for c in miss] + ([MIS_INDEX] if not QI else []))
+    for c in miss:
+        m = norm_mis(MIS.get(c) or {})
+        if m:
+            Q[c] = m
+    if not QI:
+        QI = norm_mis(MIS.get("t00") or {})
+
+# 3) 還是缺的才落到 Yahoo（延遲 15~20 分鐘）
+for c in C.CODES:
+    if c not in Q:
+        m = quote_yahoo(C.SYM[c])
+        if m:
+            Q[c] = m
+if not QI:
+    QI = quote_yahoo(C.INDEX_SYM)
+
 if not Q:
     sys.exit("★ 全部取價失敗，中止（未覆蓋既有 live 頁）")
+
+SRCS = sorted({m.get("_src", "?") for m in Q.values()} | ({QI.get("_src", "?")} if QI else set()))
+SRC_LABEL = "／".join(SRCS)
+DELAYED = any("延遲" in s for s in SRCS)
 
 # 報價時間：取各檔最新的 regularMarketTime
 qt = max(int(m.get("regularMarketTime") or 0) for m in Q.values())
@@ -80,7 +194,7 @@ if QI:
     qt = max(qt, int(QI.get("regularMarketTime") or 0))
 QT = datetime.datetime.fromtimestamp(qt)
 NOW = datetime.datetime.now()
-LAG = int((NOW - QT).total_seconds() // 60)
+LAG = max(0, int((NOW - QT).total_seconds() // 60))   # 來源時間戳會進位到整分，可能略超前本機時鐘，夾到 0 免得出現負延遲
 TODAY = NOW.strftime("%Y-%m-%d")
 SAME_DAY = QT.strftime("%Y-%m-%d") == TODAY
 
@@ -368,10 +482,10 @@ w("<style>%s</style>\n</head>\n<body>" % CSS)
 
 w('<header class="hd"><div class="hdin">')
 w("<h1>當日即時投資建議</h1>")
-w('<p><span class="ph %s">%s</span>報價時間 %s（%s）　依據 <b>%s（%s收盤）</b>日報的買賣區間</p>'
+w('<p><span class="ph %s">%s</span>報價時間 %s（%s・來源 %s）　依據 <b>%s（%s收盤）</b>日報的買賣區間</p>'
   % (PHASE_CLS, PHASE, QT.strftime("%m/%d %H:%M"),
-     ("約 %d 分鐘前" % LAG) if LAG >= 1 else "剛剛",
-     C.BASE_DATE, C.BASE_WEEKDAY))
+     ("約 %d 分鐘前" % LAG) if LAG >= 1 else "即時",
+     SRC_LABEL, C.BASE_DATE, C.BASE_WEEKDAY))
 w("</div></header>")
 w('<div class="wrap">')
 w('<a class="back" href="../index.html">← 回首頁</a>')
@@ -467,10 +581,13 @@ w("</body>\n</html>")
 os.makedirs(LIVE_DIR, exist_ok=True)
 lp = os.path.join(LIVE_DIR, "index.html")
 open(lp, "w", encoding="utf-8", newline="\n").write("\n".join(H) + "\n")
-print("\n1) live/index.html 已覆蓋，%d 檔、%d 項提醒" % (len(ROWS), len(ALERTS)))
+print("\n0) 報價來源：%s，報價時間 %s（延遲 %d 分鐘）"
+      % (SRC_LABEL, QT.strftime("%m/%d %H:%M"), LAG))
+print("1) live/index.html 已覆蓋，%d 檔、%d 項提醒" % (len(ROWS), len(ALERTS)))
 
 meta = {"quote_time": QT.strftime("%Y-%m-%d %H:%M"), "gen_time": NOW.strftime("%Y-%m-%d %H:%M"),
-        "phase": PHASE, "base_date": C.BASE_DATE, "alerts": len(ALERTS)}
+        "phase": PHASE, "base_date": C.BASE_DATE, "alerts": len(ALERTS),
+        "source": SRC_LABEL, "lag_min": LAG, "delayed": DELAYED}
 json.dump(meta, open(os.path.join(D, "live_meta.json"), "w", encoding="utf-8"),
           ensure_ascii=False, indent=1)
 
