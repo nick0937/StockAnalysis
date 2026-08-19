@@ -37,6 +37,45 @@ CSS = open(os.path.join(os.path.dirname(BASE), "報告樣式.css"), encoding="ut
 GEN_TIME = datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + "（台北時間）"
 BD, WD = C.BASE_DATE, C.BASE_WEEKDAY
 
+# ── DMA 與 MACD 背離的呈現（2026-08-19 新增）──────────────────────
+# 只把 calc_indicators.py 算好的客觀事實排版，不在這裡做任何判斷。
+DIV_FRESH = 10          # bars_since 超過這個根數就標明「已非近期訊號」
+
+
+def dma_cell(a):
+    """DMA 三組：值 + 零軸/AMA 位置 + 當日交叉"""
+    d = a.get("dma") or {}
+    lines = []
+    for key in ("3-6", "6-12", "5-20"):
+        v = d.get(key)
+        if not v:
+            lines.append("%s 查無" % key)
+            continue
+        if v["cross"] != "無":
+            tag = "<b>%s</b>" % v["cross"]
+        else:
+            tag = "AMA上" if v["above_ama"] else "AMA下"
+        lines.append("%s %s <small>%s・%s</small>"
+                     % (key, sgn(v["dma"], 2, False), "零上" if v["above_zero"] else "零下", tag))
+    return "<br>".join(lines)
+
+
+def div_cell(a):
+    """MACD 背離：頂/底兩側，含兩個轉折日期與確認距今根數"""
+    dv = a.get("macd_div") or {}
+    out = []
+    for side in ("top", "bottom"):
+        h = dv.get(side)
+        if not h:
+            continue
+        stale = "" if h["bars_since"] <= DIV_FRESH else "・<b>已非近期訊號</b>"
+        out.append("%s<br><small>%s→%s・%d 根前確認%s</small>"
+                   % (h["kind"], h["prev_date"][5:], h["last_date"][5:],
+                      h["bars_since"], stale))
+    if not out:
+        return "無<br><small>近 60 根內未出現</small>"
+    return "<br>".join(out)
+
 # ── 大盤面分一律由公式計算，覆寫 inputs 中的值（避免主觀給分）──
 for c in C.CODES:
     rs = IND["stocks"][c]["rs"]
@@ -117,6 +156,8 @@ A(mc("RSI(14)", "%s<br><small>前日 %s</small>" % (n(idx["rsi"]), n(idx["rsi_pr
 A(mc("MACD", "DIF %s<br>DEA %s<br>柱 %s<small>（前日 %s／前二日 %s）</small>"
      % (n(idx["dif"], 1), n(idx["dea"], 1), n(idx["osc"], 1),
         n(idx["osc_prev"], 1), n(idx["osc_prev2"], 1))))
+A(mc("MACD 背離", div_cell(idx)))
+A(mc("DMA", dma_cell(idx)))
 A(mc("乖離率", "20日 %s<br>60日 %s"
      % (sgn(idx["bias20"], 2, True), sgn(idx["bias60"], 2, True))))
 A(mc("52週高／低", "%s / %s<br><small>距高點 %s</small>"
@@ -211,6 +252,8 @@ for c in RANK:
     A(mc("RSI(14)", "%s<br><small>前日 %s</small>" % (n(a["rsi"]), n(a["rsi_prev"]))))
     A(mc("MACD", "DIF %s<br>DEA %s<br>柱 %s<small>（前日 %s）</small>"
          % (n(a["dif"], 2), n(a["dea"], 2), n(a["osc"], 3), n(a["osc_prev"], 3))))
+    A(mc("MACD 背離", div_cell(a)))
+    A(mc("DMA", dma_cell(a)))
     A(mc("布林(20,2)", "上 %s<br>中 %s<br>下 %s<br><small>%%B %s</small>"
          % (n(a["bb_up"]), n(a["bb_mid"]), n(a["bb_dn"]), n(a["pb"]))))
     A(mc("乖離率", "20日 %s<br>60日 %s" % (sgn(a["bias20"], 2, True), sgn(a["bias60"], 2, True))))

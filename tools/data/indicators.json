@@ -52,6 +52,42 @@
   "r120": 34.155475016929884,
   "r240": 91.77920384252111,
   "ytd": 56.43317922691622,
+  "dma": {
+   "3-6": {
+    "dma": 52.78197916665522,
+    "dma_prev": 353.7019010416625,
+    "ama": 306.33750868055114,
+    "ama_prev": 461.46009548611136,
+    "above_zero": true,
+    "above_ama": false,
+    "cross": "無",
+    "rising": false
+   },
+   "6-12": {
+    "dma": 727.2656640625064,
+    "dma_prev": 846.3568098958349,
+    "ama": 1107.6250130208343,
+    "ama_prev": 1165.9338172743057,
+    "above_zero": true,
+    "above_ama": false,
+    "cross": "無",
+    "rising": false
+   },
+   "5-20": {
+    "dma": 1692.8781953124999,
+    "dma_prev": 1709.0764374999999,
+    "ama": 1571.6033874999994,
+    "ama_prev": 1441.3515765624993,
+    "above_zero": true,
+    "above_ama": true,
+    "cross": "無",
+    "rising": false
+   }
+  },
+  "macd_div": {
+   "top": null,
+   "bottom": null
+  },
   "spark": [
    {
     "d": "2026-07-22",
@@ -190,6 +226,52 @@
    "r120": 49.74147634074975,
    "r240": 127.31554366950996,
    "ytd": 61.96868073860389,
+   "dma": {
+    "3-6": {
+     "dma": -1.0333340962727817,
+     "dma_prev": -0.8833338419596402,
+     "ama": -0.6555557250976562,
+     "ama_prev": -0.19444402058919744,
+     "above_zero": false,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "6-12": {
+     "dma": 0.14166704813639797,
+     "dma_prev": 1.308333079020187,
+     "ama": 2.887500233120394,
+     "ama_prev": 3.6833335028754397,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "5-20": {
+     "dma": 3.1650005340576115,
+     "dma_prev": 3.7750000000000057,
+     "ama": 4.075000152587895,
+     "ama_prev": 4.216999969482427,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    }
+   },
+   "macd_div": {
+    "top": {
+     "kind": "隱性頂背離",
+     "prev_date": "2026-07-06",
+     "last_date": "2026-08-05",
+     "prev_price": 100.5,
+     "last_price": 79.19999694824219,
+     "prev_osc": -0.8433453689452373,
+     "last_osc": 0.5324817843207872,
+     "gap_bars": 22,
+     "bars_since": 9
+    },
+    "bottom": null
+   },
    "spark": [
     {
      "d": "2026-07-22",
@@ -341,6 +423,62 @@
    "r120": 25.20138221097392,
    "r240": 39.130444114682874,
    "ytd": 25.20138221097392,
+   "dma": {
+    "3-6": {
+     "dma": 1.2250003814697266,
+     "dma_prev": 0.34166717529296875,
+     "ama": 0.6666673024495443,
+     "ama_prev": 0.4138895670572917,
+     "above_zero": true,
+     "above_ama": true,
+     "cross": "黃金交叉",
+     "rising": true
+    },
+    "6-12": {
+     "dma": 1.2666670481363909,
+     "dma_prev": 1.0625,
+     "ama": 1.4215277565850144,
+     "ama_prev": 1.4347221586439336,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": true
+    },
+    "5-20": {
+     "dma": 2.7400009155273466,
+     "dma_prev": 1.9225006103515625,
+     "ama": 1.8425003433227531,
+     "ama_prev": 1.4170000839233396,
+     "above_zero": true,
+     "above_ama": true,
+     "cross": "無",
+     "rising": true
+    }
+   },
+   "macd_div": {
+    "top": {
+     "kind": "隱性頂背離",
+     "prev_date": "2026-06-23",
+     "last_date": "2026-07-06",
+     "prev_price": 60.900001525878906,
+     "last_price": 60.20000076293945,
+     "prev_osc": -0.4432459224205614,
+     "last_osc": -0.3402388143788957,
+     "gap_bars": 9,
+     "bars_since": 31
+    },
+    "bottom": {
+     "kind": "底背離",
+     "prev_date": "2026-07-20",
+     "last_date": "2026-07-29",
+     "prev_price": 45.75,
+     "last_price": 40.849998474121094,
+     "prev_osc": -0.9133771666102787,
+     "last_osc": -0.7971640162607154,
+     "gap_bars": 7,
+     "bars_since": 14
+    }
+   },
    "spark": [
     {
      "d": "2026-07-22",
@@ -492,6 +630,52 @@
    "r120": -23.87640016004584,
    "r240": 41.514365124303865,
    "ytd": -14.240506157205001,
+   "dma": {
+    "3-6": {
+     "dma": -0.008333206176757812,
+     "dma_prev": -0.17499955495198805,
+     "ama": -0.06111081441243608,
+     "ama_prev": -0.016666306389703085,
+     "above_zero": false,
+     "above_ama": true,
+     "cross": "黃金交叉",
+     "rising": true
+    },
+    "6-12": {
+     "dma": 0.13750028610229492,
+     "dma_prev": 0.28333346048991004,
+     "ama": 0.42013886239793646,
+     "ama_prev": 0.5048609839545364,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "5-20": {
+     "dma": 0.6075002670288079,
+     "dma_prev": 0.5525001525878892,
+     "ama": 0.6104999542236328,
+     "ama_prev": 0.5724998283386228,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": true
+    }
+   },
+   "macd_div": {
+    "top": null,
+    "bottom": {
+     "kind": "底背離",
+     "prev_date": "2026-07-20",
+     "last_date": "2026-07-29",
+     "prev_price": 25.299999237060547,
+     "last_price": 24.049999237060547,
+     "prev_osc": -0.17946756705520783,
+     "last_osc": -0.14184116726537543,
+     "gap_bars": 7,
+     "bars_since": 14
+    }
+   },
    "spark": [
     {
      "d": "2026-07-22",
@@ -643,6 +827,62 @@
    "r120": -7.377052622005764,
    "r240": 17.883755995356875,
    "ytd": 4.0789453606856485,
+   "dma": {
+    "3-6": {
+     "dma": -0.21666717529296875,
+     "dma_prev": 0.28333282470703125,
+     "ama": 0.23888863457573942,
+     "ama_prev": 0.5666664971245675,
+     "above_zero": false,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "6-12": {
+     "dma": 0.8166656494140625,
+     "dma_prev": 0.9083321889241489,
+     "ama": 1.424999343024356,
+     "ama_prev": 1.4486107296413806,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "5-20": {
+     "dma": 1.3549991607665959,
+     "dma_prev": 1.0599990844726506,
+     "ama": 0.6189993286132818,
+     "ama_prev": 0.14799964904785554,
+     "above_zero": true,
+     "above_ama": true,
+     "cross": "無",
+     "rising": true
+    }
+   },
+   "macd_div": {
+    "top": {
+     "kind": "隱性頂背離",
+     "prev_date": "2026-07-06",
+     "last_date": "2026-08-05",
+     "prev_price": 108.5,
+     "last_price": 80.4000015258789,
+     "prev_osc": -0.47539613722619656,
+     "last_osc": -0.07181258443715333,
+     "gap_bars": 22,
+     "bars_since": 9
+    },
+    "bottom": {
+     "kind": "底背離",
+     "prev_date": "2026-07-20",
+     "last_date": "2026-07-30",
+     "prev_price": 77.0,
+     "last_price": 68.5999984741211,
+     "prev_osc": -2.346574196008481,
+     "last_osc": -1.6965894022022905,
+     "gap_bars": 8,
+     "bars_since": 13
+    }
+   },
    "spark": [
     {
      "d": "2026-07-22",
@@ -794,6 +1034,52 @@
    "r120": -3.0337044362271803,
    "r240": -18.19904924003999,
    "ytd": 0.3488407578579267,
+   "dma": {
+    "3-6": {
+     "dma": 0.8833338419596402,
+     "dma_prev": 1.0000012715657647,
+     "ama": 1.0000008477105098,
+     "ama_prev": 0.9888899061414946,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "死亡交叉",
+     "rising": false
+    },
+    "6-12": {
+     "dma": 1.8666680653889927,
+     "dma_prev": 2.8000011444091797,
+     "ama": 4.093056148952907,
+     "ama_prev": 4.500000211927625,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "5-20": {
+     "dma": 5.2050018310546875,
+     "dma_prev": 5.3050010681152315,
+     "ama": 4.593000564575192,
+     "ama_prev": 4.381000061035155,
+     "above_zero": true,
+     "above_ama": true,
+     "cross": "無",
+     "rising": false
+    }
+   },
+   "macd_div": {
+    "top": null,
+    "bottom": {
+     "kind": "隱性底背離",
+     "prev_date": "2026-06-11",
+     "last_date": "2026-07-30",
+     "prev_price": 66.5,
+     "last_price": 68.0,
+     "prev_osc": -0.38349015017914767,
+     "last_osc": -2.878253533042362,
+     "gap_bars": 34,
+     "bars_since": 13
+    }
+   },
    "spark": [
     {
      "d": "2026-07-22",
@@ -945,6 +1231,42 @@
    "r120": 11.727419500515257,
    "r240": 68.05720790899943,
    "ytd": 72.37163171104555,
+   "dma": {
+    "3-6": {
+     "dma": -2.4499994913737027,
+     "dma_prev": 0.19999949137368844,
+     "ama": 0.38333299424912565,
+     "ama_prev": 2.6611107720269067,
+     "above_zero": false,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "6-12": {
+     "dma": 4.0416669845581055,
+     "dma_prev": 4.841666857401535,
+     "ama": 4.966666327582466,
+     "ama_prev": 4.911110613081191,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "5-20": {
+     "dma": 8.594999694824224,
+     "dma_prev": 9.23999996185303,
+     "ama": 8.483999557495121,
+     "ama_prev": 7.67099948883057,
+     "above_zero": true,
+     "above_ama": true,
+     "cross": "無",
+     "rising": false
+    }
+   },
+   "macd_div": {
+    "top": null,
+    "bottom": null
+   },
    "spark": [
     {
      "d": "2026-07-22",
@@ -1096,6 +1418,62 @@
    "r120": 4.67289704817706,
    "r240": -23.404256552640845,
    "ytd": -2.890173325432477,
+   "dma": {
+    "3-6": {
+     "dma": -0.6333325703938826,
+     "dma_prev": -0.1666666666666643,
+     "ama": -0.033333248562281405,
+     "ama_prev": 0.5249994066026508,
+     "above_zero": false,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "6-12": {
+     "dma": 0.9583326975504534,
+     "dma_prev": 1.0708325703938755,
+     "ama": 1.0618053542243093,
+     "ama_prev": 0.9812499152289481,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "死亡交叉",
+     "rising": false
+    },
+    "5-20": {
+     "dma": 1.5024993896484418,
+     "dma_prev": 1.7324989318847699,
+     "ama": 1.6779994583129891,
+     "ama_prev": 1.586499671936035,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "死亡交叉",
+     "rising": false
+    }
+   },
+   "macd_div": {
+    "top": {
+     "kind": "頂背離",
+     "prev_date": "2026-07-03",
+     "last_date": "2026-07-22",
+     "prev_price": 52.70000076293945,
+     "last_price": 53.5,
+     "prev_osc": 0.5759154413459955,
+     "last_osc": 0.07229716234025274,
+     "gap_bars": 13,
+     "bars_since": 19
+    },
+    "bottom": {
+     "kind": "隱性底背離",
+     "prev_date": "2026-06-26",
+     "last_date": "2026-07-29",
+     "prev_price": 42.5,
+     "last_price": 45.900001525878906,
+     "prev_osc": -0.03286465022545548,
+     "last_osc": -0.20991863714474868,
+     "gap_bars": 23,
+     "bars_since": 14
+    }
+   },
    "spark": [
     {
      "d": "2026-07-22",
@@ -1247,6 +1625,52 @@
    "r120": 1.1591132312270158,
    "r240": 8.967084747679642,
    "ytd": 3.3369197235777692,
+   "dma": {
+    "3-6": {
+     "dma": -0.8499997456868442,
+     "dma_prev": -0.31666692097981297,
+     "ama": -0.42777803209092724,
+     "ama_prev": -0.10000059339735401,
+     "above_zero": false,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "6-12": {
+     "dma": 1.0749994913737027,
+     "dma_prev": 1.5999997456868442,
+     "ama": 2.445833418104383,
+     "ama_prev": 2.6361113654242607,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "5-20": {
+     "dma": 1.8199996948242188,
+     "dma_prev": 2.4199996948242273,
+     "ama": 1.6909999847412025,
+     "ama_prev": 1.0020002746581924,
+     "above_zero": true,
+     "above_ama": true,
+     "cross": "無",
+     "rising": false
+    }
+   },
+   "macd_div": {
+    "top": {
+     "kind": "頂背離",
+     "prev_date": "2026-07-06",
+     "last_date": "2026-07-15",
+     "prev_price": 126.5,
+     "last_price": 128.0,
+     "prev_osc": 3.9368169156631363,
+     "last_osc": 2.0605867856668674,
+     "gap_bars": 7,
+     "bars_since": 24
+    },
+    "bottom": null
+   },
    "spark": [
     {
      "d": "2026-07-22",
@@ -1398,6 +1822,52 @@
    "r120": 57.60171306209849,
    "r240": 78.64077669902913,
    "ytd": 89.69072164948453,
+   "dma": {
+    "3-6": {
+     "dma": 0.8333333333333144,
+     "dma_prev": 2.0,
+     "ama": -0.08333333333333333,
+     "ama_prev": -1.3611111111111047,
+     "above_zero": true,
+     "above_ama": true,
+     "cross": "無",
+     "rising": false
+    },
+    "6-12": {
+     "dma": 6.333333333333314,
+     "dma_prev": 14.791666666666686,
+     "ama": 22.93749999999999,
+     "ama_prev": 26.75694444444444,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    },
+    "5-20": {
+     "dma": 31.600000000000023,
+     "dma_prev": 34.75,
+     "ama": 39.385000000000005,
+     "ama_prev": 42.31,
+     "above_zero": true,
+     "above_ama": false,
+     "cross": "無",
+     "rising": false
+    }
+   },
+   "macd_div": {
+    "top": null,
+    "bottom": {
+     "kind": "底背離",
+     "prev_date": "2026-07-20",
+     "last_date": "2026-07-30",
+     "prev_price": 291.0,
+     "last_price": 279.0,
+     "prev_osc": -3.476875476923065,
+     "last_osc": -3.1467088243229515,
+     "gap_bars": 8,
+     "bars_since": 13
+    }
+   },
    "spark": [
     {
      "d": "2026-07-22",
