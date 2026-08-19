@@ -297,9 +297,22 @@ for c in C.CODES:
         h_why = ("日報結論是「%s」，不因價格未到 %s 而改為續抱；"
                  "反彈至 %s 分批出。%s" % (ADV[c][5], z["sell_zone"], z["sell_zone"], z["sell_cond"]))
     elif h_kind == "h-cut":
-        h_cls, h_act = "a-warn", "反彈至 %s 再減碼" % z["sell_zone"]
-        h_why = "日報結論是「%s」，目前價格未到%s（%s）；跌破 5 日線 %s 元則不必等反彈。%s" % (
-            ADV[c][5], z["sell_lab"], z["sell_anchor"], fmt(ma5), z["sell_cond"])
+        # ★ 鐵則 3：日報若已宣告某一段減碼觸發，不可講成「等反彈到區間再減」——那等於取消已觸發的動作
+        if z.get("done"):
+            h_cls = "a-cut"
+            h_act = "已觸發的減碼先執行，其餘反彈至 %s" % z["sell_zone"]
+            h_why = "<b>%s</b>。目前價格未到%s（%s）；跌破 5 日線 %s 元則剩餘部位也不必等反彈。%s" % (
+                z["done"], z["sell_lab"], z["sell_anchor"], fmt(ma5), z["sell_cond"])
+        else:
+            h_cls, h_act = "a-warn", "反彈至 %s 再減碼" % z["sell_zone"]
+            h_why = "日報結論是「%s」，目前價格未到%s（%s）；跌破 5 日線 %s 元則不必等反彈。%s" % (
+                ADV[c][5], z["sell_lab"], z["sell_anchor"], fmt(ma5), z["sell_cond"])
+    elif z.get("done"):
+        # ★ 鐵則 3：停利區間曾被觸及者，跌回區間下緣之下不等於「未觸發任何條件」
+        h_cls = "a-warn"
+        h_act = "已觸發的%s先執行，其餘續抱" % base
+        h_why = "<b>%s</b>。%s在 %s（%s）；跌破 5 日線 %s 元先縮手。%s" % (
+            z["done"], z["sell_lab"], z["sell_zone"], z["sell_anchor"], fmt(ma5), z["sell_cond"])
     else:
         h_cls, h_act = "a-hold", "續抱，未觸發任何條件"
         h_why = "%s在 %s（%s）；跌破 5 日線 %s 元先縮手。%s" % (
