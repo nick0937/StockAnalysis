@@ -19,7 +19,7 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE)
 sys.path.insert(0, os.path.join(BASE, "inputs"))
 import config as C
-from lib import (n, cm, sgn, cls, num_td, band_of, scls, total_score, market_score,
+from lib import (n, cm, sgn, cls, num_td, band_of, scls, total_score, market_score, tech_adj,
                  spark, mc, twrap, mabar, chip, opbox, MA_LABEL)
 import market as MK
 from scores import S, FUND, ADV
@@ -77,9 +77,14 @@ def div_cell(a):
     return "<br>".join(out)
 
 # ── 大盤面分一律由公式計算，覆寫 inputs 中的值（避免主觀給分）──
+# ── 技術面分 = inputs 判讀分 + DMA／MACD 背離的客觀加減分（lib.tech_adj，±10 封頂）──
+TADJ = {}
 for c in C.CODES:
     rs = IND["stocks"][c]["rs"]
-    S[c] = (S[c][0], S[c][1], S[c][2], market_score(MK.ENV_SCORE, rs), S[c][4])
+    adj, why = tech_adj(IND["stocks"][c])
+    TADJ[c] = (S[c][1], adj, why)
+    S[c] = (S[c][0], max(0, min(100, S[c][1] + adj)), S[c][2],
+            market_score(MK.ENV_SCORE, rs), S[c][4])
 TOT = {c: total_score(S[c]) for c in C.CODES}
 RANK = sorted(C.CODES, key=lambda c: -TOT[c])
 
@@ -397,6 +402,12 @@ for c in RANK:
     A('<p class="tnote fdet">基本面 %d 分內部拆解：%s</p>'
       % (S[c][2], "、".join("%s %d/%d" % (p[0], v, p[1])
                             for p, v in zip(C.FUND_PARTS, FUND[c]))))
+    _tb, _ta, _tw = TADJ[c]
+    A('<p class="tnote fdet">技術面 %d 分 ＝ 判讀分 %d %s %d'
+      '（DMA 與 MACD 背離的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）'
+      '%s</p>'
+      % (S[c][1], _tb, "＋" if _ta >= 0 else "−", abs(_ta),
+         ("：" + "、".join(_tw)) if _tw else "：本期無觸發項目"))
 
     # 11 建議｜兩種情境
     z = ZONE[c]
