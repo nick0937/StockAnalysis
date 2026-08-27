@@ -17,15 +17,20 @@ KEEP = 10
 
 dirs = sorted(d for d in os.listdir(C.REPO)
               if re.fullmatch(r"\d{8}", d) and os.path.isdir(os.path.join(C.REPO, d)))
-old = dirs[:-KEEP] if len(dirs) > KEEP else []
+# 視窗包含「即將產出的基準日」（config.YMD）：跑新一天的報告前，
+# 舊的第 10 期就已在 10 期視窗之外，先刪再跑，跑完恰好 10 期
+universe = sorted(set(dirs) | {C.YMD})
+keep_set = set(universe[-KEEP:])
+old = [d for d in dirs if d not in keep_set]
 
 for d in old:
     shutil.rmtree(os.path.join(C.REPO, d))
     print("刪除", d)
 
-kept = dirs[-KEEP:] if len(dirs) > KEEP else dirs
+kept = [d for d in dirs if d in keep_set]
 if kept:
-    print("保留 %d 期：%s ~ %s" % (len(kept), kept[0], kept[-1]))
+    print("保留 %d 期：%s ~ %s（本次基準日 %s 產出後共 %d 期）"
+          % (len(kept), kept[0], kept[-1], C.YMD, len(set(kept) | {C.YMD})))
 if old:
     print("★ 已刪除 %d 期（%s）——歷史仍在 git 紀錄中可回溯，"
           "刪除將於下次 commit 一併入版（GitHub Pages 舊連結將失效）" % (len(old), "、".join(old)))
