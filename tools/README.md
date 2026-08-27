@@ -25,6 +25,7 @@
 | `build_report.py` | ✗ | 產生 `REPO/YYYYMMDD/index.html` |
 | **`build_live.py`** | ✗ | **當日即時投資建議 → `REPO/live/index.html`（每次覆蓋，盤中可重複跑）** |
 | `finalize.py` | ✗ | 交付前檢查 → 重建首頁 → 寫 `COMMIT_MSG.txt` |
+| `cleanup_reports.py` | ✗ | ★ 每日流程第 0.5 步：只保留最新 10 個開盤日的報告資料夾，超過先刪再跑報告（守則第 12 節） |
 | `verify_rwd.py` | ✗ | Playwright 四寬度 RWD 驗證（可加 `live`／`home` 指定目標） |
 | **`inputs/*.py`** | **★ 每次跑都要更新** | 每日蒐集的資料與判斷（見下） |
 
@@ -49,6 +50,7 @@
 ```bash
 cd tools
 # 0. 改 config.py 的 BASE_DATE / BASE_WEEKDAY / RERUN_NOTE
+python cleanup_reports.py     # 0.5 ★ 只留最新 10 個開盤日資料夾，超過先刪再跑（守則第 12 節保留政策）
 python fetch_quotes.py        # 抓行情，並印出要填進 market.py 的成交金額
 python calc_indicators.py     # 算指標（會自動濾除盤中未完成 K 棒）
 # 1. 用瀏覽器抓籌碼、月營收、財報 → 更新 inputs/chips.py, monthly.py, fin_raw.json
