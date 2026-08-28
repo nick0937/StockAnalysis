@@ -64,7 +64,7 @@ python build_live.py          # ★ 必跑：把即時頁換到新基準（不�
 python verify_rwd.py live     # 即時頁的 RWD 也要過
 ```
 
-**不要自己 `git commit`／`push`** —— 由使用者雙擊「建立Commit.bat」處理。
+**commit**：跑完即時頁後順帶執行「建立Commit.bat」建 commit（2026-08-28 使用者指示；只 commit 不 push，push 由使用者處理）。除此之外不要自己下 git commit。
 
 ---
 
