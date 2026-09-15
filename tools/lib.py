@@ -77,10 +77,15 @@ def market_score(env_score, rs):
 #     因為位置等同於均線多頭／空頭排列，計了就是把趨勢算兩次
 #     （實測會讓最過熱的個股反而加分，方向錯誤）。
 #   - MACD 背離採分級衰減而非硬性截斷：轉折確認後訊號會鈍化但不會瞬間失效。
+#   - 區間突破與跳空缺口（2026-09-15 新增）比照 DMA：只計「當日事件」，
+#     不計 VWAP 線／吊燈線／缺口價位／前波轉折這些「位置」——位置供判讀分與
+#     zones 錨定引用，機械分再計就是重複計分。
 DIV_ADJ = {"頂背離": -6.0, "底背離": 6.0, "隱性頂背離": -3.0, "隱性底背離": 3.0}
 DIV_FULL_BARS = 10     # <= 此根數：全權
 DIV_HALF_BARS = 20     # <= 此根數：半權；超過則不計分
 DMA_CROSS_ADJ = 2.0    # 單組 DMA 當日交叉的加減分
+BRK_ADJ = 2.0          # 收盤突破／跌破前 20 日高低（不含當日）的當日事件
+GAP_ADJ = 2.0          # 當日向上／向下跳空缺口（收盤仍未回補）的當日事件
 TECH_ADJ_CAP = 10      # 合計封頂，避免單一機械訊號蓋過整體判讀
 
 
@@ -115,6 +120,20 @@ def tech_adj(a):
         total += v
         items.append("DMA %s %s %s%.0f" % (key, d["cross"],
                                            "＋" if v >= 0 else "−", abs(v)))
+    # 區間突破／跳空缺口：只計當日離散事件（2026-09-15 新增，守則 §9.1）
+    if a.get("break_up"):
+        total += BRK_ADJ
+        items.append("收盤突破前20日高 ＋%.0f" % BRK_ADJ)
+    elif a.get("break_dn"):
+        total -= BRK_ADJ
+        items.append("收盤跌破前20日低 −%.0f" % BRK_ADJ)
+    g = (a.get("gaps") or {}).get("today")
+    if g == "up":
+        total += GAP_ADJ
+        items.append("當日向上跳空缺口 ＋%.0f" % GAP_ADJ)
+    elif g == "down":
+        total -= GAP_ADJ
+        items.append("當日向下跳空缺口 −%.0f" % GAP_ADJ)
     adj = half_up(max(-TECH_ADJ_CAP, min(TECH_ADJ_CAP, total)))
     if abs(total) > TECH_ADJ_CAP:
         items.append("合計 %s%.1f，封頂至 %s%d"

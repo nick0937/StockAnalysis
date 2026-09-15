@@ -198,6 +198,55 @@ def macd_div(rows, osc):
     return res
 
 
+# ── VWAP／ATR／20日區間／前波轉折／跳空缺口（2026-09-15 新增，守則 §5・§9.2）──
+# 皆為本地計算、公開演算法。位置型指標（VWAP 線、吊燈線、轉折價、缺口價位）只供
+# 判讀與區間錨定；離散事件（突破 20 日高低、當日跳空）另由 lib.tech_adj 計分。
+def vwap_n(rows, k):
+    """滾動 k 日 VWAP，典型價 (H+L+C)/3 加權（日線無逐筆資料的標準近似）"""
+    w = rows[-k:]
+    v = sum(r["v"] for r in w)
+    if len(w) < k or v <= 0:
+        return None
+    return sum((r["h"] + r["l"] + r["c"]) / 3 * r["v"] for r in w) / v
+
+
+def atr_wilder(rows, k=14):
+    """Wilder ATR(k)：TR = max(H−L, |H−前收|, |L−前收|)，首值 SMA、其後遞迴平滑"""
+    trs = [max(rows[i]["h"] - rows[i]["l"],
+               abs(rows[i]["h"] - rows[i - 1]["c"]),
+               abs(rows[i]["l"] - rows[i - 1]["c"])) for i in range(1, len(rows))]
+    if len(trs) < k:
+        return None
+    a = sum(trs[:k]) / k
+    for tr in trs[k:]:
+        a = (a * (k - 1) + tr) / k
+    return a
+
+
+def gap_scan(rows, look=60):
+    """近 look 根內的跳空缺口，只保留尚未回補者。
+       向上缺口＝當日低 > 前日高（回補＝之後任一日最低 ≤ 前日高）；向下反之。
+       回傳現價上方（回補目標／壓力）與下方（支撐）各取最近一個，及當日是否跳空。"""
+    n_ = len(rows)
+    gaps = []
+    for i in range(max(1, n_ - look), n_):
+        p, r = rows[i - 1], rows[i]
+        if r["l"] > p["h"]:
+            if not any(rows[j]["l"] <= p["h"] for j in range(i + 1, n_)):
+                gaps.append({"d": r["d"], "lo": p["h"], "hi": r["l"], "kind": "up"})
+        elif r["h"] < p["l"]:
+            if not any(rows[j]["h"] >= p["l"] for j in range(i + 1, n_)):
+                gaps.append({"d": r["d"], "lo": r["h"], "hi": p["l"], "kind": "down"})
+    c = rows[-1]["c"]
+    pick = lambda gs: max(gs, key=lambda g: g["d"]) if gs else None
+    today = None
+    if n_ >= 2:
+        p, r = rows[-2], rows[-1]
+        today = "up" if r["l"] > p["h"] else ("down" if r["h"] < p["l"] else None)
+    return {"above": pick([g for g in gaps if g["lo"] >= c]),
+            "below": pick([g for g in gaps if g["hi"] <= c]), "today": today}
+
+
 def analyze(rows, label):
     cl = [r["c"] for r in rows]
     vol = [r["v"] for r in rows]
@@ -217,6 +266,13 @@ def analyze(rows, label):
     hi52, lo52 = max(r["h"] for r in yr), min(r["l"] for r in yr)
     py = [r for r in rows if r["d"][:4] < last["d"][:4]]
     v5, v20 = sma(vol, 5), sma(vol, 20)
+    # 2026-09-15 新增：VWAP／ATR 吊燈線／20 日區間（不含當日）／分形前波轉折／缺口
+    atr = atr_wilder(rows)
+    hh20 = max(r["h"] for r in rows[-20:]) if len(rows) >= 20 else None
+    hi20p = max(r["h"] for r in rows[-21:-1]) if len(rows) >= 21 else None
+    lo20p = min(r["l"] for r in rows[-21:-1]) if len(rows) >= 21 else None
+    ph = pivot_idx([r["h"] for r in rows], PIVOT_K, True)
+    pl = pivot_idx([r["l"] for r in rows], PIVOT_K, False)
     return {"label": label, "date": last["d"], "close": last["c"],
             "open": last["o"], "high": last["h"], "low": last["l"], "prev_close": prev["c"],
             "chg": last["c"] - prev["c"], "chg_pct": (last["c"] / prev["c"] - 1) * 100,
@@ -240,6 +296,15 @@ def analyze(rows, label):
             "r1": ret(cl, 1), "r5": ret(cl, 5), "r20": ret(cl, 20), "r60": ret(cl, 60),
             "r120": ret(cl, 120), "r240": ret(cl, 240),
             "ytd": (cl[-1] / py[-1]["c"] - 1) * 100 if py else None,
+            "vwap20": vwap_n(rows, 20), "vwap60": vwap_n(rows, 60),
+            "atr14": atr,
+            "chand": (hh20 - 3 * atr) if (hh20 is not None and atr is not None) else None,
+            "hi20p": hi20p, "lo20p": lo20p,
+            "break_up": hi20p is not None and last["c"] > hi20p,
+            "break_dn": lo20p is not None and last["c"] < lo20p,
+            "swing_hi": ({"p": rows[ph[-1]]["h"], "d": rows[ph[-1]]["d"]} if ph else None),
+            "swing_lo": ({"p": rows[pl[-1]]["l"], "d": rows[pl[-1]]["d"]} if pl else None),
+            "gaps": gap_scan(rows),
             "dma": dma_block(cl),
             "macd_div": macd_div(rows, osc),
             "spark": [{"d": r["d"], "c": r["c"]} for r in rows[-20:]], "n": len(rows)}

@@ -75,12 +75,14 @@ def norm_wg(r):
     if not px:
         return None
     vol, t = _f(r.get("volume")), r.get("time")
+    amt = _f(r.get("millionAmount"))                # 當日累計成交金額（百萬元）
     return {"regularMarketPrice": px,
             "previousClose": _f(r.get("previousClose")) or _f(r.get("flat")),
             "regularMarketDayHigh": _f(r.get("high")),
             "regularMarketDayLow": _f(r.get("low")),
             "regularMarketVolume": vol * 1000 if vol is not None else None,
             "regularMarketTime": int(t / 1000) if t else None,
+            "_amt": amt * 1e6 if amt else None,     # → 元；供當日 VWAP＝金額÷股數
             "_src": "玩股網"}
 
 
@@ -236,6 +238,9 @@ for c in C.CODES:
     lo = num(m, "regularMarketDayLow")
     vol = num(m, "regularMarketVolume")
     lots = vol / 1000 if vol is not None else None
+    # 當日 VWAP＝累計成交金額 ÷ 累計成交股數（僅玩股網來源有金額欄；備援來源顯示查無）
+    amt = num(m, "_amt")
+    vw = amt / vol if (amt and vol) else None
     chg = px - pc if (px is not None and pc is not None) else None
     chgp = chg / pc * 100 if (chg is not None and pc) else None
     # 量能：即時張數 ÷ 基準日的 20 日均量
@@ -322,7 +327,7 @@ for c in C.CODES:
         ALERTS.append((c, "時", C.TIME_PRESSURE[c].split("、")[0]))
 
     ROWS.append(dict(c=c, name=C.NAME[c], px=px, chg=chg, chgp=chgp, hi=hi, lo=lo,
-                     lots=lots, vr=vr, up_ma=up_ma, tot=TOT[c], band=band_of(TOT[c]),
+                     lots=lots, vr=vr, vw=vw, up_ma=up_ma, tot=TOT[c], band=band_of(TOT[c]),
                      e_ico=e_ico, e_lab=e_lab, h_ico=h_ico, h_lab=h_lab,
                      e_cls=e_cls, e_act=e_act, e_why=e_why,
                      h_cls=h_cls, h_act=h_act, h_why=h_why,
@@ -535,13 +540,19 @@ for r in ROWS:
     w('<div class="cd">')
     w('<div class="cnm"><b>%s</b><span class="cd-c">%s</span>'
       '<span class="sc">日報 %d 分・%s</span></div>' % (r["name"], r["c"], r["tot"], r["band"]))
+    # 當日均價（VWAP）：盤中的多空防守線——現價在其上＝買方撐盤、跌破＝盤中轉弱；
+    # 對日報判「減碼／出場」者，反彈到均價線附近通常是盤中較好的執行位。只顯示、不改動作。
+    vw_txt = ""
+    if r["vw"] is not None:
+        vw_txt = ("　當日均價(VWAP) %s（現價在其%s）"
+                  % (fmt(r["vw"]), "上" if r["px"] >= r["vw"] else "<b>下</b>"))
     w('<div class="pxr"><span class="p %s">%s</span>'
       '<span class="d %s">%s（%s%%）</span>'
-      '<span class="x">高 %s／低 %s　量 %s 張（約當 20 日均量 %s）　站上 %d/6 條均線</span></div>'
+      '<span class="x">高 %s／低 %s%s　量 %s 張（約當 20 日均量 %s）　站上 %d/6 條均線</span></div>'
       % (k, fmt(r["px"]), k,
          ("%+.2f" % r["chg"]) if r["chg"] is not None else "查無",
          ("%+.2f" % r["chgp"]) if r["chgp"] is not None else "查無",
-         fmt(r["hi"]), fmt(r["lo"]), fmt(r["lots"], 0),
+         fmt(r["hi"]), fmt(r["lo"]), vw_txt, fmt(r["lots"], 0),
          ("%.0f%%" % (r["vr"] * 100)) if r["vr"] is not None else "查無", r["up_ma"]))
     w('<div class="act"><span class="k ke">空手</span>'
       '<span class="pv">日報建議：%s %s</span>'
@@ -571,7 +582,11 @@ w('<div class="foot"><h3>這頁在做什麼</h3>'
   '均線、布林通道、20 日均量等技術位一律沿用日報基準日的收盤計算值，<b>不用盤中未完成的 K 棒重算</b>；'
   '頁面上只有價格、漲跌、成交量是即時的。判斷邏輯固定：'
   '價格落在買進區間內＝可分批買、高於區間＝等回檔、跌破區間下緣＝支撐失守先別接；'
-  '持有則依序檢查是否進入停利／減碼／出場區間、是否跌破月線、是否跌破 5 日線。</p>'
+  '持有則依序檢查是否進入停利／減碼／出場區間、是否跌破月線、是否跌破 5 日線。'
+  '<b>當日均價（VWAP）</b>＝當日累計成交金額 ÷ 累計成交股數（僅主要來源提供金額欄，'
+  '備援來源時不顯示）：現價在其上＝盤中買方撐盤、跌破＝盤中轉弱；'
+  '對日報判「減碼／出場」者，反彈到均價線附近通常是盤中較好的執行位。'
+  'VWAP 僅供執行時參考，不改變上方依日報區間判定的動作。</p>'
   '<h3>成本模擬怎麼算</h3>'
   '<p>各卡片的「成本模擬」只在你的瀏覽器內計算（輸入值存在本機瀏覽器，頁面重新產生後仍保留，不會上傳）。'
   '報酬率＝現價÷成本−1；每張帳面損益＝（現價−成本）×1,000，未含費用；'

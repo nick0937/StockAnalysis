@@ -76,6 +76,55 @@ def div_cell(a):
         return "無<br><small>近 60 根內未出現</small>"
     return "<br>".join(out)
 
+
+# ── VWAP／20日區間／缺口／轉折／移動停利的呈現（2026-09-15 新增）────
+# 同樣只排版 calc_indicators.py 的客觀事實；事件計分在 lib.tech_adj。
+def vwap_cell(a):
+    v20 = a.get("vwap20")
+    if v20 is None:
+        return "查無"
+    d = (a["close"] / v20 - 1) * 100
+    return ("20日 %s<br>60日 %s<br><small>現價在 20 日線%s（%s）</small>"
+            % (n(v20), n(a.get("vwap60")), "上" if d >= 0 else "<b>下</b>", sgn(d, 2, True)))
+
+
+def range_cell(a):
+    hi, lo = a.get("hi20p"), a.get("lo20p")
+    if hi is None:
+        return "查無"
+    if a.get("break_up"):
+        st = "<b>收盤突破 20 日高</b>"
+    elif a.get("break_dn"):
+        st = "<b>收盤跌破 20 日低</b>"
+    else:
+        st = "區間內・距高 %s" % sgn((a["close"] / hi - 1) * 100, 1, True)
+    return "高 %s／低 %s<br><small>不含當日・%s</small>" % (n(hi), n(lo), st)
+
+
+def gap_cell(a):
+    g = a.get("gaps") or {}
+    fmt_g = lambda x, lab: ("%s %s~%s<small>（%s）</small>"
+                            % (lab, n(x["lo"]), n(x["hi"]), x["d"][5:])) if x else None
+    parts = [p for p in (fmt_g(g.get("above"), "上方"), fmt_g(g.get("below"), "下方")) if p]
+    body = "<br>".join(parts) if parts else "無<br><small>近 60 根內無未回補缺口</small>"
+    today = {"up": "<br><small><b>當日向上跳空</b></small>",
+             "down": "<br><small><b>當日向下跳空</b></small>"}.get(g.get("today"), "")
+    return body + today
+
+
+def swing_cell(a):
+    fmt_s = lambda s: "%s<small>（%s）</small>" % (n(s["p"]), s["d"][5:]) if s else "查無"
+    return ("壓 %s<br>撐 %s<br><small>分形確認的最近轉折</small>"
+            % (fmt_s(a.get("swing_hi")), fmt_s(a.get("swing_lo"))))
+
+
+def trail_cell(a):
+    ch = a.get("chand")
+    if ch is None:
+        return "查無"
+    return ("%s<br><small>20日高 − 3×ATR14（%s）・收盤在其%s</small>"
+            % (n(ch), n(a.get("atr14")), "上" if a["close"] >= ch else "<b>下</b>"))
+
 # ── 大盤面分一律由公式計算，覆寫 inputs 中的值（避免主觀給分）──
 # ── 技術面分 = inputs 判讀分 + DMA／MACD 背離的客觀加減分（lib.tech_adj，±10 封頂）──
 # ── 另檢查判讀分是否落在錨定區間 ±TECH_ANCHOR_TOL 內（lib.tech_anchor，守則 §9.0）：
@@ -171,6 +220,8 @@ A(mc("MACD", "DIF %s<br>DEA %s<br>柱 %s<small>（前日 %s／前二日 %s）</s
         n(idx["osc_prev"], 1), n(idx["osc_prev2"], 1))))
 A(mc("MACD 背離", div_cell(idx)))
 A(mc("DMA", dma_cell(idx)))
+A(mc("VWAP 均價線", vwap_cell(idx)))
+A(mc("20日高低區間", range_cell(idx)))
 A(mc("乖離率", "20日 %s<br>60日 %s"
      % (sgn(idx["bias20"], 2, True), sgn(idx["bias60"], 2, True))))
 A(mc("52週高／低", "%s / %s<br><small>距高點 %s</small>"
@@ -267,6 +318,11 @@ for c in RANK:
          % (n(a["dif"], 2), n(a["dea"], 2), n(a["osc"], 3), n(a["osc_prev"], 3))))
     A(mc("MACD 背離", div_cell(a)))
     A(mc("DMA", dma_cell(a)))
+    A(mc("VWAP 均價線", vwap_cell(a)))
+    A(mc("20日高低區間", range_cell(a)))
+    A(mc("跳空缺口（未回補）", gap_cell(a)))
+    A(mc("前波轉折壓／撐", swing_cell(a)))
+    A(mc("移動停利參考", trail_cell(a)))
     A(mc("布林(20,2)", "上 %s<br>中 %s<br>下 %s<br><small>%%B %s</small>"
          % (n(a["bb_up"]), n(a["bb_mid"]), n(a["bb_dn"]), n(a["pb"]))))
     A(mc("乖離率", "20日 %s<br>60日 %s" % (sgn(a["bias20"], 2, True), sgn(a["bias60"], 2, True))))
