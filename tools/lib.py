@@ -66,8 +66,13 @@ def total_score(five):
 
 
 def market_score(env_score, rs):
-    """大盤面分 = 大盤環境分 × 50% + RS 分 × 50%（不主觀給分）"""
-    return half_up(env_score * .5 + rs * .5)
+    """大盤面分 = 大盤環境分（不主觀給分）。
+
+    2026-10-06 起 RS 不計分、只顯示（守則 §5、§9）：一年回測 RS 對後續超額報酬的
+    IC ≈ −0.03（無預測力），且 RS（5／20／60 日超額報酬）與技術面的均線排列是同一件事，
+    計了就是把趨勢算兩次。保留 rs 參數只為呼叫端相容。
+    """
+    return half_up(env_score)
 
 
 # ── 技術面客觀加減分（2026-08-19 新增）────────────────────────────
@@ -80,12 +85,19 @@ def market_score(env_score, rs):
 #   - 區間突破與跳空缺口（2026-09-15 新增）比照 DMA：只計「當日事件」，
 #     不計 VWAP 線／吊燈線／缺口價位／前波轉折這些「位置」——位置供判讀分與
 #     zones 錨定引用，機械分再計就是重複計分。
-DIV_ADJ = {"頂背離": -6.0, "底背離": 6.0, "隱性頂背離": -3.0, "隱性底背離": 3.0}
+#   - 2026-10-06 依一年回測精簡（2025-09~2026-10，9 檔 2,097 筆，事件後 5 日相對同組超額報酬）：
+#     頂背離 −1.25%、突破前 20 日高 +1.98%（隔日 +1.09%，t 2.6）、向上跳空 +1.57% → 保留（突破 +2→+3）；
+#     底背離 −0.51%（方向錯）、跌破前 20 日低 +0.71%（反彈）、向下跳空 0.00% → 歸零；
+#     DMA 三組交叉與隱性背離全在 ±1% 內、t<1.1 → 歸零（DMA 在 46% 的交易日都有交叉，是加減分的主要雜訊）。
+#     權重為 0 的項目不計分、也不列入明細；指標格照常顯示 DMA 與背離。
+DIV_ADJ = {"頂背離": -6.0, "底背離": 0.0, "隱性頂背離": 0.0, "隱性底背離": 0.0}
 DIV_FULL_BARS = 10     # <= 此根數：全權
 DIV_HALF_BARS = 20     # <= 此根數：半權；超過則不計分
-DMA_CROSS_ADJ = 2.0    # 單組 DMA 當日交叉的加減分
-BRK_ADJ = 2.0          # 收盤突破／跌破前 20 日高低（不含當日）的當日事件
-GAP_ADJ = 2.0          # 當日向上／向下跳空缺口（收盤仍未回補）的當日事件
+DMA_CROSS_ADJ = 0.0    # 單組 DMA 當日交叉的加減分（2026-10-06 起 0）
+BRK_UP_ADJ = 3.0       # 收盤突破前 20 日高（不含當日）的當日事件
+BRK_DN_ADJ = 0.0       # 收盤跌破前 20 日低（2026-10-06 起 0）
+GAP_UP_ADJ = 2.0       # 當日向上跳空缺口（收盤仍未回補）的當日事件
+GAP_DN_ADJ = 0.0       # 當日向下跳空缺口（2026-10-06 起 0）
 TECH_ADJ_CAP = 10      # 合計封頂，避免單一機械訊號蓋過整體判讀
 
 
@@ -94,6 +106,7 @@ def tech_adj(a):
 
     MACD 背離：頂／底同時出現時自然相加抵銷（訊號互相衝突＝不給方向）。
     DMA 三組：只看當日是否交叉，每組 ±DMA_CROSS_ADJ。
+    權重為 0 的項目直接略過，不列入明細。
     """
     items, total = [], 0.0
     for side in ("top", "bottom"):
@@ -101,6 +114,8 @@ def tech_adj(a):
         if not h:
             continue
         base = DIV_ADJ.get(h["kind"], 0.0)
+        if not base:
+            continue
         b = h["bars_since"]
         if b <= DIV_FULL_BARS:
             v, tag = base, ""
@@ -112,7 +127,7 @@ def tech_adj(a):
         total += v
         items.append("%s %s%.1f%s" % (h["kind"], "＋" if v >= 0 else "−", abs(v),
                                       ("・" + tag) if tag else ""))
-    for key in ("3-6", "6-12", "5-20"):
+    for key in ("3-6", "6-12", "5-20") if DMA_CROSS_ADJ else ():
         d = (a.get("dma") or {}).get(key)
         if not d or d["cross"] == "無":
             continue
@@ -121,19 +136,19 @@ def tech_adj(a):
         items.append("DMA %s %s %s%.0f" % (key, d["cross"],
                                            "＋" if v >= 0 else "−", abs(v)))
     # 區間突破／跳空缺口：只計當日離散事件（2026-09-15 新增，守則 §9.1）
-    if a.get("break_up"):
-        total += BRK_ADJ
-        items.append("收盤突破前20日高 ＋%.0f" % BRK_ADJ)
-    elif a.get("break_dn"):
-        total -= BRK_ADJ
-        items.append("收盤跌破前20日低 −%.0f" % BRK_ADJ)
+    if a.get("break_up") and BRK_UP_ADJ:
+        total += BRK_UP_ADJ
+        items.append("收盤突破前20日高 ＋%.0f" % BRK_UP_ADJ)
+    elif a.get("break_dn") and BRK_DN_ADJ:
+        total -= BRK_DN_ADJ
+        items.append("收盤跌破前20日低 −%.0f" % BRK_DN_ADJ)
     g = (a.get("gaps") or {}).get("today")
-    if g == "up":
-        total += GAP_ADJ
-        items.append("當日向上跳空缺口 ＋%.0f" % GAP_ADJ)
-    elif g == "down":
-        total -= GAP_ADJ
-        items.append("當日向下跳空缺口 −%.0f" % GAP_ADJ)
+    if g == "up" and GAP_UP_ADJ:
+        total += GAP_UP_ADJ
+        items.append("當日向上跳空缺口 ＋%.0f" % GAP_UP_ADJ)
+    elif g == "down" and GAP_DN_ADJ:
+        total -= GAP_DN_ADJ
+        items.append("當日向下跳空缺口 −%.0f" % GAP_DN_ADJ)
     adj = half_up(max(-TECH_ADJ_CAP, min(TECH_ADJ_CAP, total)))
     if abs(total) > TECH_ADJ_CAP:
         items.append("合計 %s%.1f，封頂至 %s%d"

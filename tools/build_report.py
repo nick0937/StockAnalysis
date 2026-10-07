@@ -125,8 +125,8 @@ def trail_cell(a):
     return ("%s<br><small>20日高 − 3×ATR14（%s）・收盤在其%s</small>"
             % (n(ch), n(a.get("atr14")), "上" if a["close"] >= ch else "<b>下</b>"))
 
-# ── 大盤面分一律由公式計算，覆寫 inputs 中的值（避免主觀給分）──
-# ── 技術面分 = inputs 判讀分 + DMA／MACD 背離的客觀加減分（lib.tech_adj，±10 封頂）──
+# ── 大盤面分一律由公式計算（＝大盤環境分；RS 只顯示不計分），覆寫 inputs 中的值（避免主觀給分）──
+# ── 技術面分 = inputs 判讀分 + 頂背離／突破／跳空的客觀加減分（lib.tech_adj，±10 封頂）──
 # ── 另檢查判讀分是否落在錨定區間 ±TECH_ANCHOR_TOL 內（lib.tech_anchor，守則 §9.0）：
 #    超出印警告提醒複查（超出區間 ±5 依守則須在 scores.py 寫明理由），
 #    只提醒、不覆寫判讀分、不進報告 ──
@@ -468,7 +468,7 @@ for c in RANK:
                             for p, v in zip(C.FUND_PARTS, FUND[c]))))
     _tb, _ta, _tw = TADJ[c]
     A('<p class="tnote fdet">技術面 %d 分 ＝ 判讀分 %d %s %d'
-      '（DMA 與 MACD 背離的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）'
+      '（頂背離、突破前 20 日高、向上跳空的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）'
       '%s</p>'
       % (S[c][1], _tb, "＋" if _ta >= 0 else "−", abs(_ta),
          ("：" + "、".join(_tw)) if _tw else "：本期無觸發項目"))

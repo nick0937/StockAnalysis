@@ -27,6 +27,8 @@
 | `finalize.py` | ✗ | 交付前檢查 → 重建首頁 → 寫 `COMMIT_MSG.txt` |
 | `cleanup_reports.py` | ✗ | ★ 每日流程第 0.5 步：只保留最新 10 個開盤日的報告資料夾，超過先刪再跑報告（守則第 12 節） |
 | `verify_rwd.py` | ✗ | Playwright 四寬度 RWD 驗證（可加 `live`／`home` 指定目標） |
+| `backtest_scores.py` | ✗ | 分數權重回測（不在每日流程內，見下方「定期：分數權重回測」） |
+| `data/inst_history.json` | ✗（`backtest_scores.py fetch` 增量更新） | 一年三大法人日資料，供回測用 |
 | **`inputs/*.py`** | **★ 每次跑都要更新** | 每日蒐集的資料與判斷（見下） |
 
 `inputs/` 內附的是 **2026-08-11 的完整實際資料**，可直接當範例與格式範本。
@@ -86,6 +88,21 @@ python build_live.py         # 盤中想看就跑，每次整份覆蓋 REPO/live
 ```bash
 python verify_rwd.py live
 ```
+
+---
+
+## 定期：分數權重回測（約每 1～2 個月，下次 2026-11 初）
+
+```bash
+cd tools
+python fetch_quotes.py           # data/raw/ 要是最新的近兩年行情
+python backtest_scores.py fetch  # 增量補抓三大法人到 data/inst_history.json（證交所限流，每天約 5 秒）
+python backtest_scores.py        # 印出 A 報告期／B 一年技術面／C 一年三大法人三段結果
+```
+
+- 只讀報告與 `inputs/`，不會改分數；要調權重或 tech_adj，改 `config.WEIGHTS`／`lib.py` 並同步守則 §9、§9.1、§18。
+- 判讀前先看 C2 分期表：**分期方向一致才算穩定**。2026-08／09 是反常盤勢，所有價格與法人因子一起轉負；只看一段期間就改規則，盤勢一回到常態就會反過來吃虧。
+- 2026-10-06 第一次回測的結論與改制見守則 §18。
 
 ---
 
