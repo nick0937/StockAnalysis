@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="description" content="台股每日個股觀察報告 — 2026-10-16 收盤，8 檔追蹤標的五面向評分">
+<title>台股每日個股觀察報告 2026-10-16</title>
+<style>/* ============================================================================
+   台股每日個股觀察報告 — 完整樣式表（單一自足報告用）
+   ----------------------------------------------------------------------------
+   用途：產生報告時把本檔內容整段內嵌到 style 元素，不要用 link 外連
+         （報告規格要求單一自足 HTML、不引用任何外部資源）。
+   來源：由 20260811/index.html 的 style 元素 區塊原樣匯出，已包含三層：
+         (1) 基礎版型（mobile-first、卡片、表格、指標格、標籤配色）
+         (2) 2026-08-12 一次改版（操作條件盒 .aop/.opbox）
+         (3) 2026-08-12 二次改版（開頭精簡、大盤不顯示線圖、總覽 .o-ev/.o-hv、
+             表頭固定欄寬、窄表格 .tnarrow）
+   注意：第 (2) 層的 .aop/.o-vd 已被第 (3) 層以 display:none 停用，保留是為了
+         讓舊版報告仍能正確顯示；新報告請只使用 .o-ev / .o-hv / .opbox。
+   斷點：基準為手機，往上用 @media(min-width:640px) 與 @media(min-width:1000px)
+   ============================================================================ */
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+:root{
+ --bg:#f4f6f9;--card:#fff;--ink:#1a2230;--ink2:#4a5768;--ink3:#7a8798;
+ --line:#dde3ea;--line2:#eef2f6;
+ --up:#c62828;--dn:#1b7a3d;--flat:#7a8798;
+ --s70:#1f5fa9;--s55:#5b8fc9;--s45:#9aa8bb;--s00:#c3cad4;
+ --nav:#1b2534;--acc:#1f5fa9;--warn:#8a5a00;--warnbg:#fff8e6;
+ --pad:12px;--r:10px;
+}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);overflow-wrap:break-word;word-break:break-word;
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--acc);text-decoration:none}
+img,svg,table{max-width:100%}
+small{font-size:.82em;color:var(--ink3)}
+
+/* ---- 置頂導覽 ---- */
+.nav{position:sticky;top:0;z-index:50;background:var(--nav);
+ padding:0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
+ box-shadow:0 1px 6px rgba(0,0,0,.18)}
+.nav ul{display:flex;gap:0;margin:0;padding:0;list-style:none;overflow-x:auto;
+ -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none}
+.nav ul::-webkit-scrollbar{display:none}
+.nav li{flex:1 0 auto}
+.nav a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;
+ color:#e6ecf4;font-size:14px;font-weight:600;white-space:nowrap}
+
+/* ---- 標題 ---- */
+.hero{padding:var(--pad);padding-top:16px}
+.hero h1{margin:0 0 6px;font-size:clamp(19px,5.2vw,30px);line-height:1.28;letter-spacing:-.01em}
+.hero .sub{margin:0 0 10px;color:var(--ink2);font-size:clamp(12.5px,3.4vw,14.5px)}
+.meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0 0}
+.meta div{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;min-width:0}
+.meta span{display:block;font-size:11.5px;color:var(--ink3);letter-spacing:.02em}
+.meta b{display:block;font-size:13.5px;font-weight:700;margin-top:1px}
+
+/* ---- 卡片 ---- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+ margin:var(--pad);padding:var(--pad);scroll-margin-top:56px;min-width:0}
+.sect{margin:0 0 8px;font-size:clamp(17px,4.6vw,23px);line-height:1.3}
+.sh{margin:18px 0 8px;font-size:clamp(13.5px,3.7vw,16px);color:var(--ink);
+ padding-left:9px;border-left:3px solid var(--acc);line-height:1.4}
+
+/* ---- 卡片標頭（grid-template-areas 重排） ---- */
+.chd{display:grid;gap:6px 10px;align-items:center;
+ grid-template-columns:minmax(0,1fr);
+ grid-template-areas:"nm" "px" "spk" "tag";
+ padding-bottom:10px;border-bottom:1px solid var(--line2)}
+.cnm{grid-area:nm;margin:0;font-size:clamp(17px,4.8vw,22px);line-height:1.25}
+.cnm a{color:var(--ink)}
+.cnm em{display:inline-block;margin-left:7px;font-style:normal;font-size:.66em;color:var(--ink3);font-weight:600}
+.cpx{grid-area:px;display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.px{font-size:clamp(23px,7vw,32px);font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.pchg{font-size:clamp(13px,3.7vw,15.5px);font-weight:700;font-variant-numeric:tabular-nums}
+.cspk{grid-area:spk;min-width:0}
+.spk{display:block;width:100%;height:44px}
+.ctag{grid-area:tag;display:flex;flex-wrap:wrap;gap:5px}
+.tg{background:var(--line2);color:var(--ink2);border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:600}
+.mkthd{grid-template-areas:"nm" "px" "spk" "tag"}
+
+.up{color:var(--up)}.dn{color:var(--dn)}.flat{color:var(--flat)}
+.ok{color:var(--dn)}
+
+/* ---- 指標格：手機2欄 ---- */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.mc{background:#fafbfd;border:1px solid var(--line2);border-radius:8px;padding:7px 9px;min-width:0}
+.mcl{display:block;font-size:11.5px;color:var(--ink3);letter-spacing:.02em;line-height:1.4}
+.mcv{display:block;font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.45;margin-top:1px}
+.mc.up .mcv{color:var(--up)}.mc.dn .mcv{color:var(--dn)}
+
+/* ---- 均線位置條 ---- */
+.mabh{font-size:13px;color:var(--ink2);margin-bottom:6px}
+.mabs{display:flex;flex-wrap:wrap;gap:5px}
+.mab{font-size:11.5px;font-weight:600;border-radius:6px;padding:3px 8px;
+ font-variant-numeric:tabular-nums;border:1px solid transparent;white-space:nowrap}
+.mab.ok{background:#fdecec;color:var(--up);border-color:#f6d3d3}
+.mab.no{background:#e8f4ec;color:var(--dn);border-color:#cfe6d8}
+.mab.na{background:var(--line2);color:var(--ink3)}
+
+/* ---- 大盤環境分 ---- */
+.envwrap{margin-top:12px}
+.env{display:grid;gap:4px 10px;grid-template-columns:auto auto;grid-template-areas:"l n" "t t" "d d";
+ align-items:center;background:#f7f9fc;border:1px solid var(--line);border-radius:8px;padding:10px 11px}
+.envl{grid-area:l;font-size:12.5px;color:var(--ink3);font-weight:600}
+.envn{grid-area:n;justify-self:end;font-size:clamp(24px,7vw,32px);font-weight:800;line-height:1;
+ font-variant-numeric:tabular-nums}
+.envt{grid-area:t;display:block;height:8px;background:var(--line2);border-radius:99px;overflow:hidden}
+.envt i{display:block;height:100%;border-radius:99px}
+.envd{grid-area:d;font-size:12px;color:var(--ink2)}
+.s70b{color:var(--s70)}.s55b{color:var(--s55)}.s45b{color:var(--s45)}.s00b{color:var(--s00)}
+.s70{background:var(--s70)}.s55{background:var(--s55)}.s45{background:var(--s45)}.s00{background:var(--s00)}
+.pm{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:5px;
+ font-weight:800;font-size:13px}
+.pm.p{background:#fdecec;color:var(--up)}
+.pm.m{background:#e8f4ec;color:var(--dn)}
+
+/* ---- 表格 ---- */
+.thint{font-size:11px;color:var(--ink3);text-align:right;margin:0 0 3px}
+.twrap{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+ border:1px solid var(--line);border-radius:8px;max-width:100%}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;background:var(--card)}
+th,td{padding:6px 9px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--line2)}
+thead th{background:#f2f5f9;font-size:11.5px;color:var(--ink2);font-weight:700;position:sticky;top:0;z-index:2}
+tbody tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{position:sticky;left:0;background:var(--card);z-index:3;
+ box-shadow:1px 0 0 var(--line2);font-weight:700}
+thead th:first-child{background:#f2f5f9;z-index:4}
+td.desc{white-space:normal;min-width:230px;font-size:12px;color:var(--ink2);line-height:1.55}
+.envtb td:first-child{min-width:96px}
+.tnote{font-size:11.5px;color:var(--ink3);margin:5px 0 0;line-height:1.55}
+
+/* ---- 總覽排名（CSS Grid，非 table） ---- */
+.ovt{display:grid;gap:8px}
+.ovh{display:none}
+.ovr{display:grid;gap:4px 10px;min-width:0;
+ grid-template-columns:auto minmax(0,1fr) auto;
+ grid-template-areas:"rk nm px" "rk vd cg" "sub sub sub";
+ background:#fafbfd;border:1px solid var(--line2);border-radius:8px;padding:9px 10px}
+.o-rk{grid-area:rk;align-self:center;font-size:13px;font-weight:800;color:var(--ink3);
+ min-width:30px;font-variant-numeric:tabular-nums}
+.o-nm{grid-area:nm;min-width:0;font-size:15px;font-weight:700}
+.o-nm a{color:var(--ink);display:inline-flex;align-items:center;min-height:26px}
+.o-nm em{font-style:normal;font-size:11.5px;color:var(--ink3);margin-left:6px;font-weight:600}
+.o-px{grid-area:px;justify-self:end;font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+.o-cg{grid-area:cg;justify-self:end;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.o-sc{grid-area:sc;display:none}
+.o-vd{grid-area:vd}
+.o-sub{grid-area:sub;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;
+ border-top:1px dashed var(--line);padding-top:6px;margin-top:2px}
+.o-sub i{display:flex;flex-direction:column;align-items:center;font-style:normal;gap:1px}
+.o-sub u{text-decoration:none;font-size:10.5px;color:var(--ink3)}
+.o-sub b{font-size:13.5px;font-variant-numeric:tabular-nums}
+.vd{display:inline-block;border-radius:6px;padding:2px 9px;font-size:12px;font-weight:700;color:#fff;
+ white-space:nowrap}
+.s70v{background:var(--s70)}.s55v{background:var(--s55)}.s45v{background:var(--s45)}.s00v{background:var(--s00)}
+
+/* ---- 五面向評分條 ---- */
+.sbs{display:grid;gap:6px}
+.sbr{display:grid;grid-template-columns:98px minmax(0,1fr) 34px;gap:8px;align-items:center}
+.sbl{font-size:12px;color:var(--ink2);font-weight:600}
+.sbl em{font-style:normal;color:var(--ink3);font-size:10.5px;margin-left:4px}
+.sbt{display:block;height:9px;background:var(--line2);border-radius:99px;overflow:hidden}
+.sbt i{display:block;height:100%;border-radius:99px}
+.sbv{font-size:13px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+.sbr.tot .sbl{color:var(--ink);font-weight:800}
+.sbr.tot .sbt{height:12px}
+.sbr.tot .sbv{font-size:15px}
+
+/* ---- 文字區塊 ---- */
+.para{margin:0 0 8px;font-size:13.5px;line-height:1.8;color:var(--ink2)}
+.para.small{font-size:12.5px}
+.para.lead{font-size:14.5px;color:var(--ink);font-weight:500}
+.para.warn{background:var(--warnbg);border:1px solid #f0dfb0;border-left:3px solid #d8a72a;
+ border-radius:8px;padding:9px 11px;color:#6b4c00}
+.para.conflict{background:#fdecec;border:1px solid #f3cfcf;border-left:3px solid var(--up);
+ border-radius:8px;padding:9px 11px;color:#7d1f1f;font-size:13px}
+.para.chipnote{background:#f4f8f4;border:1px solid #d6e6d6;border-left:3px solid var(--dn);
+ border-radius:8px;padding:9px 11px;color:#1f4a2e;font-size:12.5px;margin-top:8px}
+.para.chipnote b{color:#14361f}
+.para.ops{background:#f2f7fc;border:1px solid #d6e5f4;border-left:3px solid var(--acc);
+ border-radius:8px;padding:9px 11px;color:#17384f}
+.para.tgt{background:#fafbfd;border:1px solid var(--line2);border-radius:8px;padding:9px 11px;font-size:12.5px}
+.lst{margin:0;padding-left:20px}
+.lst li{font-size:13px;line-height:1.75;color:var(--ink2);margin-bottom:6px}
+.lst.small li{font-size:12.5px}
+.lst.rsk li::marker{color:var(--up)}
+.fbx{display:grid;gap:8px}
+.fb{background:#fafbfd;border:1px solid var(--line2);border-radius:8px;padding:9px 11px;min-width:0}
+.fb h4{margin:0 0 4px;font-size:12.5px;color:var(--acc);letter-spacing:.02em}
+.fb p{margin:0;font-size:12.5px;line-height:1.75;color:var(--ink2)}
+
+/* ---- 新聞 ---- */
+.nws{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.nws li{display:grid;gap:1px 8px;grid-template-columns:auto minmax(0,1fr);
+ grid-template-areas:"d t" "s s";background:#fafbfd;border:1px solid var(--line2);
+ border-radius:8px;padding:7px 10px;min-width:0}
+.nd{grid-area:d;font-size:11.5px;color:var(--ink3);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.nws a{grid-area:t;font-size:13px;font-weight:600;line-height:1.55;display:block;min-height:22px}
+.ns{grid-area:s;font-size:11px;color:var(--ink3)}
+
+/* ---- 建議分組 ---- */
+.grps{display:grid;gap:9px}
+.grp{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fafbfd;min-width:0}
+.grp h4{margin:0 0 6px;font-size:13.5px}
+.cnt{font-size:11.5px;color:var(--ink3);font-weight:600;margin-left:5px}
+.glist{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.glist li{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:26px}
+.glist a{font-size:13.5px;font-weight:700}
+.glist b{font-size:13.5px;font-variant-numeric:tabular-nums}
+.gd{font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}
+
+/* ---- 回頂端 / 頁尾 ---- */
+.top{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;
+ margin-top:14px;background:var(--line2);color:var(--ink2);border-radius:8px;font-size:13px;font-weight:700}
+.foot{margin:var(--pad);padding:var(--pad);background:#eef1f5;border:1px solid var(--line);
+ border-radius:var(--r);font-size:11.5px;color:var(--ink3);line-height:1.75}
+.foot h3{margin:0 0 5px;font-size:13px;color:var(--ink2)}
+
+/* ---- 平板 ---- */
+@media(min-width:640px){
+ :root{--pad:16px}
+ body{font-size:15.5px}
+ .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+ .meta{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .chd{grid-template-columns:minmax(0,1.1fr) auto;grid-template-areas:"nm px" "tag px" "spk spk"}
+ .mkthd{grid-template-columns:minmax(0,1.1fr) auto;grid-template-areas:"nm px" "tag px" "spk spk"}
+ .cpx{justify-self:end;align-items:baseline}
+ .spk{height:54px}
+ .ovr{grid-template-columns:auto minmax(0,1.4fr) auto auto auto;
+  grid-template-areas:"rk nm px cg sc" "sub sub sub sub vd"}
+ .o-sc{display:block;justify-self:end}
+ .o-sc b{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums}
+ .o-vd{justify-self:end;align-self:center}
+ .o-sub{border-top:none;padding-top:0;margin-top:4px;grid-template-columns:repeat(5,auto);
+  justify-content:start;gap:12px}
+ .env{grid-template-columns:auto auto minmax(0,1fr);grid-template-areas:"l n t" "d d d"}
+ .envt{margin-left:6px}
+ .fbx{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .grps{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .nws li{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"d t s"}
+ .ns{align-self:center;white-space:nowrap}
+ .sbr{grid-template-columns:120px minmax(0,1fr) 40px}
+ .thint{display:none}
+}
+
+/* ---- 桌機 ---- */
+@media(min-width:1000px){
+ body{font-size:16px}
+ .nav ul{max-width:1180px;margin:0 auto;justify-content:flex-start}
+ .nav li{flex:0 0 auto}
+ .wrap{max-width:1180px;margin:0 auto}
+ .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+ .ovh{display:grid;gap:10px;grid-template-columns:auto minmax(0,1.4fr) auto auto auto minmax(0,1.5fr) auto;
+  grid-template-areas:"rk nm px cg sc sub vd";padding:0 11px;
+  font-size:11.5px;color:var(--ink3);font-weight:700}
+ .ovh span{display:block}
+ .ovh .o-px,.ovh .o-cg,.ovh .o-sc,.ovh .o-vd{justify-self:end}
+ .ovr{grid-template-columns:auto minmax(0,1.4fr) auto auto auto minmax(0,1.5fr) auto;
+  grid-template-areas:"rk nm px cg sc sub vd";align-items:center}
+ .o-sub{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:0;justify-content:stretch}
+ .grps{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .spk{height:62px}
+ .card{padding:18px 20px}
+}
+
+/* ---- hover ---- */
+@media(hover:hover){
+ .nav a:hover{background:#2b3950;color:#fff}
+ .top:hover{background:#e2e8ef;color:var(--ink)}
+ .nws a:hover,.o-nm a:hover,.glist a:hover{text-decoration:underline}
+ .ovr:hover{border-color:#c3d2e2;background:#f5f8fc}
+}
+
+/* ---- 列印 ---- */
+@media print{
+ :root{--bg:#fff}
+ body{font-size:10.5pt;background:#fff}
+ .nav,.top,.thint{display:none!important}
+ .card{break-inside:avoid;page-break-inside:avoid;margin:0 0 8pt;border:1px solid #bbb;box-shadow:none}
+ .twrap{overflow:visible}
+ table{font-size:8.5pt}
+ th:first-child,td:first-child,thead th{position:static}
+ .nws a{text-decoration:none;color:#000}
+ .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ a[href^="http"]::after{content:"";}
+}
+
+/* ── 財報三表 ── */
+.sh4{margin:14px 0 6px;font-size:clamp(12.5px,3.4vw,14.5px);color:var(--ink2);font-weight:700}
+.sh4::before{content:"▍";color:var(--acc);margin-right:5px}
+.fqs{font-size:11.5px;color:var(--ink3);font-weight:500;display:block;margin-top:2px}
+@media(min-width:640px){.fqs{display:inline;margin-left:8px}}
+.supp{margin-top:10px;background:#fafbfd;border:1px solid var(--line2);border-radius:8px;padding:9px 10px;min-width:0}
+.supp>b{display:block;font-size:12.5px;color:var(--acc);margin-bottom:6px}
+.para.finwarn{background:#fdecec;border:1px solid #f3cfcf;border-left:3px solid var(--up);
+ border-radius:8px;padding:9px 11px;color:#7d1f1f;font-size:12.5px;margin-top:9px}
+.para.finread{background:#f7f9fc;border:1px solid var(--line);border-left:3px solid var(--acc);
+ border-radius:8px;padding:10px 12px;font-size:13px;margin-top:9px}
+.tnote.splitnote{background:#fff8e6;border:1px solid #f0dfb0;border-radius:6px;padding:7px 9px;color:#6b4c00;margin-top:6px}
+.tnote.fdet{background:#f4f8f4;border:1px solid #d6e6d6;border-radius:6px;padding:7px 9px;color:#1f4a2e;margin-top:7px;font-size:12px}
+
+/* ── 雙情境建議 ── */
+.acts{display:grid;gap:9px}
+.act{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fafbfd;min-width:0}
+.acth{display:grid;gap:3px 8px;grid-template-columns:auto minmax(0,1fr);
+ grid-template-areas:"w q" "v v";align-items:center;margin-bottom:6px}
+.actw{grid-area:w;background:var(--nav);color:#fff;border-radius:6px;padding:2px 9px;font-size:12px;font-weight:700;white-space:nowrap}
+.actq{grid-area:q;font-size:12.5px;color:var(--ink3)}
+.acth .vd{grid-area:v;justify-self:start;font-size:13px;padding:3px 12px}
+.actp{margin:0;font-size:13px;line-height:1.8;color:var(--ink2)}
+.vd2{display:inline-flex;align-items:center;gap:4px;margin-top:3px}
+.vd2 i{font-style:normal;font-size:10.5px;color:var(--ink3)}
+.vd2 b{border-radius:5px;padding:1px 7px;font-size:11px;font-weight:700;color:#fff;white-space:nowrap}
+.o-vd{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+@media(min-width:640px){
+ .acts{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .acth{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"w q v"}
+ .acth .vd{justify-self:end}
+ .o-vd{align-items:flex-end}
+}
+
+/* ══ 建議標籤系統：視覺重量 = 行動急迫性 ══ */
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:6px;padding:3px 9px;
+ font-size:11.5px;font-weight:700;white-space:nowrap;border:1.5px solid transparent;line-height:1.5}
+.chip i{font-style:normal;font-size:10px;line-height:1;opacity:.9}
+.chip.big{font-size:13.5px;padding:5px 13px;border-radius:7px}
+.chip.big i{font-size:12px}
+/* 買方向：藍，越可行動越深 */
+.e-go{background:#17497f;color:#fff;border-color:#17497f}
+.e-part{background:#3d7ab8;color:#fff;border-color:#3d7ab8}
+.e-wait{background:#fff;color:#1f5fa9;border-color:#9dbcdd}
+/* 不動作：灰，視覺重量最低 */
+.e-no{background:#eef1f5;color:#8b95a3;border-color:#e3e8ee}
+/* 持有：續抱＝低重量白底；賣方向＝琥珀→磚，越急越深 */
+.h-keep{background:#fff;color:#5a6675;border-color:#ccd4de}
+.h-tp{background:#fff8e6;color:#8a5a00;border-color:#e0c27f}
+.h-cut{background:#c07a12;color:#fff;border-color:#c07a12}
+.h-exit{background:#9e3414;color:#fff;border-color:#9e3414}
+/* 分數落點：降為中性外框，不與行動標籤搶視覺 */
+.band{display:inline-block;background:#f2f5f9;color:#5a6675;border:1px solid #dde3ea;
+ border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700;white-space:nowrap}
+/* 總覽建議欄：三層堆疊 */
+.o-vd{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.arow{display:inline-flex;align-items:center;gap:6px}
+.arow u{text-decoration:none;font-size:10.5px;color:var(--ink3);min-width:24px}
+/* 五面向小分：數字回歸中性，改用細條表達強弱 */
+.o-sub b{font-size:13.5px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.o-sub s{display:block;text-decoration:none;width:100%;height:3px;background:var(--line2);
+ border-radius:99px;overflow:hidden;margin-top:2px}
+.o-sub s em{display:block;height:100%;border-radius:99px;background:#9aa8bb}
+.o-sub s.hi em{background:#17497f}
+.o-sub s.lo em{background:#d9dee5}
+/* 圖例 */
+.legend{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fafbfd;
+ margin-bottom:10px;display:grid;gap:6px;min-width:0}
+.lgt{font-size:11.5px;color:var(--ink3)}
+.lgt b{color:var(--ink2)}
+.lgrow{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+.lgrow u{text-decoration:none;font-size:11px;color:var(--ink3);font-weight:700;min-width:26px}
+/* 卡片雙情境標頭沿用 chip */
+.acth .chip{grid-area:v;justify-self:start}
+@media(min-width:640px){
+ .o-vd{align-items:flex-end}
+ .acth .chip{justify-self:end}
+ .legend{grid-template-columns:1fr auto auto;align-items:center}
+}
+@media print{.chip{border:1px solid #999!important;background:#fff!important;color:#000!important}}
+
+
+/* ══ 總覽排名改版：拿掉五面向小分，建議欄升級為可操作條件 ══ */
+.o-sub{display:none!important}
+.ovr{grid-template-columns:auto minmax(0,1fr) auto;
+ grid-template-areas:"rk nm px" "rk sc cg" "vd vd vd";align-items:start}
+.o-sc{display:block!important;grid-area:sc;justify-self:start}
+.o-sc b{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
+.o-vd{grid-area:vd;display:grid;gap:6px;justify-self:stretch;align-items:stretch;
+ margin-top:7px;border-top:1px dashed var(--line);padding-top:8px}
+.o-vd .band{justify-self:start}
+.aop{display:grid;gap:3px 8px;grid-template-columns:auto minmax(0,1fr);
+ background:#fff;border:1px solid var(--line2);border-radius:7px;padding:8px 10px;min-width:0}
+.aop .arow{grid-column:1/-1;margin-bottom:2px}
+.aol{font-size:10.5px;color:var(--ink3);font-weight:700;white-space:nowrap;align-self:start;padding-top:2px}
+.aoz{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink);min-width:0}
+.aoz small{display:block;font-size:10.5px;font-weight:600;color:var(--ink3);
+ font-variant-numeric:normal;margin-top:1px}
+.aoc{font-size:11.5px;color:var(--ink2);line-height:1.65;min-width:0}
+.aop.nobuy .aoz{color:var(--ink3);font-size:13px}
+/* 卡片內的操作條件盒 */
+.opbox{display:grid;gap:3px 9px;grid-template-columns:auto minmax(0,1fr);
+ background:#fff;border:1px solid var(--line);border-radius:7px;padding:9px 11px;margin:0 0 9px}
+.opbox .aol{font-size:11px}
+.opbox .aoz{font-size:15px}
+.opbox .aoc{font-size:12.5px}
+@media(min-width:640px){
+ .ovh{grid-template-columns:auto minmax(96px,0.7fr) auto auto auto minmax(0,3.2fr);
+  grid-template-areas:"rk nm px cg sc vd";gap:10px}
+ .ovr{grid-template-columns:auto minmax(96px,0.7fr) auto auto auto minmax(0,3.2fr);
+  grid-template-areas:"rk nm px cg sc vd";align-items:center;gap:4px 10px}
+ .o-vd{margin-top:0;border-top:none;padding-top:0;
+  grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+ .o-vd .band{grid-column:1/-1;justify-self:start}
+ .o-sc{justify-self:end}
+}
+@media(min-width:1000px){
+ .ovh,.ovr{grid-template-columns:auto minmax(110px,0.6fr) auto auto auto minmax(0,3.8fr);
+  grid-template-areas:"rk nm px cg sc vd"}
+}
+@media print{.aop,.opbox{border:1px solid #999}}
+
+
+/* ══ 2026-08-12 二次改版：開頭與大盤精簡、總覽只留標籤＋區間、表頭對齊 ══ */
+.hero .sub{display:none}
+.hero .hint{margin:10px 0 0;color:var(--ink2);font-size:clamp(12px,3.2vw,13.5px);line-height:1.7}
+.hero .hint a{color:var(--acc);text-decoration:underline;font-weight:700}
+.mkt .cspk{display:none}                    /* 大盤不顯示線圖 */
+.o-vd,.aop{display:none!important}          /* 停用前一版的建議欄 */
+.ovt{gap:8px}
+.ovr{grid-template-columns:auto minmax(0,1fr) auto;
+ grid-template-areas:"rk nm px" "rk sc cg" "ev ev ev" "hv hv hv";
+ align-items:center;gap:6px 10px;padding:10px 11px}
+.o-rk{align-self:center}
+.o-sc{display:block!important;grid-area:sc;justify-self:start;text-align:left}
+.o-sc b{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums}
+.o-sc s{display:block;text-decoration:none;font-size:10px;font-weight:700;
+ color:var(--ink3);margin-top:-3px;letter-spacing:.02em}
+.o-ev{grid-area:ev}
+.o-hv{grid-area:hv}
+.o-ev,.o-hv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 8px;align-items:center;
+ background:#fff;border:1px solid var(--line2);border-radius:7px;padding:7px 10px;min-width:0}
+.o-ev .ol,.o-hv .ol{font-size:10.5px;color:var(--ink3);font-weight:700;white-space:nowrap}
+.o-ev .chip,.o-hv .chip{justify-self:start}
+.ozn{font-size:14.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink);
+ justify-self:start;min-width:0}
+.ovh .o-ev,.ovh .o-hv{background:none;border:none;padding:0;display:block}
+/* ★ 表頭與資料列是兩個獨立 grid 容器，auto 欄寬各算各的會對不齊 → 一律用固定寬度 */
+@media(min-width:640px){
+ .ovh{display:grid;gap:10px;padding:0 12px 2px;align-items:end;
+  grid-template-columns:34px minmax(84px,1fr) 66px 62px 52px minmax(0,1.5fr) minmax(0,1.5fr);
+  grid-template-areas:"rk nm px cg sc ev hv";border-bottom:1px solid var(--line);margin-bottom:2px}
+ .ovr{grid-template-columns:34px minmax(84px,1fr) 66px 62px 52px minmax(0,1.5fr) minmax(0,1.5fr);
+  grid-template-areas:"rk nm px cg sc ev hv";align-items:center;gap:10px;padding:10px 12px}
+ .ovh .o-px,.ovh .o-cg,.ovh .o-sc{justify-self:end}
+ .o-px,.o-cg{justify-self:end}
+ .o-sc{justify-self:end;text-align:right}
+}
+@media(min-width:1000px){
+ .ovh,.ovr{grid-template-columns:38px minmax(112px,1fr) 70px 66px 56px minmax(0,1.45fr) minmax(0,1.45fr)}
+}
+/* 大盤指標格：桌機四欄即可，不要太密 */
+.mkt .grid{gap:8px}
+/* 欄位少的表格（月營收、EPS）不要撐滿整個寬度，表頭與數字一起靠右 */
+.twrap.tnarrow table th:not(:first-child){text-align:right}
+@media(min-width:640px){
+ .twrap.tnarrow{max-width:600px}
+ .twrap.tnarrow.tn3{max-width:440px}
+}
+</style>
+</head><body>
+<nav class="nav"><ul><li><a href="#market">大盤</a></li><li><a href="#overview">總覽</a></li><li><a href="#stocks">各個股</a></li><li><a href="#advice">建議書</a></li></ul></nav>
+<header id="top" class="hero"><h1>台股每日個股觀察報告</h1>
+<div class="meta"><div><span>資料基準日</span><b>2026-10-16（週五收盤）</b></div><div><span>產出時間</span><b>2026-10-16 17:28（台北時間）</b></div><div><span>追蹤標的</span><b>8 檔</b></div><div><span>五面向權重</span><b>籌碼30／技術20／基本30／大盤10／消息10</b></div></div>
+<p class="hint">詳細內容（籌碼三表、月營收與 EPS、判斷理由、完整操作條件）請點<a href="#overview">總覽</a>中的個股名稱進入卡片；資料來源與完整性說明見<a href="#advice">文末建議書</a>。<br>⚠ <b>本報告產出時 2026-10-16 的融資融券尚未公布</b>（約當日 21:00 更新，最新可得為 10/15），依守則<b>本期略過「資券變化」區塊不顯示</b>，避免落後一日的資料被誤讀為當日數字；融資增減與券資比仍以最新可得值納入籌碼面判讀。隔日補跑即可完整呈現。<br>⚠ <b>★ 2026-10-06 起評分改制（守則 §9、§18）：權重 籌碼 30／技術 20／基本 30／大盤 10／消息 10，大盤面＝環境分（RS 不計分），技術面客觀加減分只留頂背離 −6、突破前 20 日高 +3、向上跳空 +2——本期為改制後第八期</b>。本篇為 10/16（五）當日盤後產出：資券最新為 10/15（10/16 資券約 21:00 公布）。<b>10/21（三）台指期 10 月結算；10/26（一）台股光復節補假休市</b>。依報告保留政策（守則第 12 節），僅保留最新 10 個開盤日的報告。</p></header>
+<section id="market" class="card mkt">
+<h2 class="cnm">大盤趨勢｜加權指數 <span class="px up">47,111.26</span> <span class="pchg up">+141.39（+0.30%）</span></h2>
+<h3 class="sh">大盤指標</h3><div class="grid">
+<div class="mc "><span class="mcl">大盤環境分</span><span class="mcv">46<br><small>六項中 2 正 4 負</small></span></div>
+<div class="mc up"><span class="mcl">收盤</span><span class="mcv">47,111.26</span></div>
+<div class="mc up"><span class="mcl">漲跌</span><span class="mcv">+141.39（+0.30%）</span></div>
+<div class="mc "><span class="mcl">成交金額（億元）</span><span class="mcv">9,864.30<br><small>前一日 14,357.55（-31.30%）</small></span></div>
+<div class="mc "><span class="mcl">KD(9,3,3)</span><span class="mcv">K 28.33 / D 48.62<br><small>前日 K 37.51 / D 58.76</small></span></div>
+<div class="mc "><span class="mcl">RSI(14)</span><span class="mcv">45.10<br><small>前日 43.92</small></span></div>
+<div class="mc "><span class="mcl">MACD</span><span class="mcv">DIF 438.6<br>DEA 701.8<br>柱 -263.2<small>（前日 -183.5／前二日 -37.6）</small></span></div>
+<div class="mc "><span class="mcl">MACD 背離</span><span class="mcv">隱性底背離<br><small>08-25→09-14・21 根前確認・<b>已非近期訊號</b></small></span></div>
+<div class="mc "><span class="mcl">DMA</span><span class="mcv">3-6 -708.29 <small>零下・AMA下</small><br>6-12 -370.55 <small>零下・AMA下</small><br>5-20 -51.18 <small>零下・AMA下</small></span></div>
+<div class="mc "><span class="mcl">VWAP 均價線</span><span class="mcv">20日 48,153.02<br>60日 46,025.80<br><small>現價在 20 日線<b>下</b>（-2.16%）</small></span></div>
+<div class="mc "><span class="mcl">20日高低區間</span><span class="mcv">高 49,968.92／低 45,491.97<br><small>不含當日・區間內・距高 -5.7%</small></span></div>
+<div class="mc "><span class="mcl">乖離率</span><span class="mcv">20日 -2.10%<br>60日 +2.29%</span></div>
+<div class="mc "><span class="mcl">52週高／低</span><span class="mcv">49,968.92 / 26,395.98<br><small>距高點 -5.72%</small></span></div>
+<div class="mc "><span class="mcl">報酬率</span><span class="mcv">1月 +3.52%<br>3月 +6.51%<br>6月 +24.92%<br>1年 +70.15%</span></div>
+<div class="mc up"><span class="mcl">今年以來</span><span class="mcv">+62.66%</span></div>
+</div>
+<h3 class="sh">六條均線位置</h3><div class="mabh">均線位置：站上 <b>3/6</b> 條</div><div class="mabs"><span class="mab no">5日 ✗ 48,070.05</span><span class="mab no">10日 ✗ 48,748.04</span><span class="mab no">月線 ✗ 48,121.22</span><span class="mab ok">季線 ✓ 46,055.78</span><span class="mab ok">半年線 ✓ 44,882.87</span><span class="mab ok">年線 ✓ 37,918.92</span></div>
+<h3 class="sh">趨勢判讀</h3>
+<p class="para">加權指數收 47,111.26 點（+141.39 點、+0.30%）——<b>開 46,995 即全日低、盤中高 47,520.60 後回落 409 點；仍在 5 日線 48,070、10 日線 48,748、月線 48,121 之下（3/6），季線 46,056 守住；OSC −263.2 續擴、K 28.3，量 9,864 億（FMTQIK，−31.3%）量縮反彈</b>。媒體歸因（中央社、經濟日報、鉅亨）：10/15 外資史上最大賣超後跌深反彈、隨日韓股回升；題材輪動（PCB、玻纖布／CCL、塑化、散熱、資安），台積電法說後收黑 2,420（−0.82%，拖累約 159 點）、聯發科 +2.04%、鴻海 +1.88%、台塑化漲停；油電燃氣 +8.91%、玻璃陶瓷 +6.15%、航運 +1.98%、金融 +1.10%。<b>三大法人 −678.1 億：外資 −461.5 億連八賣（八日 −6,817.8 億）、投信 +117.5 億連六買、自營 −334.1 億（當晚初版）</b>；上市 684 漲 vs 286 跌——廣度轉正；櫃買 400.26（+0.85%、542 漲 vs 247 跌）；台幣收 32.338（貶 7.3 分、盤中破 32.5）。<b>台指期外資淨空 93,675 口（−3,907）、10 月合約收 47,242（+311）、結算 47,284（正價差 130.74）；10/21 結算</b>。<b>華許（10/16 11:30）：不預判會議結果、全球經濟大致符合預期，市場 10 月升息機率由約 30% 降至 15% 以下；亞股 日經 +1.39%、KOSPI +2.05%、恒指 +0.52%；美股期指 ES +0.15%（17:04）。</b><b>本週：加權 −2,202 點（−4.47%）終結週線連四紅、櫃買 −6.20%；外資本週賣超 5,862.3 億、投信買超 888.3 億。</b><b>結論：六項 2 正 4 負、仍在月線下 → 環境分 46 維持；廣度轉正與期貨空單回補是不下修的理由，OSC 續擴、外資連八賣是不上修的理由。本組 8 檔：4763、8422 外資連買帶量站回月線（「站穩三日」第一日）；6548 低點進帶後收高、已填息；8070 站回 5 日線；2049 連二日收在下軌外。</b><br><small>環境分組成：均線位置−、MACD−、中期趨勢+、量能−、近 20 日報酬+、KD 位階−（六項中 2 正 4 負）。櫃買指數 10/16 收 400.26；（+3.36 點、+0.85%——<b>漲幅大於加權的 +0.30%：上漲 542 家 vs 下跌 247 家（漲停 21、跌停 2、平盤 76）、成交值 2,216.28 億（−9.4%）量縮反彈、站回 400 點</b>）。本值取自櫃買中心「上櫃股票當日彙總資訊」官方 10/16 頁（10/16 17:1x 擷取）；盤中開 397.67、高 404.96、低 396.80（證交所 MIS 快照 13:33）；上櫃三大法人 10/16（櫃買官方彙總）：外資 −32.8 億、投信 +14.4 億、自營 −32.8 億、合計 −51.3 億（兩市外資合計 −494.3 億，計算值）。⚠ Yahoo 的 ^TWOII 歷史序列不可用，大盤技術指標與所有個股相對強弱一律以加權指數為基準。</small></p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<section id="overview" class="card"><h2 class="sect">總覽排名</h2>
+<p class="para small">綜合分對照：≥70 買進｜55–69 觀察偏多｜45–54 觀察｜&lt;45 減碼／賣出。</p>
+<div class="legend"><span class="lgt">標籤讀法：顏色深淺代表<b>該採取行動的急迫性</b>，不是好壞</span><span class="lgrow"><u>空手</u><span class="chip e-go"><i>●</i>可買進</span><span class="chip e-part"><i>◎</i>分批買進</span><span class="chip e-wait"><i>○</i>等回檔再買</span><span class="chip e-no"><i>✕</i>不建議買進</span></span><span class="lgrow"><u>持有</u><span class="chip h-keep"><i>✓</i>續抱</span><span class="chip h-tp"><i>✓</i>續抱並設停利</span><span class="chip h-cut"><i>▼</i>逢高減碼</span><span class="chip h-exit"><i>✕</i>近期出場</span></span></div>
+<div class="ovt"><div class="ovh"><span class="o-rk">排名</span><span class="o-nm">個股</span><span class="o-px">收盤</span><span class="o-cg">漲跌%</span><span class="o-sc">綜合</span><span class="o-ev">空手</span><span class="o-hv">持有</span></div>
+<article class="ovr"><span class="o-rk">#1</span><span class="o-nm"><a href="#s8070">長華*<em>8070</em></a></span><span class="o-px up">52.20</span><span class="o-cg up">+1.36%</span><span class="o-sc"><b class="s55b">64</b><s>觀察偏多</s></span><span class="o-ev"><span class="ol">空手</span><span class="chip e-part"><i>◎</i>分批買進</span><span class="ol">買進</span><span class="ozn">50.8 – 51.6 元</span></span><span class="o-hv"><span class="ol">持有</span><span class="chip h-tp"><i>✓</i>續抱並設停利</span><span class="ol">停利</span><span class="ozn">52.7 – 53.7 元</span></span></article>
+<article class="ovr"><span class="o-rk">#2</span><span class="o-nm"><a href="#s1717">長興<em>1717</em></a></span><span class="o-px up">72.70</span><span class="o-cg up">+1.25%</span><span class="o-sc"><b class="s55b">58</b><s>觀察偏多</s></span><span class="o-ev"><span class="ol">空手</span><span class="chip e-no"><i>✕</i>不建議買進</span><span class="ol">買點</span><span class="ozn">暫不設買點</span></span><span class="o-hv"><span class="ol">持有</span><span class="chip h-exit"><i>✕</i>近期出場</span><span class="ol">出場</span><span class="ozn">73.0 – 74.2 元</span></span></article>
+<article class="ovr"><span class="o-rk">#3</span><span class="o-nm"><a href="#s6548">長科*<em>6548</em></a></span><span class="o-px up">83.40</span><span class="o-cg up">+1.46%</span><span class="o-sc"><b class="s55b">56</b><s>觀察偏多</s></span><span class="o-ev"><span class="ol">空手</span><span class="chip e-part"><i>◎</i>分批買進</span><span class="ol">買進</span><span class="ozn">79.1 – 80.7 元</span></span><span class="o-hv"><span class="ol">持有</span><span class="chip h-cut"><i>▼</i>逢高減碼</span><span class="ol">減碼</span><span class="ozn">84.7 – 86.3 元</span></span></article>
+<article class="ovr"><span class="o-rk">#4</span><span class="o-nm"><a href="#s4763">材料*-KY<em>4763</em></a></span><span class="o-px up">47.65</span><span class="o-cg up">+2.47%</span><span class="o-sc"><b class="s45b">50</b><s>觀察</s></span><span class="o-ev"><span class="ol">空手</span><span class="chip e-no"><i>✕</i>不建議買進</span><span class="ol">買點</span><span class="ozn">暫不設買點</span></span><span class="o-hv"><span class="ol">持有</span><span class="chip h-exit"><i>✕</i>近期出場</span><span class="ol">出場</span><span class="ozn">48.1 – 48.6 元</span></span></article>
+<article class="ovr"><span class="o-rk">#5</span><span class="o-nm"><a href="#s2049">上銀<em>2049</em></a></span><span class="o-px flat">311.00</span><span class="o-cg flat">+0.00%</span><span class="o-sc"><b class="s45b">50</b><s>觀察</s></span><span class="o-ev"><span class="ol">空手</span><span class="chip e-no"><i>✕</i>不建議買進</span><span class="ol">買點</span><span class="ozn">暫不設買點</span></span><span class="o-hv"><span class="ol">持有</span><span class="chip h-exit"><i>✕</i>近期出場</span><span class="ol">出場</span><span class="ozn">314.6 – 318.5 元</span></span></article>
+<article class="ovr"><span class="o-rk">#6</span><span class="o-nm"><a href="#s8422">可寧衛*<em>8422</em></a></span><span class="o-px up">25.70</span><span class="o-cg up">+2.39%</span><span class="o-sc"><b class="s00b">42</b><s>減碼／賣出</s></span><span class="o-ev"><span class="ol">空手</span><span class="chip e-no"><i>✕</i>不建議買進</span><span class="ol">買點</span><span class="ozn">暫不設買點</span></span><span class="o-hv"><span class="ol">持有</span><span class="chip h-exit"><i>✕</i>近期出場</span><span class="ol">出場</span><span class="ozn">25.9 – 26.3 元</span></span></article>
+<article class="ovr"><span class="o-rk">#7</span><span class="o-nm"><a href="#s6411">晶焱<em>6411</em></a></span><span class="o-px up">76.00</span><span class="o-cg up">+0.80%</span><span class="o-sc"><b class="s00b">41</b><s>減碼／賣出</s></span><span class="o-ev"><span class="ol">空手</span><span class="chip e-no"><i>✕</i>不建議買進</span><span class="ol">買點</span><span class="ozn">暫不設買點</span></span><span class="o-hv"><span class="ol">持有</span><span class="chip h-cut"><i>▼</i>加速減碼</span><span class="ol">減碼</span><span class="ozn">76.5 – 77.6 元</span></span></article>
+<article class="ovr"><span class="o-rk">#8</span><span class="o-nm"><a href="#s2231">為升<em>2231</em></a></span><span class="o-px dn">89.80</span><span class="o-cg dn">-0.55%</span><span class="o-sc"><b class="s00b">33</b><s>減碼／賣出</s></span><span class="o-ev"><span class="ol">空手</span><span class="chip e-no"><i>✕</i>不建議買進</span><span class="ol">買點</span><span class="ozn">暫不設買點</span></span><span class="o-hv"><span class="ol">持有</span><span class="chip h-exit"><i>✕</i>近期出場</span><span class="ol">出場</span><span class="ozn">90.6 – 91.5 元</span></span></article>
+</div>
+<p class="tnote">價位區間端點錨定<b>實際技術價位</b>（均線、布林軌、前波關鍵價），非主觀設定。完整的觸發條件、錨點來源、五面向小分與判斷理由，請點個股名稱進入卡片。</p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<h2 class="sect" id="stocks" style="margin:var(--pad);scroll-margin-top:56px">各個股</h2>
+<section id="s8070" class="card stk"><div class="chd">
+<h2 class="cnm"><a href="#s8070">長華*<em>8070</em></a></h2>
+<div class="cpx"><span class="px up">52.20</span><span class="pchg up">+0.70（+1.36%）</span></div>
+<div class="cspk"><svg class="spk" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,100.00 5.26,71.19 10.53,50.85 15.79,77.97 21.05,77.97 26.32,89.83 31.58,84.75 36.84,84.75 42.11,67.80 47.37,67.80 52.63,50.85 57.89,16.95 63.16,40.68 68.42,23.73 73.68,57.63 78.95,0.00 84.21,0.00 89.47,0.00 94.74,23.73 100.00,0.00" fill="none" stroke="var(--up)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<div class="ctag"><span class="tg">上市</span><span class="tg">電子通路（半導體封裝材料）</span><span class="tg">8070.TW</span><span class="vd s55v">觀察偏多 64</span></div></div>
+<h3 class="sh">股價與技術指標</h3><div class="grid">
+<div class="mc up"><span class="mcl">收盤</span><span class="mcv">52.20</span></div>
+<div class="mc up"><span class="mcl">漲跌</span><span class="mcv">+0.70（+1.36%）</span></div>
+<div class="mc "><span class="mcl">開／高／低</span><span class="mcv">52.10 / 53.00 / 51.60</span></div>
+<div class="mc "><span class="mcl">成交量（張）</span><span class="mcv">1,663<br><small>5日均 2,728／20日均 1,963</small></span></div>
+<div class="mc "><span class="mcl">量比</span><span class="mcv">0.85<br><small>當日量 ÷ 20 日均量</small></span></div>
+<div class="mc "><span class="mcl">KD(9,3,3)</span><span class="mcv">K 58.97 / D 63.20<br><small>前日 K 59.89 / D 65.31</small></span></div>
+<div class="mc "><span class="mcl">RSI(14)</span><span class="mcv">58.70<br><small>前日 55.09</small></span></div>
+<div class="mc "><span class="mcl">MACD</span><span class="mcv">DIF 0.58<br>DEA 0.43<br>柱 0.149<small>（前日 0.150）</small></span></div>
+<div class="mc "><span class="mcl">MACD 背離</span><span class="mcv">無<br><small>近 60 根內未出現</small></span></div>
+<div class="mc "><span class="mcl">DMA</span><span class="mcv">3-6 +0.17 <small>零上・AMA下</small><br>6-12 +0.46 <small>零上・AMA下</small><br>5-20 +1.32 <small>零上・AMA上</small></span></div>
+<div class="mc "><span class="mcl">VWAP 均價線</span><span class="mcv">20日 51.16<br>60日 49.92<br><small>現價在 20 日線上（+2.04%）</small></span></div>
+<div class="mc "><span class="mcl">20日高低區間</span><span class="mcv">高 53.70／低 48.75<br><small>不含當日・區間內・距高 -2.8%</small></span></div>
+<div class="mc "><span class="mcl">跳空缺口（未回補）</span><span class="mcv">下方 43.15~43.80<small>（07-31）</small></span></div>
+<div class="mc "><span class="mcl">前波轉折壓／撐</span><span class="mcv">壓 50.90<small>（09-21）</small><br>撐 48.75<small>（09-24）</small><br><small>分形確認的最近轉折</small></span></div>
+<div class="mc "><span class="mcl">移動停利參考</span><span class="mcv">49.35<br><small>20日高 − 3×ATR14（1.45）・收盤在其上</small></span></div>
+<div class="mc "><span class="mcl">布林(20,2)</span><span class="mcv">上 52.69<br>中 50.75<br>下 48.80<br><small>%B 87.38</small></span></div>
+<div class="mc "><span class="mcl">乖離率</span><span class="mcv">20日 +2.87%<br>60日 +5.62%</span></div>
+<div class="mc "><span class="mcl">52週高／低</span><span class="mcv">66.00 / 39.30<br><small>距高點 -20.91%</small></span></div>
+<div class="mc "><span class="mcl">報酬率</span><span class="mcv">1月 +5.56%<br>3月 +10.24%<br>6月 +10.59%<br>1年 +18.10%</span></div>
+<div class="mc up"><span class="mcl">今年以來</span><span class="mcv">+20.14%</span></div>
+<div class="mc "><span class="mcl">收盤價交叉驗證</span><span class="mcv">Yahoo 52.20<br>玩股網 51.50<br><small class="ok">一致</small></span></div>
+</div>
+<h3 class="sh">均線位置</h3><div class="mabh">均線位置：站上 <b>6/6</b> 條</div><div class="mabs"><span class="mab ok">5日 ✓ 52.06</span><span class="mab ok">10日 ✓ 51.57</span><span class="mab ok">月線 ✓ 50.75</span><span class="mab ok">季線 ✓ 49.42</span><span class="mab ok">半年線 ✓ 50.67</span><span class="mab ok">年線 ✓ 47.84</span></div>
+<h3 class="sh">法人動態（近 10 個交易日，單位：張）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>外資(不含自營)</th><th>外資自營</th><th>投信</th><th>自營自行</th><th>自營避險</th><th>總合</th><th>估計持股外資(張)</th><th>投信(張)</th><th>自營(張)</th><th>三大法人合計(張)</th><th>外資持股比重%</th><th>三大法人持股比重%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num up">632</td><td class="num flat">0</td><td class="num dn">-4</td><td class="num dn">-42</td><td class="num up">1</td><td class="num up">587</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td></tr><tr><td>2026/10/15</td><td class="num up">502</td><td class="num flat">0</td><td class="num up">22</td><td class="num up">84</td><td class="num dn">-21</td><td class="num up">587</td><td class="num">79599</td><td class="num">24594</td><td class="num">844</td><td class="num">105037</td><td class="num">10.96</td><td class="num">14.47</td></tr><tr><td>2026/10/14</td><td class="num dn">-39</td><td class="num flat">0</td><td class="num dn">-4</td><td class="num dn">-18</td><td class="num up">22</td><td class="num dn">-39</td><td class="num">79092</td><td class="num">24571</td><td class="num">781</td><td class="num">104444</td><td class="num">10.89</td><td class="num">14.38</td></tr><tr><td>2026/10/13</td><td class="num dn">-355</td><td class="num flat">0</td><td class="num up">719</td><td class="num up">27</td><td class="num dn">-42</td><td class="num up">349</td><td class="num">79124</td><td class="num">24574</td><td class="num">777</td><td class="num">104475</td><td class="num">10.9</td><td class="num">14.39</td></tr><tr><td>2026/10/12</td><td class="num up">385</td><td class="num flat">0</td><td class="num up">22</td><td class="num up">19</td><td class="num up">60</td><td class="num up">486</td><td class="num">79466</td><td class="num">23855</td><td class="num">792</td><td class="num">104113</td><td class="num">10.95</td><td class="num">14.35</td></tr><tr><td>2026/10/08</td><td class="num dn">-1108</td><td class="num flat">0</td><td class="num up">600</td><td class="num up">16</td><td class="num dn">-6</td><td class="num dn">-498</td><td class="num">79084</td><td class="num">23832</td><td class="num">713</td><td class="num">103629</td><td class="num">10.89</td><td class="num">14.27</td></tr><tr><td>2026/10/07</td><td class="num up">487</td><td class="num flat">0</td><td class="num dn">-3</td><td class="num up">6</td><td class="num dn">-2</td><td class="num up">488</td><td class="num">80192</td><td class="num">23232</td><td class="num">703</td><td class="num">104127</td><td class="num">11.05</td><td class="num">14.35</td></tr><tr><td>2026/10/06</td><td class="num dn">-633</td><td class="num flat">0</td><td class="num up">7</td><td class="num flat">0</td><td class="num dn">-32</td><td class="num dn">-658</td><td class="num">79707</td><td class="num">23235</td><td class="num">699</td><td class="num">103641</td><td class="num">10.98</td><td class="num">14.28</td></tr><tr><td>2026/10/05</td><td class="num up">638</td><td class="num flat">0</td><td class="num up">497</td><td class="num up">174</td><td class="num up">31</td><td class="num up">1340</td><td class="num">80299</td><td class="num">23228</td><td class="num">732</td><td class="num">104259</td><td class="num">11.06</td><td class="num">14.36</td></tr><tr><td>2026/10/02</td><td class="num up">316</td><td class="num flat">0</td><td class="num dn">-3</td><td class="num up">45</td><td class="num dn">-4</td><td class="num up">354</td><td class="num">79640</td><td class="num">22731</td><td class="num">527</td><td class="num">102898</td><td class="num">10.97</td><td class="num">14.18</td></tr></tbody></table></div>
+<p class="tnote">買賣超欄位紅色為買超、綠色為賣超；持股張數與持股比重為中性數值不上色。已驗證五欄買賣超相加等於「總合」欄，8 檔 × 10 日共 80 列全數成立。</p>
+<p class="tnote">⚠ ⚠ 大戶籌碼的顯示門檻本期沿用「400 張以上」（10/08 週 74.03、+0.15pp；上次第十次翻轉後連四期未變，此欄位來源已十度翻轉，跨期與跨個股比較前務必先確認門檻）。</p>
+<h3 class="sh">主力進出（近 10 個交易日）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>收盤價</th><th>主力買賣超</th><th>家數差</th><th>5日集中度%</th><th>20日集中度%</th></tr></thead><tbody><tr><td>2026/10/15</td><td class="num">51.50</td><td class="num up">325</td><td class="num up">-49</td><td class="num up">4.5%</td><td class="num up">4.97%</td></tr><tr><td>2026/10/14</td><td class="num">52.20</td><td class="num up">279</td><td class="num up">-69</td><td class="num up">5.09%</td><td class="num up">6.23%</td></tr><tr><td>2026/10/13</td><td class="num">52.20</td><td class="num up">459</td><td class="num up">-103</td><td class="num dn">-0.2%</td><td class="num up">5.67%</td></tr><tr><td>2026/10/12</td><td class="num">52.20</td><td class="num up">280</td><td class="num up">-24</td><td class="num up">4.03%</td><td class="num up">5.56%</td></tr><tr><td>2026/10/08</td><td class="num">50.50</td><td class="num dn">-419</td><td class="num dn">164</td><td class="num up">4.85%</td><td class="num up">5.59%</td></tr><tr><td>2026/10/07</td><td class="num">51.50</td><td class="num up">328</td><td class="num up">-66</td><td class="num up">7.68%</td><td class="num up">5.55%</td></tr><tr><td>2026/10/06</td><td class="num">51.00</td><td class="num dn">-436</td><td class="num dn">191</td><td class="num up">9.27%</td><td class="num up">4.65%</td></tr><tr><td>2026/10/05</td><td class="num">51.70</td><td class="num up">910</td><td class="num up">-205</td><td class="num up">10.89%</td><td class="num up">5.45%</td></tr><tr><td>2026/10/02</td><td class="num">50.70</td><td class="num up">65</td><td class="num up">-3</td><td class="num up">9.9%</td><td class="num up">3.75%</td></tr><tr><td>2026/10/01</td><td class="num">50.20</td><td class="num up">38</td><td class="num dn">18</td><td class="num up">3.3%</td><td class="num up">4.97%</td></tr></tbody></table></div>
+<p class="tnote">家數差為負值代表籌碼集中（較佳），故此欄以「負＝紅」呈現。收盤價為中性數值不上色。</p>
+<h3 class="sh">大戶籌碼（近 13 週，約 3 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>400張以上%</th><th>外資持股%</th><th>投信持股%</th><th>自營商持股%</th><th>董監持股%</th></tr></thead><tbody><tr><td>2026/10/08</td><td class="num">74.03</td><td class="num">10.89</td><td class="num">3.28</td><td class="num">0.1</td><td class="num">30.28</td></tr><tr><td>2026/10/02</td><td class="num">73.88</td><td class="num">10.97</td><td class="num">3.13</td><td class="num">0.07</td><td class="num">30.28</td></tr><tr><td>2026/09/24</td><td class="num">73.84</td><td class="num">10.9</td><td class="num">3.13</td><td class="num">0.05</td><td class="num">30.28</td></tr><tr><td>2026/09/18</td><td class="num">73.81</td><td class="num">11.02</td><td class="num">3.13</td><td class="num">0.04</td><td class="num">30.28</td></tr><tr><td>2026/09/11</td><td class="num">73.51</td><td class="num">10.86</td><td class="num">3.1</td><td class="num">0.03</td><td class="num">30.28</td></tr><tr><td>2026/09/04</td><td class="num">73.6</td><td class="num">10.99</td><td class="num">3.1</td><td class="num">0.05</td><td class="num">30.28</td></tr><tr><td>2026/08/28</td><td class="num">73.62</td><td class="num">10.99</td><td class="num">3.1</td><td class="num">0.05</td><td class="num">30.28</td></tr><tr><td>2026/08/21</td><td class="num">73.42</td><td class="num">10.7</td><td class="num">3.1</td><td class="num">0.05</td><td class="num">30.28</td></tr><tr><td>2026/08/14</td><td class="num">73.2</td><td class="num">11.55</td><td class="num">2.58</td><td class="num">0.03</td><td class="num">30.28</td></tr><tr><td>2026/08/07</td><td class="num">73.28</td><td class="num">11.35</td><td class="num">2.58</td><td class="num">0.01</td><td class="num">30.28</td></tr><tr><td>2026/07/31</td><td class="num">73.05</td><td class="num">11.22</td><td class="num">2.58</td><td class="num">0.01</td><td class="num">30.28</td></tr><tr><td>2026/07/24</td><td class="num">73.11</td><td class="num">11.34</td><td class="num">2.58</td><td class="num">0</td><td class="num">30.28</td></tr><tr><td>2026/07/17</td><td class="num">73.78</td><td class="num">11.47</td><td class="num">2.57</td><td class="num">0</td><td class="num">30.28</td></tr></tbody></table></div>
+<p class="tnote">全部為持股比重，屬中性數值不套用漲跌配色。<b>⚠ 大戶門檻各檔不同，本檔為「400張以上」</b>（門檻由來源網站決定、會隨個股條件而異，本報告一律以該檔頁面實際顯示的門檻為準；本組合出現的門檻有 1000張以上、400張以上，<b>跨個股比較此欄位時務必先確認門檻是否相同</b>）。為週資料，區間 2026/07/17 ~ 2026/10/08（共 13 週）。</p>
+<h3 class="sh">月營收（近 12 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow"><table><thead><tr><th>年月</th><th>營收(億)</th><th>YoY</th><th>MoM</th><th>累計 YoY</th></tr></thead><tbody><tr><td>2026-09</td><td class="num">22.96</td><td class="num up">+35.31%</td><td class="num up">+2.83%</td><td class="num up">+28.59%</td></tr><tr><td>2026-08</td><td class="num">22.33</td><td class="num up">+37.57%</td><td class="num up">+0.03%</td><td class="num up">+27.67%</td></tr><tr><td>2026-07</td><td class="num">22.32</td><td class="num up">+33.63%</td><td class="num up">+5.93%</td><td class="num up">+26.20%</td></tr><tr><td>2026-06</td><td class="num">21.07</td><td class="num up">+32.82%</td><td class="num up">+6.78%</td><td class="num up">+24.86%</td></tr><tr><td>2026-05</td><td class="num">19.73</td><td class="num up">+26.34%</td><td class="num dn">-3.70%</td><td class="num up">+23.22%</td></tr><tr><td>2026-04</td><td class="num">20.49</td><td class="num up">+28.14%</td><td class="num up">+0.11%</td><td class="num up">+22.42%</td></tr><tr><td>2026-03</td><td class="num">20.47</td><td class="num up">+32.34%</td><td class="num up">+28.10%</td><td class="num up">+20.39%</td></tr><tr><td>2026-02</td><td class="num">15.98</td><td class="num up">+6.78%</td><td class="num dn">-10.13%</td><td class="num up">+14.14%</td></tr><tr><td>2026-01</td><td class="num">17.78</td><td class="num up">+21.67%</td><td class="num dn">-0.71%</td><td class="num up">+21.67%</td></tr><tr><td>2025-12</td><td class="num">17.91</td><td class="num up">+19.86%</td><td class="num up">+8.40%</td><td class="num up">+12.30%</td></tr><tr><td>2025-11</td><td class="num">16.52</td><td class="num up">+11.02%</td><td class="num dn">-0.97%</td><td class="num up">+11.58%</td></tr><tr><td>2025-10</td><td class="num">16.68</td><td class="num up">+10.45%</td><td class="num dn">-1.69%</td><td class="num up">+11.64%</td></tr></tbody></table></div>
+<p class="tnote">單位：億元（原始仟元）。來源：玩股網月營收（轉載公開資訊觀測站公告）。★ 2026/09 22.96 億元（+35.31%、月增 2.83%）創單月新高；Q3 67.61 億元（計算值）；頎邦、新應材 9 月營收尚未公布。</p>
+<h3 class="sh">每股盈餘（近 8 季）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow tn3"><table><thead><tr><th>季別</th><th>單季 EPS（元）</th><th>EPS YoY</th></tr></thead><tbody><tr><td>2026Q2</td><td class="num">0.78</td><td class="num up">+387.50%</td></tr><tr><td>2026Q1</td><td class="num">0.51</td><td class="num up">+8.51%</td></tr><tr><td>2025Q4</td><td class="num">-0.47</td><td class="num dn">-195.92%</td></tr><tr><td>2025Q3</td><td class="num">0.86</td><td class="num up">+36.51%</td></tr><tr><td>2025Q2</td><td class="num">0.16</td><td class="num ">—</td></tr><tr><td>2025Q1</td><td class="num">0.47</td><td class="num ">—</td></tr><tr><td>2024Q4</td><td class="num">0.49</td><td class="num ">—</td></tr><tr><td>2024Q3</td><td class="num">0.63</td><td class="num ">—</td></tr></tbody></table></div>
+<p class="tnote">最新已公布季 <b>2026Q2</b>，來源 Yahoo 奇摩股市。 近四季 EPS 合計 1.68 元｜本益比 31.1｜股價淨值比 1.19。</p>
+<h3 class="sh">法人目標價</h3><p class="para tgt">近期查無 8070 本身的具名券商目標價，<b>連彙總值也查無</b>。<b>持股 4.12% 的頎邦：FactSet 目標價中位數 280 元（10/13）</b>；轉投資新應材 FactSet 10/02 目標價 917.5；8/18 極端價量至今（第四十一個交易日）零說明。<b>10/16 +1.36% 收 52.20（高 53.00、量縮 1,666 張）站回 5 日線（6/6）；外資 +632 連二買、投信 −4</b>。10/16 無本身新聞。</p>
+<h3 class="sh">五面向評分</h3><div class="sbs">
+<div class="sbr"><span class="sbl">籌碼面<em>30%</em></span><span class="sbt"><i class="s55" style="width:55%"></i></span><span class="sbv">55</span></div>
+<div class="sbr"><span class="sbl">技術面<em>20%</em></span><span class="sbt"><i class="s70" style="width:72%"></i></span><span class="sbv">72</span></div>
+<div class="sbr"><span class="sbl">基本面<em>30%</em></span><span class="sbt"><i class="s70" style="width:76%"></i></span><span class="sbv">76</span></div>
+<div class="sbr"><span class="sbl">大盤面<em>10%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">消息面<em>10%</em></span><span class="sbt"><i class="s55" style="width:56%"></i></span><span class="sbv">56</span></div>
+<div class="sbr tot"><span class="sbl">綜合分數</span><span class="sbt"><i class="s55" style="width:64%"></i></span><span class="sbv">64</span></div></div>
+<p class="tnote fdet">基本面 76 分內部拆解：月營收動能 19/20、三率與 EPS 趨勢 22/30、財務結構 16/20、獲利品質 12/20、評價 7/10</p>
+<p class="tnote fdet">技術面 72 分 ＝ 判讀分 72 ＋ 0（頂背離、突破前 20 日高、向上跳空的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）：本期無觸發項目</p>
+<h3 class="sh">建議｜兩種情境</h3><div class="acts">
+<div class="act"><div class="acth"><span class="actw">空手時</span><span class="actq">在什麼價位、滿足什麼條件才買？</span><span class="chip e-part big"><i>◎</i>分批買進</span></div><div class="opbox"><span class="aol">買進區間</span><span class="aoz">50.8 – 51.6 元<small>月線 50.75 ～ 10 日線 51.57（分批買進續行：10/16 +1.36% 收 52.20、站回 5 日線 52.06（5/6→6/6）、高 53.00 低 51.60、量縮 1,666 張 vr20 0.85；外資 +632 連二買——買進帶未觸及）</small></span><span class="aol">觸發條件</span><span class="aoc"><b>分批買進：50.8~51.6 元分批買，收盤跌回 51.20 元下即停止；跌破月線 50.75 元回等待</b></span></div><p class="actp"><b>分批買進——站回 5 日線、外資連二買，買進帶未觸及，回測再接。</b></p></div>
+<div class="act"><div class="acth"><span class="actw">已持有</span><span class="actq">在什麼價位減碼、跌破什麼就出場？</span><span class="chip h-tp big"><i>✓</i>續抱並設停利</span></div><div class="opbox"><span class="aol">停利區間</span><span class="aoz">52.7 – 53.7 元<small>布林上軌 52.69 ～ 10/14 高 53.70（10/16 高 53.00 帶內；8/19 高 54.50 為更高執行位；5 日線 52.06 為帶下的守線）</small></span><span class="aol">出場觸發</span><span class="aoc"><b>續抱並設停利：反彈至 52.7~53.7 元分批停利；跌破 5 日線 52.06 元停利加速、跌破月線 50.75 元回出場模式</b></span></div><p class="actp"><b>續抱並設停利——停利已執行、站回 5 日線（加速暫解）。</b></p></div></div>
+<h3 class="sh">操作參考（價位）</h3><p class="para ops">空手：<b>50.8~51.6 元分批買；收盤跌回 51.20 元下即停止、跌破月線 50.75 元回等待</b>。持有：<b>反彈至 52.7~53.7 元分批停利；跌破 5 日線 52.06 元加速、跌破月線 50.75 元回出場模式</b>。</p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<section id="s1717" class="card stk"><div class="chd">
+<h2 class="cnm"><a href="#s1717">長興<em>1717</em></a></h2>
+<div class="cpx"><span class="px up">72.70</span><span class="pchg up">+0.90（+1.25%）</span></div>
+<div class="cspk"><svg class="spk" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,100.00 5.26,87.75 10.53,85.71 15.79,79.59 21.05,93.88 26.32,91.84 31.58,85.71 36.84,63.27 42.11,32.65 47.37,42.86 52.63,28.57 57.89,20.41 63.16,14.29 68.42,0.00 73.68,24.49 78.95,18.37 84.21,51.02 89.47,2.04 94.74,77.55 100.00,59.18" fill="none" stroke="var(--up)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<div class="ctag"><span class="tg">上市</span><span class="tg">化學（特化樹脂／電子材料）</span><span class="tg">1717.TW</span><span class="vd s55v">觀察偏多 58</span></div></div>
+<h3 class="sh">股價與技術指標</h3><div class="grid">
+<div class="mc up"><span class="mcl">收盤</span><span class="mcv">72.70</span></div>
+<div class="mc up"><span class="mcl">漲跌</span><span class="mcv">+0.90（+1.25%）</span></div>
+<div class="mc "><span class="mcl">開／高／低</span><span class="mcv">72.00 / 73.50 / 71.80</span></div>
+<div class="mc "><span class="mcl">成交量（張）</span><span class="mcv">5,334<br><small>5日均 8,141／20日均 7,570</small></span></div>
+<div class="mc "><span class="mcl">量比</span><span class="mcv">0.70<br><small>當日量 ÷ 20 日均量</small></span></div>
+<div class="mc "><span class="mcl">KD(9,3,3)</span><span class="mcv">K 36.50 / D 50.04<br><small>前日 K 42.51 / D 56.81</small></span></div>
+<div class="mc "><span class="mcl">RSI(14)</span><span class="mcv">48.65<br><small>前日 45.99</small></span></div>
+<div class="mc "><span class="mcl">MACD</span><span class="mcv">DIF 0.34<br>DEA 0.45<br>柱 -0.115<small>（前日 -0.033）</small></span></div>
+<div class="mc "><span class="mcl">MACD 背離</span><span class="mcv">無<br><small>近 60 根內未出現</small></span></div>
+<div class="mc "><span class="mcl">DMA</span><span class="mcv">3-6 -0.37 <small>零下・<b>黃金交叉</b></small><br>6-12 -0.38 <small>零下・AMA下</small><br>5-20 +0.55 <small>零上・AMA下</small></span></div>
+<div class="mc "><span class="mcl">VWAP 均價線</span><span class="mcv">20日 73.52<br>60日 73.31<br><small>現價在 20 日線<b>下</b>（-1.12%）</small></span></div>
+<div class="mc "><span class="mcl">20日高低區間</span><span class="mcv">高 76.40／低 68.10<br><small>不含當日・區間內・距高 -4.8%</small></span></div>
+<div class="mc "><span class="mcl">跳空缺口（未回補）</span><span class="mcv">下方 63.80~64.90<small>（08-05）</small></span></div>
+<div class="mc "><span class="mcl">前波轉折壓／撐</span><span class="mcv">壓 76.40<small>（10-05）</small><br>撐 70.30<small>（09-24）</small><br><small>分形確認的最近轉折</small></span></div>
+<div class="mc "><span class="mcl">移動停利參考</span><span class="mcv">69.15<br><small>20日高 − 3×ATR14（2.42）・收盤在其上</small></span></div>
+<div class="mc "><span class="mcl">布林(20,2)</span><span class="mcv">上 76.20<br>中 73.00<br>下 69.81<br><small>%B 45.23</small></span></div>
+<div class="mc "><span class="mcl">乖離率</span><span class="mcv">20日 -0.42%<br>60日 +2.63%</span></div>
+<div class="mc "><span class="mcl">52週高／低</span><span class="mcv">89.90 / 37.85<br><small>距高點 -19.13%</small></span></div>
+<div class="mc "><span class="mcl">報酬率</span><span class="mcv">1月 +6.75%<br>3月 +15.03%<br>6月 -7.74%<br>1年 +88.59%</span></div>
+<div class="mc up"><span class="mcl">今年以來</span><span class="mcv">+77.75%</span></div>
+<div class="mc "><span class="mcl">收盤價交叉驗證</span><span class="mcv">Yahoo 72.70<br>玩股網 72.70<br><small class="ok">一致</small></span></div>
+</div>
+<h3 class="sh">均線位置</h3><div class="mabh">均線位置：站上 <b>2/6</b> 條</div><div class="mabs"><span class="mab no">5日 ✗ 73.56</span><span class="mab no">10日 ✗ 74.15</span><span class="mab no">月線 ✗ 73.00</span><span class="mab ok">季線 ✓ 70.83</span><span class="mab no">半年線 ✗ 73.24</span><span class="mab ok">年線 ✓ 63.51</span></div>
+<h3 class="sh">法人動態（近 10 個交易日，單位：張）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>外資(不含自營)</th><th>外資自營</th><th>投信</th><th>自營自行</th><th>自營避險</th><th>總合</th><th>估計持股外資(張)</th><th>投信(張)</th><th>自營(張)</th><th>三大法人合計(張)</th><th>外資持股比重%</th><th>三大法人持股比重%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num up">1962</td><td class="num flat">0</td><td class="num up">4</td><td class="num dn">-127</td><td class="num dn">-29</td><td class="num up">1810</td><td class="num">148090</td><td class="num">11028</td><td class="num">3150</td><td class="num">162268</td><td class="num">12.5</td><td class="num">13.7</td></tr><tr><td>2026/10/15</td><td class="num dn">-3043</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-77</td><td class="num dn">-259</td><td class="num dn">-3379</td><td class="num">146127</td><td class="num">11024</td><td class="num">3305</td><td class="num">160456</td><td class="num">12.33</td><td class="num">13.54</td></tr><tr><td>2026/10/14</td><td class="num up">2806</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-51</td><td class="num up">109</td><td class="num up">2864</td><td class="num">149317</td><td class="num">11024</td><td class="num">3641</td><td class="num">163982</td><td class="num">12.6</td><td class="num">13.84</td></tr><tr><td>2026/10/13</td><td class="num up">664</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-51</td><td class="num dn">-139</td><td class="num up">474</td><td class="num">146663</td><td class="num">11024</td><td class="num">3584</td><td class="num">161271</td><td class="num">12.38</td><td class="num">13.61</td></tr><tr><td>2026/10/12</td><td class="num up">943</td><td class="num flat">0</td><td class="num up">1</td><td class="num dn">-41</td><td class="num dn">-14</td><td class="num up">889</td><td class="num">146615</td><td class="num">11023</td><td class="num">3774</td><td class="num">161412</td><td class="num">12.38</td><td class="num">13.63</td></tr><tr><td>2026/10/08</td><td class="num up">242</td><td class="num flat">0</td><td class="num up">5</td><td class="num dn">-24</td><td class="num dn">-42</td><td class="num up">181</td><td class="num">146429</td><td class="num">11022</td><td class="num">3829</td><td class="num">161280</td><td class="num">12.36</td><td class="num">13.61</td></tr><tr><td>2026/10/07</td><td class="num up">2085</td><td class="num flat">0</td><td class="num dn">-1500</td><td class="num dn">-10</td><td class="num dn">-94</td><td class="num up">481</td><td class="num">146847</td><td class="num">11017</td><td class="num">3896</td><td class="num">161760</td><td class="num">12.4</td><td class="num">13.66</td></tr><tr><td>2026/10/06</td><td class="num up">1963</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-11</td><td class="num up">67</td><td class="num up">2019</td><td class="num">145021</td><td class="num">12517</td><td class="num">4001</td><td class="num">161539</td><td class="num">12.24</td><td class="num">13.63</td></tr><tr><td>2026/10/05</td><td class="num up">1847</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-11</td><td class="num up">30</td><td class="num up">1866</td><td class="num">143533</td><td class="num">12517</td><td class="num">3946</td><td class="num">159996</td><td class="num">12.12</td><td class="num">13.51</td></tr><tr><td>2026/10/02</td><td class="num up">445</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">26</td><td class="num up">39</td><td class="num up">510</td><td class="num">141386</td><td class="num">12517</td><td class="num">3927</td><td class="num">157830</td><td class="num">11.93</td><td class="num">13.32</td></tr></tbody></table></div>
+<p class="tnote">買賣超欄位紅色為買超、綠色為賣超；持股張數與持股比重為中性數值不上色。已驗證五欄買賣超相加等於「總合」欄，8 檔 × 10 日共 80 列全數成立。</p>
+<h3 class="sh">主力進出（近 10 個交易日）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>收盤價</th><th>主力買賣超</th><th>家數差</th><th>5日集中度%</th><th>20日集中度%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num">72.70</td><td class="num up">878</td><td class="num up">-153</td><td class="num dn">-2.43%</td><td class="num up">0.53%</td></tr><tr><td>2026/10/15</td><td class="num">71.80</td><td class="num dn">-2829</td><td class="num dn">422</td><td class="num dn">-2.36%</td><td class="num dn">-0.58%</td></tr><tr><td>2026/10/14</td><td class="num">75.50</td><td class="num up">2398</td><td class="num up">-309</td><td class="num up">8.33%</td><td class="num up">0.15%</td></tr><tr><td>2026/10/13</td><td class="num">73.10</td><td class="num dn">-299</td><td class="num dn">160</td><td class="num up">6.51%</td><td class="num dn">-2.08%</td></tr><tr><td>2026/10/12</td><td class="num">74.70</td><td class="num dn">-255</td><td class="num dn">119</td><td class="num up">10.35%</td><td class="num dn">-3.49%</td></tr><tr><td>2026/10/08</td><td class="num">74.40</td><td class="num up">65</td><td class="num dn">46</td><td class="num up">8.81%</td><td class="num dn">-5.33%</td></tr><tr><td>2026/10/07</td><td class="num">75.60</td><td class="num up">631</td><td class="num up">-115</td><td class="num up">6.3%</td><td class="num dn">-6.73%</td></tr><tr><td>2026/10/06</td><td class="num">74.90</td><td class="num up">1701</td><td class="num up">-252</td><td class="num up">4.76%</td><td class="num dn">-12.06%</td></tr><tr><td>2026/10/05</td><td class="num">74.60</td><td class="num up">1662</td><td class="num up">-248</td><td class="num up">4.32%</td><td class="num dn">-14.5%</td></tr><tr><td>2026/10/02</td><td class="num">74.20</td><td class="num dn">-379</td><td class="num dn">69</td><td class="num dn">-0.27%</td><td class="num dn">-15.22%</td></tr></tbody></table></div>
+<p class="tnote">家數差為負值代表籌碼集中（較佳），故此欄以「負＝紅」呈現。收盤價為中性數值不上色。</p>
+<h3 class="sh">大戶籌碼（近 13 週，約 3 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>400張以上%</th><th>外資持股%</th><th>投信持股%</th><th>自營商持股%</th><th>董監持股%</th></tr></thead><tbody><tr><td>2026/10/08</td><td class="num">66.98</td><td class="num">12.36</td><td class="num">0.93</td><td class="num">0.32</td><td class="num">14.36</td></tr><tr><td>2026/10/02</td><td class="num">66.79</td><td class="num">11.93</td><td class="num">1.06</td><td class="num">0.33</td><td class="num">14.36</td></tr><tr><td>2026/09/24</td><td class="num">66.54</td><td class="num">11.86</td><td class="num">1</td><td class="num">0.32</td><td class="num">14.36</td></tr><tr><td>2026/09/18</td><td class="num">66.81</td><td class="num">12.07</td><td class="num">1.05</td><td class="num">0.34</td><td class="num">14.37</td></tr><tr><td>2026/09/11</td><td class="num">67.44</td><td class="num">12.52</td><td class="num">0.98</td><td class="num">0.29</td><td class="num">14.37</td></tr><tr><td>2026/09/04</td><td class="num">69.04</td><td class="num">13.75</td><td class="num">1</td><td class="num">0.35</td><td class="num">14.37</td></tr><tr><td>2026/08/28</td><td class="num">66.75</td><td class="num">12.61</td><td class="num">0.85</td><td class="num">0.45</td><td class="num">14.38</td></tr><tr><td>2026/08/21</td><td class="num">65.86</td><td class="num">11.57</td><td class="num">0.67</td><td class="num">0.3</td><td class="num">14.38</td></tr><tr><td>2026/08/14</td><td class="num">67.01</td><td class="num">12.17</td><td class="num">0.67</td><td class="num">0.32</td><td class="num">14.38</td></tr><tr><td>2026/08/07</td><td class="num">64.55</td><td class="num">10.83</td><td class="num">0.58</td><td class="num">0.29</td><td class="num">14.38</td></tr><tr><td>2026/07/31</td><td class="num">64.01</td><td class="num">10.29</td><td class="num">0.47</td><td class="num">0.27</td><td class="num">14.38</td></tr><tr><td>2026/07/24</td><td class="num">64.62</td><td class="num">10.5</td><td class="num">0.31</td><td class="num">0.37</td><td class="num">14.38</td></tr><tr><td>2026/07/17</td><td class="num">65.63</td><td class="num">10.83</td><td class="num">0.41</td><td class="num">0.41</td><td class="num">14.38</td></tr></tbody></table></div>
+<p class="tnote">全部為持股比重，屬中性數值不套用漲跌配色。<b>⚠ 大戶門檻各檔不同，本檔為「400張以上」</b>（門檻由來源網站決定、會隨個股條件而異，本報告一律以該檔頁面實際顯示的門檻為準；本組合出現的門檻有 1000張以上、400張以上，<b>跨個股比較此欄位時務必先確認門檻是否相同</b>）。為週資料，區間 2026/07/17 ~ 2026/10/08（共 13 週）。</p>
+<h3 class="sh">月營收（近 12 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow"><table><thead><tr><th>年月</th><th>營收(億)</th><th>YoY</th><th>MoM</th><th>累計 YoY</th></tr></thead><tbody><tr><td>2026-09</td><td class="num">44.33</td><td class="num up">+29.37%</td><td class="num up">+8.93%</td><td class="num up">+13.75%</td></tr><tr><td>2026-08</td><td class="num">40.70</td><td class="num up">+20.94%</td><td class="num dn">-0.56%</td><td class="num up">+11.78%</td></tr><tr><td>2026-07</td><td class="num">40.93</td><td class="num up">+23.86%</td><td class="num up">+6.82%</td><td class="num up">+10.48%</td></tr><tr><td>2026-06</td><td class="num">38.31</td><td class="num up">+16.20%</td><td class="num dn">-0.76%</td><td class="num up">+8.32%</td></tr><tr><td>2026-05</td><td class="num">38.61</td><td class="num up">+14.87%</td><td class="num dn">-8.79%</td><td class="num up">+6.80%</td></tr><tr><td>2026-04</td><td class="num">42.33</td><td class="num up">+12.99%</td><td class="num up">+8.07%</td><td class="num up">+4.84%</td></tr><tr><td>2026-03</td><td class="num">39.17</td><td class="num up">+5.38%</td><td class="num up">+60.77%</td><td class="num up">+1.81%</td></tr><tr><td>2026-02</td><td class="num">24.36</td><td class="num dn">-19.28%</td><td class="num dn">-37.36%</td><td class="num dn">-0.27%</td></tr><tr><td>2026-01</td><td class="num">38.90</td><td class="num up">+16.97%</td><td class="num up">+4.45%</td><td class="num up">+16.97%</td></tr><tr><td>2025-12</td><td class="num">37.24</td><td class="num dn">-6.16%</td><td class="num up">+12.93%</td><td class="num dn">-7.93%</td></tr><tr><td>2025-11</td><td class="num">32.97</td><td class="num dn">-12.59%</td><td class="num up">+6.29%</td><td class="num dn">-8.10%</td></tr><tr><td>2025-10</td><td class="num">31.02</td><td class="num dn">-12.03%</td><td class="num dn">-9.48%</td><td class="num dn">-7.64%</td></tr></tbody></table></div>
+<p class="tnote">單位：億元（原始仟元）。來源：玩股網月營收（轉載公開資訊觀測站公告）。⚠ 2026/03 MoM +60.77% 與 02 月 −37.36% 為農曆年工作天數落差所致，應以兩月合計判讀；★ 2026/09 44.33 億元（+29.37%、月增 8.93%）創單月新高、連續第八個月年增，年增幅由 8 月 +20.94% 再擴大；Q3 125.96 億元（計算值）季增 7.1%、1～9 月累計 +13.75%（MOPS 10/11 出表）。</p>
+<h3 class="sh">每股盈餘（近 8 季）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow tn3"><table><thead><tr><th>季別</th><th>單季 EPS（元）</th><th>EPS YoY</th></tr></thead><tbody><tr><td>2026Q2</td><td class="num">0.72</td><td class="num up">+140.00%</td></tr><tr><td>2026Q1</td><td class="num">0.37</td><td class="num up">+23.33%</td></tr><tr><td>2025Q4</td><td class="num">0.32</td><td class="num dn">-21.95%</td></tr><tr><td>2025Q3</td><td class="num">0.49</td><td class="num up">+25.64%</td></tr><tr><td>2025Q2</td><td class="num">0.30</td><td class="num ">—</td></tr><tr><td>2025Q1</td><td class="num">0.30</td><td class="num ">—</td></tr><tr><td>2024Q4</td><td class="num">0.41</td><td class="num ">—</td></tr><tr><td>2024Q3</td><td class="num">0.39</td><td class="num ">—</td></tr></tbody></table></div>
+<p class="tnote">最新已公布季 <b>2026Q2</b>，來源 Yahoo 奇摩股市。 近四季 EPS 合計 1.90 元｜本益比 38.3｜股價淨值比 2.67。</p>
+<h3 class="sh">法人目標價</h3><p class="para tgt">近期查無具名目標價數字。<b>09/24 優分析「評價重估才走到中途」：先進封裝材料進 CoWoS、法人估 2026／2027 EPS 2.43／3.74 元、本益比 37.4 倍</b>——分析師觀點（原文未引用任何券商）。<b>9 月營收 44.33 億（+29.37%、月增 8.93%）創單月新高（10/08）</b>；<b>10/16 +1.25% 收 72.70（量縮 5,342 張）月線 73.00 未站回（2/6）；外資 +1,963 轉買、主力 +878</b>；長廣 10/16 −6.27%（原因查無）。10/16 無個股新聞。</p>
+<h3 class="sh">五面向評分</h3><div class="sbs">
+<div class="sbr"><span class="sbl">籌碼面<em>30%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">技術面<em>20%</em></span><span class="sbt"><i class="s45" style="width:47%"></i></span><span class="sbv">47</span></div>
+<div class="sbr"><span class="sbl">基本面<em>30%</em></span><span class="sbt"><i class="s70" style="width:82%"></i></span><span class="sbv">82</span></div>
+<div class="sbr"><span class="sbl">大盤面<em>10%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">消息面<em>10%</em></span><span class="sbt"><i class="s55" style="width:55%"></i></span><span class="sbv">55</span></div>
+<div class="sbr tot"><span class="sbl">綜合分數</span><span class="sbt"><i class="s55" style="width:58%"></i></span><span class="sbv">58</span></div></div>
+<p class="tnote fdet">基本面 82 分內部拆解：月營收動能 19/20、三率與 EPS 趨勢 27/30、財務結構 14/20、獲利品質 18/20、評價 4/10</p>
+<p class="tnote fdet">技術面 47 分 ＝ 判讀分 47 ＋ 0（頂背離、突破前 20 日高、向上跳空的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）：本期無觸發項目</p>
+<h3 class="sh">建議｜兩種情境</h3><div class="acts">
+<div class="act"><div class="acth"><span class="actw">空手時</span><span class="actq">在什麼價位、滿足什麼條件才買？</span><span class="chip e-no big"><i>✕</i>不建議買進</span></div><div class="opbox"><span class="aol">買進區間</span><span class="aoz">暫不設買點<small>+1.25% 收 72.70（5,342 張 vr20 0.70 量縮、高 73.50 低 71.80），月線 73.00／120 日線 73.24／5 日線 73.56 皆未站回（2/6）；外資 +1,963 轉買、主力 +878</small></span><span class="aol">觸發條件</span><span class="aoc"><b>收盤站回月線 73.00 且外資連買兩日（10/16 為第一日），再重新評估</b></span></div><p class="actp"><b>不建議買進——量縮反彈未站回月線，外資轉買僅一日。</b></p></div>
+<div class="act"><div class="acth"><span class="actw">已持有</span><span class="actq">在什麼價位減碼、跌破什麼就出場？</span><span class="chip h-exit big"><i>✕</i>近期出場</span></div><div class="opbox"><span class="aol">出場區間</span><span class="aoz">73.0 – 74.2 元<small>月線 73.00 ～ 10 日線 74.15（120 日線 73.24、5 日線 73.56 帶內；季線 70.83 為加速線、布林下軌 69.81 為不計價位線）</small></span><span class="aol">出場觸發</span><span class="aoc"><b>出場模式：反彈至 73.0~74.2 元分批出、不設等待價；跌破季線 70.83 元加速</b></span></div><p class="actp"><b>近期出場——出場帶觸及、分批出已執行；跌破季線加速。</b></p></div></div>
+<h3 class="sh">操作參考（價位）</h3><p class="para ops">空手：暫不設買點。持有：<b>反彈至 73.0~74.2 元分批出、不設等待價；跌破季線 70.83 元加速</b>。</p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<section id="s6548" class="card stk"><div class="chd">
+<h2 class="cnm"><a href="#s6548">長科*<em>6548</em></a></h2>
+<div class="cpx"><span class="px up">83.40</span><span class="pchg up">+1.20（+1.46%）</span></div>
+<div class="cspk"><svg class="spk" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,98.04 5.26,91.50 10.53,77.12 15.79,86.93 21.05,84.97 26.32,95.42 31.58,100.00 36.84,96.73 42.11,94.12 47.37,98.69 52.63,64.71 57.89,56.21 63.16,65.36 68.42,56.86 73.68,60.78 78.95,10.46 84.21,0.00 89.47,24.18 94.74,28.76 100.00,20.92" fill="none" stroke="var(--up)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<div class="ctag"><span class="tg">上櫃</span><span class="tg">半導體（IC 導線架）</span><span class="tg">6548.TWO</span><span class="vd s55v">觀察偏多 56</span></div></div>
+<h3 class="sh">股價與技術指標</h3><div class="grid">
+<div class="mc up"><span class="mcl">收盤</span><span class="mcv">83.40</span></div>
+<div class="mc up"><span class="mcl">漲跌</span><span class="mcv">+1.20（+1.46%）</span></div>
+<div class="mc "><span class="mcl">開／高／低</span><span class="mcv">84.10 / 84.10 / 79.10</span></div>
+<div class="mc "><span class="mcl">成交量（張）</span><span class="mcv">8,199<br><small>5日均 13,050／20日均 6,489</small></span></div>
+<div class="mc up"><span class="mcl">量比</span><span class="mcv">1.26<br><small>當日量 ÷ 20 日均量</small></span></div>
+<div class="mc "><span class="mcl">KD(9,3,3)</span><span class="mcv">K 65.16 / D 68.33<br><small>前日 K 69.84 / D 69.92</small></span></div>
+<div class="mc "><span class="mcl">RSI(14)</span><span class="mcv">63.20<br><small>前日 61.42</small></span></div>
+<div class="mc "><span class="mcl">MACD</span><span class="mcv">DIF 2.90<br>DEA 1.96<br>柱 0.936<small>（前日 1.056）</small></span></div>
+<div class="mc "><span class="mcl">MACD 背離</span><span class="mcv">頂背離<br><small>09-07→09-21・16 根前確認・<b>已非近期訊號</b></small><br>隱性底背離<br><small>08-25→10-01・10 根前確認</small></span></div>
+<div class="mc "><span class="mcl">DMA</span><span class="mcv">3-6 -0.07 <small>零下・AMA下</small><br>6-12 +3.71 <small>零上・AMA上</small><br>5-20 +7.45 <small>零上・AMA上</small></span></div>
+<div class="mc "><span class="mcl">VWAP 均價線</span><span class="mcv">20日 79.76<br>60日 75.12<br><small>現價在 20 日線上（+4.57%）</small></span></div>
+<div class="mc "><span class="mcl">20日高低區間</span><span class="mcv">高 89.50／低 70.40<br><small>不含當日・區間內・距高 -6.8%</small></span></div>
+<div class="mc "><span class="mcl">跳空缺口（未回補）</span><span class="mcv">無<br><small>近 60 根內無未回補缺口</small></span></div>
+<div class="mc "><span class="mcl">前波轉折壓／撐</span><span class="mcv">壓 78.00<small>（09-21）</small><br>撐 70.40<small>（10-01）</small><br><small>分形確認的最近轉折</small></span></div>
+<div class="mc "><span class="mcl">移動停利參考</span><span class="mcv">76.38<br><small>20日高 − 3×ATR14（4.37）・收盤在其上</small></span></div>
+<div class="mc "><span class="mcl">布林(20,2)</span><span class="mcv">上 86.30<br>中 76.57<br>下 66.83<br><small>%B 85.11</small></span></div>
+<div class="mc "><span class="mcl">乖離率</span><span class="mcv">20日 +8.93%<br>60日 +14.25%</span></div>
+<div class="mc "><span class="mcl">52週高／低</span><span class="mcv">104.00 / 36.80<br><small>距高點 -19.81%</small></span></div>
+<div class="mc "><span class="mcl">報酬率</span><span class="mcv">1月 +16.32%<br>3月 +20.87%<br>6月 +50.27%<br>1年 +123.89%</span></div>
+<div class="mc up"><span class="mcl">今年以來</span><span class="mcv">+86.58%</span></div>
+<div class="mc "><span class="mcl">收盤價交叉驗證</span><span class="mcv">Yahoo 83.40<br>玩股網 83.40<br><small class="ok">一致</small></span></div>
+</div>
+<h3 class="sh">均線位置</h3><div class="mabh">均線位置：站上 <b>5/6</b> 條</div><div class="mabs"><span class="mab no">5日 ✗ 84.02</span><span class="mab ok">10日 ✓ 80.66</span><span class="mab ok">月線 ✓ 76.57</span><span class="mab ok">季線 ✓ 73.00</span><span class="mab ok">半年線 ✓ 72.53</span><span class="mab ok">年線 ✓ 59.60</span></div>
+<h3 class="sh">法人動態（近 10 個交易日，單位：張）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>外資(不含自營)</th><th>外資自營</th><th>投信</th><th>自營自行</th><th>自營避險</th><th>總合</th><th>估計持股外資(張)</th><th>投信(張)</th><th>自營(張)</th><th>三大法人合計(張)</th><th>外資持股比重%</th><th>三大法人持股比重%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num dn">-1712</td><td class="num flat">0</td><td class="num up">2157</td><td class="num dn">-122</td><td class="num up">28</td><td class="num up">351</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td></tr><tr><td>2026/10/15</td><td class="num dn">-1395</td><td class="num flat">0</td><td class="num up">1599</td><td class="num up">74</td><td class="num dn">-69</td><td class="num up">209</td><td class="num">51998</td><td class="num">46338</td><td class="num">1358</td><td class="num">99694</td><td class="num">5.47</td><td class="num">10.49</td></tr><tr><td>2026/10/14</td><td class="num dn">-1260</td><td class="num flat">0</td><td class="num up">193</td><td class="num up">60</td><td class="num up">86</td><td class="num dn">-921</td><td class="num">53197</td><td class="num">44739</td><td class="num">1354</td><td class="num">99290</td><td class="num">5.59</td><td class="num">10.44</td></tr><tr><td>2026/10/13</td><td class="num dn">-1374</td><td class="num flat">0</td><td class="num up">3947</td><td class="num up">8</td><td class="num up">85</td><td class="num up">2666</td><td class="num">54357</td><td class="num">44546</td><td class="num">1207</td><td class="num">100110</td><td class="num">5.71</td><td class="num">10.52</td></tr><tr><td>2026/10/12</td><td class="num up">2704</td><td class="num flat">0</td><td class="num up">1297</td><td class="num up">2</td><td class="num up">160</td><td class="num up">4163</td><td class="num">55190</td><td class="num">40599</td><td class="num">1114</td><td class="num">96903</td><td class="num">5.8</td><td class="num">10.19</td></tr><tr><td>2026/10/08</td><td class="num dn">-483</td><td class="num flat">0</td><td class="num up">243</td><td class="num up">4</td><td class="num dn">-89</td><td class="num dn">-325</td><td class="num">52305</td><td class="num">39302</td><td class="num">951</td><td class="num">92558</td><td class="num">5.5</td><td class="num">9.74</td></tr><tr><td>2026/10/07</td><td class="num dn">-1709</td><td class="num flat">0</td><td class="num up">151</td><td class="num dn">-7</td><td class="num up">170</td><td class="num dn">-1395</td><td class="num">52599</td><td class="num">39059</td><td class="num">1036</td><td class="num">92694</td><td class="num">5.53</td><td class="num">9.75</td></tr><tr><td>2026/10/06</td><td class="num dn">-1190</td><td class="num flat">0</td><td class="num up">411</td><td class="num up">3</td><td class="num dn">-35</td><td class="num dn">-811</td><td class="num">53612</td><td class="num">38908</td><td class="num">874</td><td class="num">93394</td><td class="num">5.64</td><td class="num">9.83</td></tr><tr><td>2026/10/05</td><td class="num dn">-3311</td><td class="num flat">0</td><td class="num up">470</td><td class="num dn">-8</td><td class="num up">15</td><td class="num dn">-2834</td><td class="num">54419</td><td class="num">38497</td><td class="num">907</td><td class="num">93823</td><td class="num">5.72</td><td class="num">9.87</td></tr><tr><td>2026/10/02</td><td class="num up">861</td><td class="num flat">0</td><td class="num up">173</td><td class="num flat">0</td><td class="num up">195</td><td class="num up">1229</td><td class="num">57421</td><td class="num">38027</td><td class="num">900</td><td class="num">96348</td><td class="num">6.04</td><td class="num">10.14</td></tr></tbody></table></div>
+<p class="tnote">買賣超欄位紅色為買超、綠色為賣超；持股張數與持股比重為中性數值不上色。已驗證五欄買賣超相加等於「總合」欄，8 檔 × 10 日共 80 列全數成立。</p>
+<h3 class="sh">主力進出（近 10 個交易日）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>收盤價</th><th>主力買賣超</th><th>家數差</th><th>5日集中度%</th><th>20日集中度%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num">83.40</td><td class="num up">179</td><td class="num dn">32</td><td class="num up">5.44%</td><td class="num dn">-1.27%</td></tr><tr><td>2026/10/15</td><td class="num">82.20</td><td class="num up">23</td><td class="num dn">93</td><td class="num up">5.35%</td><td class="num dn">-1.08%</td></tr><tr><td>2026/10/14</td><td class="num">82.90</td><td class="num dn">-1261</td><td class="num dn">141</td><td class="num up">2.14%</td><td class="num dn">-0.54%</td></tr><tr><td>2026/10/13</td><td class="num">86.60</td><td class="num dn">-269</td><td class="num dn">30</td><td class="num up">3.63%</td><td class="num up">0.7%</td></tr><tr><td>2026/10/12</td><td class="num">85.00</td><td class="num up">5441</td><td class="num up">-529</td><td class="num up">0.15%</td><td class="num up">1.28%</td></tr><tr><td>2026/10/08</td><td class="num">77.30</td><td class="num dn">-316</td><td class="num dn">122</td><td class="num dn">-11.7%</td><td class="num dn">-4.86%</td></tr><tr><td>2026/10/07</td><td class="num">77.90</td><td class="num dn">-1614</td><td class="num dn">155</td><td class="num dn">-12.12%</td><td class="num dn">-6.14%</td></tr><tr><td>2026/10/06</td><td class="num">76.60</td><td class="num dn">-613</td><td class="num dn">232</td><td class="num dn">-10.67%</td><td class="num dn">-8.14%</td></tr><tr><td>2026/10/05</td><td class="num">78.00</td><td class="num dn">-2463</td><td class="num dn">303</td><td class="num dn">-9.39%</td><td class="num dn">-6.39%</td></tr><tr><td>2026/10/02</td><td class="num">76.70</td><td class="num up">772</td><td class="num up">-104</td><td class="num up">0.7%</td><td class="num dn">-3.79%</td></tr></tbody></table></div>
+<p class="tnote">家數差為負值代表籌碼集中（較佳），故此欄以「負＝紅」呈現。收盤價為中性數值不上色。</p>
+<h3 class="sh">大戶籌碼（近 13 週，約 3 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>400張以上%</th><th>外資持股%</th><th>投信持股%</th><th>自營商持股%</th><th>董監持股%</th></tr></thead><tbody><tr><td>2026/10/08</td><td class="num">87.29</td><td class="num">5.5</td><td class="num">4.14</td><td class="num">0.1</td><td class="num">52.04</td></tr><tr><td>2026/10/02</td><td class="num">87.64</td><td class="num">6.04</td><td class="num">4</td><td class="num">0.09</td><td class="num">52.04</td></tr><tr><td>2026/09/24</td><td class="num">87.62</td><td class="num">5.76</td><td class="num">4.18</td><td class="num">0.07</td><td class="num">52.04</td></tr><tr><td>2026/09/18</td><td class="num">87.57</td><td class="num">5.88</td><td class="num">4.18</td><td class="num">0.08</td><td class="num">52.04</td></tr><tr><td>2026/09/11</td><td class="num">87.26</td><td class="num">5.42</td><td class="num">4.2</td><td class="num">0.07</td><td class="num">52.04</td></tr><tr><td>2026/09/04</td><td class="num">87.65</td><td class="num">5.58</td><td class="num">4.2</td><td class="num">0.07</td><td class="num">52.04</td></tr><tr><td>2026/08/28</td><td class="num">87.64</td><td class="num">5.56</td><td class="num">4.12</td><td class="num">0.07</td><td class="num">52.04</td></tr><tr><td>2026/08/21</td><td class="num">87.6</td><td class="num">5.44</td><td class="num">4.12</td><td class="num">0.07</td><td class="num">52.04</td></tr><tr><td>2026/08/14</td><td class="num">87.7</td><td class="num">5.35</td><td class="num">4.11</td><td class="num">0.07</td><td class="num">52.04</td></tr><tr><td>2026/08/07</td><td class="num">87.63</td><td class="num">5.05</td><td class="num">4.1</td><td class="num">0.09</td><td class="num">52.04</td></tr><tr><td>2026/07/31</td><td class="num">87.4</td><td class="num">5.03</td><td class="num">3.94</td><td class="num">0.08</td><td class="num">52.04</td></tr><tr><td>2026/07/24</td><td class="num">87.45</td><td class="num">4.91</td><td class="num">3.8</td><td class="num">0.09</td><td class="num">52.04</td></tr><tr><td>2026/07/17</td><td class="num">87.65</td><td class="num">5.18</td><td class="num">3.49</td><td class="num">0.11</td><td class="num">52.04</td></tr></tbody></table></div>
+<p class="tnote">全部為持股比重，屬中性數值不套用漲跌配色。<b>⚠ 大戶門檻各檔不同，本檔為「400張以上」</b>（門檻由來源網站決定、會隨個股條件而異，本報告一律以該檔頁面實際顯示的門檻為準；本組合出現的門檻有 1000張以上、400張以上，<b>跨個股比較此欄位時務必先確認門檻是否相同</b>）。為週資料，區間 2026/07/17 ~ 2026/10/08（共 13 週）。</p>
+<h3 class="sh">月營收（近 12 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow"><table><thead><tr><th>年月</th><th>營收(億)</th><th>YoY</th><th>MoM</th><th>累計 YoY</th></tr></thead><tbody><tr><td>2026-09</td><td class="num">17.13</td><td class="num up">+42.91%</td><td class="num up">+3.81%</td><td class="num up">+30.03%</td></tr><tr><td>2026-08</td><td class="num">16.50</td><td class="num up">+43.65%</td><td class="num up">+6.09%</td><td class="num up">+28.26%</td></tr><tr><td>2026-07</td><td class="num">15.56</td><td class="num up">+35.43%</td><td class="num up">+3.60%</td><td class="num up">+25.92%</td></tr><tr><td>2026-06</td><td class="num">15.01</td><td class="num up">+37.63%</td><td class="num up">+5.02%</td><td class="num up">+24.23%</td></tr><tr><td>2026-05</td><td class="num">14.30</td><td class="num up">+36.65%</td><td class="num up">+3.28%</td><td class="num up">+21.49%</td></tr><tr><td>2026-04</td><td class="num">13.84</td><td class="num up">+24.51%</td><td class="num up">+4.27%</td><td class="num up">+17.79%</td></tr><tr><td>2026-03</td><td class="num">13.27</td><td class="num up">+20.11%</td><td class="num up">+16.03%</td><td class="num up">+15.45%</td></tr><tr><td>2026-02</td><td class="num">11.44</td><td class="num up">+12.10%</td><td class="num dn">-4.73%</td><td class="num up">+12.96%</td></tr><tr><td>2026-01</td><td class="num">12.01</td><td class="num up">+13.79%</td><td class="num up">+0.19%</td><td class="num up">+13.79%</td></tr><tr><td>2025-12</td><td class="num">11.98</td><td class="num up">+13.17%</td><td class="num up">+2.66%</td><td class="num up">+12.02%</td></tr><tr><td>2025-11</td><td class="num">11.67</td><td class="num up">+10.53%</td><td class="num up">+2.67%</td><td class="num up">+11.91%</td></tr><tr><td>2025-10</td><td class="num">11.37</td><td class="num up">+7.90%</td><td class="num dn">-5.16%</td><td class="num up">+12.06%</td></tr></tbody></table></div>
+<p class="tnote">單位：億元（原始仟元）。來源：玩股網月營收（轉載公開資訊觀測站公告）。★ 2026/09 17.13 億元（+42.91%、月增 3.81%）再創單月新高，連續第四個月月增；Q3 49.19 億元（計算值）。</p>
+<h3 class="sh">每股盈餘（近 8 季）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow tn3"><table><thead><tr><th>季別</th><th>單季 EPS（元）</th><th>EPS YoY</th></tr></thead><tbody><tr><td>2026Q2</td><td class="num">0.71</td><td class="num up">+545.45%</td></tr><tr><td>2026Q1</td><td class="num">0.51</td><td class="num up">+13.33%</td></tr><tr><td>2025Q4</td><td class="num">0.51</td><td class="num dn">-8.93%</td></tr><tr><td>2025Q3</td><td class="num">0.56</td><td class="num up">+24.44%</td></tr><tr><td>2025Q2</td><td class="num">0.11</td><td class="num ">—</td></tr><tr><td>2025Q1</td><td class="num">0.45</td><td class="num ">—</td></tr><tr><td>2024Q4</td><td class="num">0.56</td><td class="num ">—</td></tr><tr><td>2024Q3</td><td class="num">0.45</td><td class="num ">—</td></tr></tbody></table></div>
+<p class="tnote">最新已公布季 <b>2026Q2</b>，來源 Yahoo 奇摩股市。 近四季 EPS 合計 2.29 元｜本益比 36.4｜股價淨值比 5.87。</p>
+<h3 class="sh">法人目標價</h3><p class="para tgt">近期查無公開具名券商目標價。可引用的前瞻資訊：9 月營收 17.13 億年增 42.91%（10/06）、72 億元聯貸案、處分台虹利益 2.59 億（一次性）——皆非第三方估值。<b>10/14 QIC 法說簡報（MOPS）：營收連 10 季成長、2026H1 淨利 +116.8%、AI PMIC 帶動；無數字財測——媒體解讀查無</b>。<b>10/16 +1.46% 收 83.40（開 84.10 即全日高、低 79.10、8,255 張）——高於除息前收盤 82.90、已填息；投信 +2,157 連十買、外資 −1,712 連四賣</b>；<b>10/12～10/16 因除息暫停先賣後買當沖（櫃買公告，10/19 恢復）</b>；台虹 10/16 漲停 311.50（媒體歸因 PCB 族群上漲，未提長科）。</p>
+<h3 class="sh">五面向評分</h3><div class="sbs">
+<div class="sbr"><span class="sbl">籌碼面<em>30%</em></span><span class="sbt"><i class="s00" style="width:43%"></i></span><span class="sbv">43</span></div>
+<div class="sbr"><span class="sbl">技術面<em>20%</em></span><span class="sbt"><i class="s55" style="width:64%"></i></span><span class="sbv">64</span></div>
+<div class="sbr"><span class="sbl">基本面<em>30%</em></span><span class="sbt"><i class="s55" style="width:67%"></i></span><span class="sbv">67</span></div>
+<div class="sbr"><span class="sbl">大盤面<em>10%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">消息面<em>10%</em></span><span class="sbt"><i class="s55" style="width:57%"></i></span><span class="sbv">57</span></div>
+<div class="sbr tot"><span class="sbl">綜合分數</span><span class="sbt"><i class="s55" style="width:56%"></i></span><span class="sbv">56</span></div></div>
+<p class="tnote fdet">基本面 67 分內部拆解：月營收動能 19/20、三率與 EPS 趨勢 24/30、財務結構 14/20、獲利品質 7/20、評價 3/10</p>
+<p class="tnote fdet">技術面 64 分 ＝ 判讀分 67 − 3（頂背離、突破前 20 日高、向上跳空的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）：頂背離 −3.0・半權</p>
+<h3 class="sh">建議｜兩種情境</h3><div class="acts">
+<div class="act"><div class="acth"><span class="actw">空手時</span><span class="actq">在什麼價位、滿足什麼條件才買？</span><span class="chip e-part big"><i>◎</i>分批買進</span></div><div class="opbox"><span class="aol">買進區間</span><span class="aoz">79.1 – 80.7 元<small>10/16 低 79.10 ～ 10 日線 80.66（第一批續接已於 10/16 執行：開 84.10 即全日高、低 79.10 進帶後收 83.40（+1.46%）、留 4.3 元下影線、量 8,255 張 vr20 1.26；投信 +2,157 連十買、外資 −1,711 連四賣）</small></span><span class="aol">觸發條件</span><span class="aoc"><b>79.1~80.7 元分批買，收盤跌破 79.05 元（除息後口徑）即停止；外資轉買且站回 84.70 元再加第二批</b></span></div><p class="actp"><b>分批買進——低點進帶後收 83.40、已填息，投信連十買；外資連四賣。</b></p></div>
+<div class="act"><div class="acth"><span class="actw">已持有</span><span class="actq">在什麼價位減碼、跌破什麼就出場？</span><span class="chip h-cut big"><i>▼</i>逢高減碼</span></div><div class="opbox"><span class="aol">減碼區間</span><span class="aoz">84.7 – 86.3 元<small>10/15 高 84.70 ～ 布林上軌 86.30（10/14 高 89.50 為更高執行位；10 日線 80.66 為帶下的守線）</small></span><span class="aol">出場觸發</span><span class="aoc"><b>逢高減碼：反彈至 84.7~86.3 元分批減；收盤跌破 10 日線 80.66 元回出場模式</b></span></div><p class="actp"><b>逢高減碼——減碼帶未觸及；收盤跌破 10 日線回出場模式。</b></p></div></div>
+<h3 class="sh">操作參考（價位）</h3><p class="para ops">空手：<b>79.1~80.7 元分批買；收盤跌破 79.05 元即停止、外資轉買且站回 84.70 元再加第二批</b>。持有：<b>反彈至 84.7~86.3 元分批減；收盤跌破 10 日線 80.66 元回出場模式</b>。</p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<section id="s4763" class="card stk"><div class="chd">
+<h2 class="cnm"><a href="#s4763">材料*-KY<em>4763</em></a></h2>
+<div class="cpx"><span class="px up">47.65</span><span class="pchg up">+1.15（+2.47%）</span></div>
+<div class="cspk"><svg class="spk" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,100.00 5.26,50.00 10.53,0.00 15.79,15.18 21.05,43.75 26.32,73.21 31.58,78.57 36.84,65.18 42.11,28.57 47.37,65.18 52.63,59.82 57.89,74.11 63.16,66.07 68.42,74.11 73.68,68.75 78.95,65.18 84.21,68.75 89.47,57.14 94.74,71.43 100.00,50.89" fill="none" stroke="var(--up)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<div class="ctag"><span class="tg">上市</span><span class="tg">化工（二醋酸纖維絲束／菸用濾嘴）</span><span class="tg">4763.TW</span><span class="vd s45v">觀察 50</span></div></div>
+<h3 class="sh">股價與技術指標</h3><div class="grid">
+<div class="mc up"><span class="mcl">收盤</span><span class="mcv">47.65</span></div>
+<div class="mc up"><span class="mcl">漲跌</span><span class="mcv">+1.15（+2.47%）</span></div>
+<div class="mc "><span class="mcl">開／高／低</span><span class="mcv">46.85 / 48.10 / 46.80</span></div>
+<div class="mc "><span class="mcl">成交量（張）</span><span class="mcv">7,044<br><small>5日均 4,328／20日均 7,756</small></span></div>
+<div class="mc "><span class="mcl">量比</span><span class="mcv">0.91<br><small>當日量 ÷ 20 日均量</small></span></div>
+<div class="mc "><span class="mcl">KD(9,3,3)</span><span class="mcv">K 47.10 / D 35.14<br><small>前日 K 31.37 / D 29.15</small></span></div>
+<div class="mc "><span class="mcl">RSI(14)</span><span class="mcv">50.68<br><small>前日 46.06</small></span></div>
+<div class="mc "><span class="mcl">MACD</span><span class="mcv">DIF -0.38<br>DEA -0.45<br>柱 0.066<small>（前日 -0.007）</small></span></div>
+<div class="mc "><span class="mcl">MACD 背離</span><span class="mcv">無<br><small>近 60 根內未出現</small></span></div>
+<div class="mc "><span class="mcl">DMA</span><span class="mcv">3-6 +0.22 <small>零上・<b>黃金交叉</b></small><br>6-12 -0.07 <small>零下・AMA上</small><br>5-20 -0.22 <small>零下・AMA上</small></span></div>
+<div class="mc "><span class="mcl">VWAP 均價線</span><span class="mcv">20日 47.81<br>60日 48.96<br><small>現價在 20 日線<b>下</b>（-0.33%）</small></span></div>
+<div class="mc "><span class="mcl">20日高低區間</span><span class="mcv">高 53.50／低 44.90<br><small>不含當日・區間內・距高 -10.9%</small></span></div>
+<div class="mc "><span class="mcl">跳空缺口（未回補）</span><span class="mcv">無<br><small>近 60 根內無未回補缺口</small></span></div>
+<div class="mc "><span class="mcl">前波轉折壓／撐</span><span class="mcv">壓 53.50<small>（09-21）</small><br>撐 46.00<small>（10-07）</small><br><small>分形確認的最近轉折</small></span></div>
+<div class="mc "><span class="mcl">移動停利參考</span><span class="mcv">48.70<br><small>20日高 − 3×ATR14（1.60）・收盤在其<b>下</b></small></span></div>
+<div class="mc "><span class="mcl">布林(20,2)</span><span class="mcv">上 49.70<br>中 47.21<br>下 44.71<br><small>%B 58.86</small></span></div>
+<div class="mc "><span class="mcl">乖離率</span><span class="mcv">20日 +0.94%<br>60日 -1.72%</span></div>
+<div class="mc "><span class="mcl">52週高／低</span><span class="mcv">62.90 / 40.20<br><small>距高點 -24.24%</small></span></div>
+<div class="mc "><span class="mcl">報酬率</span><span class="mcv">1月 -0.94%<br>3月 -5.83%<br>6月 +11.33%<br>1年 -17.70%</span></div>
+<div class="mc dn"><span class="mcl">今年以來</span><span class="mcv">-8.19%</span></div>
+<div class="mc "><span class="mcl">收盤價交叉驗證</span><span class="mcv">Yahoo 47.65<br>玩股網 47.65<br><small class="ok">一致</small></span></div>
+</div>
+<h3 class="sh">均線位置</h3><div class="mabh">均線位置：站上 <b>4/6</b> 條</div><div class="mabs"><span class="mab ok">5日 ✓ 46.99</span><span class="mab ok">10日 ✓ 46.83</span><span class="mab ok">月線 ✓ 47.21</span><span class="mab no">季線 ✗ 48.49</span><span class="mab ok">半年線 ✓ 46.47</span><span class="mab no">年線 ✗ 48.59</span></div>
+<h3 class="sh">法人動態（近 10 個交易日，單位：張）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>外資(不含自營)</th><th>外資自營</th><th>投信</th><th>自營自行</th><th>自營避險</th><th>總合</th><th>估計持股外資(張)</th><th>投信(張)</th><th>自營(張)</th><th>三大法人合計(張)</th><th>外資持股比重%</th><th>三大法人持股比重%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num up">3239</td><td class="num flat">0</td><td class="num dn">-34</td><td class="num up">34</td><td class="num up">131</td><td class="num up">3370</td><td class="num">462492</td><td class="num">47827</td><td class="num">3731</td><td class="num">514050</td><td class="num">46.75</td><td class="num">51.96</td></tr><tr><td>2026/10/15</td><td class="num up">406</td><td class="num flat">0</td><td class="num up">53</td><td class="num up">4</td><td class="num up">2</td><td class="num up">465</td><td class="num">459253</td><td class="num">47861</td><td class="num">3566</td><td class="num">510680</td><td class="num">46.42</td><td class="num">51.62</td></tr><tr><td>2026/10/14</td><td class="num up">1687</td><td class="num flat">0</td><td class="num up">162</td><td class="num dn">-2</td><td class="num dn">-12</td><td class="num up">1835</td><td class="num">458745</td><td class="num">47808</td><td class="num">3560</td><td class="num">510113</td><td class="num">46.37</td><td class="num">51.56</td></tr><tr><td>2026/10/13</td><td class="num up">282</td><td class="num flat">0</td><td class="num up">47</td><td class="num dn">-11</td><td class="num dn">-78</td><td class="num up">240</td><td class="num">457468</td><td class="num">47646</td><td class="num">3574</td><td class="num">508688</td><td class="num">46.24</td><td class="num">51.42</td></tr><tr><td>2026/10/12</td><td class="num up">823</td><td class="num flat">0</td><td class="num up">48</td><td class="num up">2</td><td class="num up">25</td><td class="num up">898</td><td class="num">457185</td><td class="num">47599</td><td class="num">3663</td><td class="num">508447</td><td class="num">46.22</td><td class="num">51.4</td></tr><tr><td>2026/10/08</td><td class="num up">984</td><td class="num flat">0</td><td class="num up">53</td><td class="num up">3</td><td class="num up">20</td><td class="num up">1060</td><td class="num">456873</td><td class="num">47551</td><td class="num">3636</td><td class="num">508060</td><td class="num">46.18</td><td class="num">51.35</td></tr><tr><td>2026/10/07</td><td class="num up">904</td><td class="num flat">0</td><td class="num dn">-691</td><td class="num dn">-332</td><td class="num dn">-20</td><td class="num dn">-139</td><td class="num">456486</td><td class="num">47498</td><td class="num">3613</td><td class="num">507597</td><td class="num">46.14</td><td class="num">51.31</td></tr><tr><td>2026/10/06</td><td class="num up">425</td><td class="num flat">0</td><td class="num dn">-663</td><td class="num dn">-50</td><td class="num up">60</td><td class="num dn">-228</td><td class="num">456456</td><td class="num">48189</td><td class="num">3966</td><td class="num">508611</td><td class="num">46.14</td><td class="num">51.41</td></tr><tr><td>2026/10/05</td><td class="num dn">-466</td><td class="num flat">0</td><td class="num up">58</td><td class="num up">44</td><td class="num dn">-38</td><td class="num dn">-402</td><td class="num">457009</td><td class="num">48852</td><td class="num">3956</td><td class="num">509817</td><td class="num">46.2</td><td class="num">51.54</td></tr><tr><td>2026/10/02</td><td class="num dn">-290</td><td class="num flat">0</td><td class="num up">19</td><td class="num up">4</td><td class="num dn">-190</td><td class="num dn">-457</td><td class="num">457020</td><td class="num">48794</td><td class="num">3951</td><td class="num">509765</td><td class="num">46.2</td><td class="num">51.53</td></tr></tbody></table></div>
+<p class="tnote">買賣超欄位紅色為買超、綠色為賣超；持股張數與持股比重為中性數值不上色。已驗證五欄買賣超相加等於「總合」欄，8 檔 × 10 日共 80 列全數成立。</p>
+<p class="tnote">⚠ ⚠ 大戶籌碼的顯示門檻本期維持「1000 張以上」（10/08 週 55.31、−0.54pp 連二週降；此欄位來源已兩度翻轉，判讀以趨勢方向為主）。</p>
+<h3 class="sh">主力進出（近 10 個交易日）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>收盤價</th><th>主力買賣超</th><th>家數差</th><th>5日集中度%</th><th>20日集中度%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num">47.65</td><td class="num up">2649</td><td class="num up">-315</td><td class="num up">13.19%</td><td class="num dn">-4.82%</td></tr><tr><td>2026/10/15</td><td class="num">46.50</td><td class="num dn">-175</td><td class="num dn">67</td><td class="num up">13.77%</td><td class="num dn">-5.54%</td></tr><tr><td>2026/10/14</td><td class="num">47.30</td><td class="num up">971</td><td class="num up">-94</td><td class="num up">12.78%</td><td class="num dn">-5.72%</td></tr><tr><td>2026/10/13</td><td class="num">46.65</td><td class="num up">284</td><td class="num up">-6</td><td class="num up">6.62%</td><td class="num dn">-6.24%</td></tr><tr><td>2026/10/12</td><td class="num">46.85</td><td class="num up">490</td><td class="num up">-49</td><td class="num dn">-4.51%</td><td class="num dn">-7.14%</td></tr><tr><td>2026/10/08</td><td class="num">46.65</td><td class="num up">620</td><td class="num up">-91</td><td class="num dn">-8.35%</td><td class="num dn">-8.73%</td></tr><tr><td>2026/10/07</td><td class="num">46.35</td><td class="num dn">-503</td><td class="num dn">216</td><td class="num dn">-21.94%</td><td class="num dn">-9.78%</td></tr><tr><td>2026/10/06</td><td class="num">46.80</td><td class="num dn">-213</td><td class="num dn">106</td><td class="num dn">-9.05%</td><td class="num dn">-10.39%</td></tr><tr><td>2026/10/05</td><td class="num">46.35</td><td class="num dn">-1785</td><td class="num dn">310</td><td class="num dn">-10.88%</td><td class="num dn">-9.92%</td></tr><tr><td>2026/10/02</td><td class="num">47.15</td><td class="num dn">-265</td><td class="num dn">142</td><td class="num dn">-12.65%</td><td class="num dn">-9.63%</td></tr></tbody></table></div>
+<p class="tnote">家數差為負值代表籌碼集中（較佳），故此欄以「負＝紅」呈現。收盤價為中性數值不上色。</p>
+<h3 class="sh">大戶籌碼（近 13 週，約 3 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>1000張以上%</th><th>外資持股%</th><th>投信持股%</th><th>自營商持股%</th><th>董監持股%</th></tr></thead><tbody><tr><td>2026/10/08</td><td class="num">55.31</td><td class="num">46.18</td><td class="num">4.81</td><td class="num">0.37</td><td class="num">41.21</td></tr><tr><td>2026/10/02</td><td class="num">55.85</td><td class="num">46.2</td><td class="num">4.93</td><td class="num">0.4</td><td class="num">41.21</td></tr><tr><td>2026/09/24</td><td class="num">56.36</td><td class="num">45.71</td><td class="num">5.13</td><td class="num">0.41</td><td class="num">41.21</td></tr><tr><td>2026/09/18</td><td class="num">56.09</td><td class="num">46.59</td><td class="num">5.13</td><td class="num">0.5</td><td class="num">41.21</td></tr><tr><td>2026/09/11</td><td class="num">56.67</td><td class="num">46.07</td><td class="num">4.84</td><td class="num">0.36</td><td class="num">41.21</td></tr><tr><td>2026/09/04</td><td class="num">56.8</td><td class="num">46.73</td><td class="num">4.82</td><td class="num">0.34</td><td class="num">41.21</td></tr><tr><td>2026/08/28</td><td class="num">56.25</td><td class="num">46.78</td><td class="num">4.58</td><td class="num">0.24</td><td class="num">41.21</td></tr><tr><td>2026/08/21</td><td class="num">56.93</td><td class="num">46.94</td><td class="num">4.58</td><td class="num">0.27</td><td class="num">41.21</td></tr><tr><td>2026/08/14</td><td class="num">57.03</td><td class="num">47.61</td><td class="num">4.58</td><td class="num">0.25</td><td class="num">41.21</td></tr><tr><td>2026/08/07</td><td class="num">56.61</td><td class="num">47.2</td><td class="num">4.59</td><td class="num">0.26</td><td class="num">41.21</td></tr><tr><td>2026/07/31</td><td class="num">56.43</td><td class="num">46.66</td><td class="num">4.58</td><td class="num">0.27</td><td class="num">41.21</td></tr><tr><td>2026/07/24</td><td class="num">56.47</td><td class="num">46.48</td><td class="num">4.59</td><td class="num">0.29</td><td class="num">41.21</td></tr><tr><td>2026/07/17</td><td class="num">55.57</td><td class="num">45.8</td><td class="num">4.48</td><td class="num">0.23</td><td class="num">41.21</td></tr></tbody></table></div>
+<p class="tnote">全部為持股比重，屬中性數值不套用漲跌配色。<b>⚠ 大戶門檻各檔不同，本檔為「1000張以上」</b>（門檻由來源網站決定、會隨個股條件而異，本報告一律以該檔頁面實際顯示的門檻為準；本組合出現的門檻有 1000張以上、400張以上，<b>跨個股比較此欄位時務必先確認門檻是否相同</b>）。為週資料，區間 2026/07/17 ~ 2026/10/08（共 13 週）。</p>
+<h3 class="sh">月營收（近 12 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow"><table><thead><tr><th>年月</th><th>營收(億)</th><th>YoY</th><th>MoM</th><th>累計 YoY</th></tr></thead><tbody><tr><td>2026-09</td><td class="num">10.25</td><td class="num up">+30.46%</td><td class="num dn">-1.47%</td><td class="num dn">-17.05%</td></tr><tr><td>2026-08</td><td class="num">10.40</td><td class="num up">+20.82%</td><td class="num dn">-1.78%</td><td class="num dn">-20.90%</td></tr><tr><td>2026-07</td><td class="num">10.59</td><td class="num up">+32.05%</td><td class="num up">+4.49%</td><td class="num dn">-24.98%</td></tr><tr><td>2026-06</td><td class="num">10.13</td><td class="num dn">-10.10%</td><td class="num up">+6.42%</td><td class="num dn">-30.68%</td></tr><tr><td>2026-05</td><td class="num">9.52</td><td class="num dn">-22.69%</td><td class="num up">+8.47%</td><td class="num dn">-34.05%</td></tr><tr><td>2026-04</td><td class="num">8.78</td><td class="num dn">-41.52%</td><td class="num dn">-10.17%</td><td class="num dn">-36.53%</td></tr><tr><td>2026-03</td><td class="num">9.77</td><td class="num dn">-35.60%</td><td class="num up">+30.35%</td><td class="num dn">-34.73%</td></tr><tr><td>2026-02</td><td class="num">7.50</td><td class="num dn">-47.64%</td><td class="num dn">-23.88%</td><td class="num dn">-34.23%</td></tr><tr><td>2026-01</td><td class="num">9.85</td><td class="num dn">-18.29%</td><td class="num dn">-16.17%</td><td class="num dn">-18.29%</td></tr><tr><td>2025-12</td><td class="num">11.75</td><td class="num dn">-24.64%</td><td class="num up">+46.02%</td><td class="num dn">-15.79%</td></tr><tr><td>2025-11</td><td class="num">8.05</td><td class="num dn">-48.35%</td><td class="num up">+1.76%</td><td class="num dn">-14.82%</td></tr><tr><td>2025-10</td><td class="num">7.91</td><td class="num dn">-44.16%</td><td class="num up">+0.67%</td><td class="num dn">-10.67%</td></tr></tbody></table></div>
+<p class="tnote">單位：億元（原始仟元）。來源：玩股網月營收（轉載公開資訊觀測站公告）。★ 2026/09 10.25 億元（+30.46%、月減 1.47%）連續第三個月年增轉正，Q3 31.23 億元為五季新高（計算值）；但今年以來累計仍 −17.05%（2025 上半年基期極高）——復甦的量級未回到前高；Cerdia 併購交割前不入帳。</p>
+<h3 class="sh">每股盈餘（近 8 季）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow tn3"><table><thead><tr><th>季別</th><th>單季 EPS（元）</th><th>EPS YoY</th></tr></thead><tbody><tr><td>2026Q1</td><td class="num">1.13</td><td class="num dn">-44.96%</td></tr><tr><td>2025Q4</td><td class="num">1.16</td><td class="num dn">-57.07%</td></tr><tr><td>2025Q3</td><td class="num">1.16</td><td class="num dn">-36.68%</td></tr><tr><td>2025Q2</td><td class="num">1.72</td><td class="num dn">-15.73%</td></tr><tr><td>2025Q1</td><td class="num">2.05</td><td class="num ">—</td></tr><tr><td>2024Q4</td><td class="num">2.70</td><td class="num ">—</td></tr><tr><td>2024Q3</td><td class="num">1.83</td><td class="num ">—</td></tr><tr><td>2024Q2</td><td class="num">2.04</td><td class="num ">—</td></tr></tbody></table></div>
+<p class="tnote">最新已公布季 <b>2026Q1</b>，來源 Yahoo 奇摩股市。<b>補充 2026Q2（公司已公告 H1、Yahoo 尚未更新，以 H1 減 Q1 推算）：單季 EPS 0.72 元。</b><b>★ 2026Q2 為推算值（Yahoo 三表至 08/26 複查仍未更新）：公司已於 08/21 18:11 公告 H1 官方數，以 H1 減 Q1（05/13 公告）推得單季</b>——Q2 營收 28.43 億元（季增 4.8%）、<b>毛利率 40.9%（Q1 為 55.6%，大降 14.7 個百分點）</b>、營益率 34.2%（Q1 49.6%）、淨利率 25.3%、<b>單季 EPS 0.72 元（季減 35.7%、年減 57.9%）</b>；H1 累計 EPS 1.85 元。與鉅亨 08/21 19:07 報導數字相符。<b>單季現金流查無</b>（公告未附）；另 H1 期末總負債 45.0 億元（Q1 末為 14.25 億元）、歸母權益 195.5 億元（Q1 末 215.8 億元），變動原因公告未載，Q2 完整財報上傳後需複查。審計委員會與董事會均於 08/21 通過，<b>公告未見會計師保留意見或其他應敘明事項</b>。<b>⚠ 面額變更（1 股拆 10 股）：跨基準日（2025Q2）之前各季 EPS 已一律除以 10 換算，EPS YoY 以調整後數值重算；Yahoo 頁面顯示的年增率未做此調整因而嚴重失真。</b> 近四季 EPS 合計 5.17 元｜本益比 9.2｜股價淨值比 2.17。</p>
+<h3 class="sh">法人目標價</h3><p class="para tgt">近期查無公開具名券商目標價（FactSet 亦無覆蓋）。<b>★ 併購 Cerdia 定價第十六日：10/16 無新官方進度（反托辣斯審查、稀釋量化、再融資皆查無）；10/07 鉅亨專文（Q3 營收 31.23 億五季新高、Cerdia 2026 年底前完成／2027 併表、股本 9.89→10.98 億）仍為最新指引。10/16 +2.47% 收 47.65（7,061 張、量增約六成、高 48.10）站回月線 47.21（4/6）；外資 +3,239 連八買（本輪單日最大）、主力 +2,649</b>。09/30 凱基法說口徑（反托辣斯審查中、增發約 10 萬張、Cerdia 債務約 9% 擬再融資至 4~5%、EPS 稀釋未量化）仍為媒體＋富果備忘錄；法說簡報 PDF 仍未取得。舊紀錄（國票 2024/03、1,200 元）為面額變更前基準，不得使用。⚠「AI 伺服器／低損耗 CCL」題材不存在（本業為二醋酸纖維絲束），勿採信。</p>
+<h3 class="sh">五面向評分</h3><div class="sbs">
+<div class="sbr"><span class="sbl">籌碼面<em>30%</em></span><span class="sbt"><i class="s00" style="width:42%"></i></span><span class="sbv">42</span></div>
+<div class="sbr"><span class="sbl">技術面<em>20%</em></span><span class="sbt"><i class="s55" style="width:55%"></i></span><span class="sbv">55</span></div>
+<div class="sbr"><span class="sbl">基本面<em>30%</em></span><span class="sbt"><i class="s55" style="width:58%"></i></span><span class="sbv">58</span></div>
+<div class="sbr"><span class="sbl">大盤面<em>10%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">消息面<em>10%</em></span><span class="sbt"><i class="s45" style="width:48%"></i></span><span class="sbv">48</span></div>
+<div class="sbr tot"><span class="sbl">綜合分數</span><span class="sbt"><i class="s45" style="width:50%"></i></span><span class="sbv">50</span></div></div>
+<p class="tnote fdet">基本面 58 分內部拆解：月營收動能 14/20、三率與 EPS 趨勢 9/30、財務結構 18/20、獲利品質 10/20、評價 7/10</p>
+<p class="tnote fdet">技術面 55 分 ＝ 判讀分 55 ＋ 0（頂背離、突破前 20 日高、向上跳空的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）：本期無觸發項目</p>
+<h3 class="sh">建議｜兩種情境</h3><div class="acts">
+<div class="act"><div class="acth"><span class="actw">空手時</span><span class="actq">在什麼價位、滿足什麼條件才買？</span><span class="chip e-no big"><i>✕</i>不建議買進</span></div><div class="opbox"><span class="aol">買進區間</span><span class="aoz">暫不設買點<small>+2.47% 收 47.65（7,061 張、高 48.10）站回月線 47.21（1/6→4/6），季線 48.49、年線 48.59 未過；外資 +3,239 連八買（本輪單日最大）、主力 +2,649——「站回月線守穩三日」第一日、稀釋仍未明</small></span><span class="aol">觸發條件</span><span class="aoc"><b>併購稀釋試算與 Cerdia 債務承接明朗、且帶量站穩月線 47.21 三日（10/16 為第一日），再重新評估</b></span></div><p class="actp"><b>不建議買進——外資連八買帶量站回月線，但只是第一日、稀釋未明。</b></p></div>
+<div class="act"><div class="acth"><span class="actw">已持有</span><span class="actq">在什麼價位減碼、跌破什麼就出場？</span><span class="chip h-exit big"><i>✕</i>近期出場</span></div><div class="opbox"><span class="aol">出場區間</span><span class="aoz">48.1 – 48.6 元<small>10/16 高 48.10 ～ 年線 48.59（季線 48.49 帶內；月線 47.21 為守線、120 日線 46.47 為加速線、45.05 為不計價位線）</small></span><span class="aol">出場觸發</span><span class="aoc"><b>出場模式：反彈至 48.1~48.6 元分批出；跌回月線 47.21 下恢復加速、跌破 45.05 元不計價位出清</b></span></div><p class="actp"><b>近期出場——站回月線第一日，出場帶上移；跌回月線下恢復加速。</b></p></div></div>
+<h3 class="sh">操作參考（價位）</h3><p class="para ops">空手：暫不設買點。持有：<b>反彈至 48.1~48.6 元分批出；跌回月線 47.21 元下恢復加速、跌破 45.05 元不計價位出清</b>。</p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<section id="s2049" class="card stk"><div class="chd">
+<h2 class="cnm"><a href="#s2049">上銀<em>2049</em></a></h2>
+<div class="cpx"><span class="px flat">311.00</span><span class="pchg flat">+0.00（+0.00%）</span></div>
+<div class="cspk"><svg class="spk" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,40.58 5.26,27.54 10.53,31.88 15.79,33.33 21.05,42.03 26.32,63.77 31.58,57.97 36.84,28.99 42.11,30.43 47.37,30.43 52.63,37.68 57.89,0.00 63.16,17.39 68.42,8.70 73.68,37.68 78.95,21.74 84.21,53.62 89.47,36.23 94.74,100.00 100.00,100.00" fill="none" stroke="var(--dn)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<div class="ctag"><span class="tg">上市</span><span class="tg">機械（滾珠螺桿／線性滑軌／工業機器人）</span><span class="tg">2049.TW</span><span class="vd s45v">觀察 50</span></div></div>
+<h3 class="sh">股價與技術指標</h3><div class="grid">
+<div class="mc flat"><span class="mcl">收盤</span><span class="mcv">311.00</span></div>
+<div class="mc flat"><span class="mcl">漲跌</span><span class="mcv">+0.00（+0.00%）</span></div>
+<div class="mc "><span class="mcl">開／高／低</span><span class="mcv">313.00 / 318.50 / 310.50</span></div>
+<div class="mc "><span class="mcl">成交量（張）</span><span class="mcv">1,458<br><small>5日均 1,753／20日均 2,103</small></span></div>
+<div class="mc "><span class="mcl">量比</span><span class="mcv">0.69<br><small>當日量 ÷ 20 日均量</small></span></div>
+<div class="mc "><span class="mcl">KD(9,3,3)</span><span class="mcv">K 14.83 / D 28.19<br><small>前日 K 21.71 / D 34.87</small></span></div>
+<div class="mc "><span class="mcl">RSI(14)</span><span class="mcv">37.68<br><small>前日 37.68</small></span></div>
+<div class="mc "><span class="mcl">MACD</span><span class="mcv">DIF -6.27<br>DEA -4.32<br>柱 -1.957<small>（前日 -1.179）</small></span></div>
+<div class="mc "><span class="mcl">MACD 背離</span><span class="mcv">隱性頂背離<br><small>09-09→10-05・8 根前確認</small></span></div>
+<div class="mc "><span class="mcl">DMA</span><span class="mcv">3-6 -7.08 <small>零下・AMA下</small><br>6-12 -6.46 <small>零下・AMA下</small><br>5-20 -7.70 <small>零下・AMA下</small></span></div>
+<div class="mc "><span class="mcl">VWAP 均價線</span><span class="mcv">20日 334.31<br>60日 354.99<br><small>現價在 20 日線<b>下</b>（-6.97%）</small></span></div>
+<div class="mc "><span class="mcl">20日高低區間</span><span class="mcv">高 357.00／低 311.00<br><small>不含當日・區間內・距高 -12.9%</small></span></div>
+<div class="mc "><span class="mcl">跳空缺口（未回補）</span><span class="mcv">上方 327.00~328.50<small>（10-15）</small></span></div>
+<div class="mc "><span class="mcl">前波轉折壓／撐</span><span class="mcv">壓 357.00<small>（10-05）</small><br>撐 320.00<small>（09-24）</small><br><small>分形確認的最近轉折</small></span></div>
+<div class="mc "><span class="mcl">移動停利參考</span><span class="mcv">314.65<br><small>20日高 − 3×ATR14（14.12）・收盤在其<b>下</b></small></span></div>
+<div class="mc "><span class="mcl">布林(20,2)</span><span class="mcv">上 348.81<br>中 331.70<br>下 314.59<br><small>%B -10.49</small></span></div>
+<div class="mc "><span class="mcl">乖離率</span><span class="mcv">20日 -6.24%<br>60日 -9.24%</span></div>
+<div class="mc "><span class="mcl">52週高／低</span><span class="mcv">426.00 / 180.50<br><small>距高點 -27.00%</small></span></div>
+<div class="mc "><span class="mcl">報酬率</span><span class="mcv">1月 -5.47%<br>3月 +1.97%<br>6月 +2.98%<br>1年 +47.39%</span></div>
+<div class="mc up"><span class="mcl">今年以來</span><span class="mcv">+60.31%</span></div>
+<div class="mc "><span class="mcl">收盤價交叉驗證</span><span class="mcv">Yahoo 311.00<br>玩股網 311.00<br><small class="ok">一致</small></span></div>
+</div>
+<h3 class="sh">均線位置</h3><div class="mabh">均線位置：站上 <b>1/6</b> 條</div><div class="mabs"><span class="mab no">5日 ✗ 324.00</span><span class="mab no">10日 ✗ 331.25</span><span class="mab no">月線 ✗ 331.70</span><span class="mab no">季線 ✗ 342.67</span><span class="mab no">半年線 ✗ 342.42</span><span class="mab ok">年線 ✓ 282.36</span></div>
+<h3 class="sh">法人動態（近 10 個交易日，單位：張）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>外資(不含自營)</th><th>外資自營</th><th>投信</th><th>自營自行</th><th>自營避險</th><th>總合</th><th>估計持股外資(張)</th><th>投信(張)</th><th>自營(張)</th><th>三大法人合計(張)</th><th>外資持股比重%</th><th>三大法人持股比重%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num dn">-325</td><td class="num flat">0</td><td class="num dn">-117</td><td class="num dn">-8</td><td class="num up">10</td><td class="num dn">-440</td><td class="num">135745</td><td class="num">2014</td><td class="num">8923</td><td class="num">146682</td><td class="num">38.36</td><td class="num">41.45</td></tr><tr><td>2026/10/15</td><td class="num dn">-1544</td><td class="num flat">0</td><td class="num dn">-208</td><td class="num dn">-30</td><td class="num dn">-130</td><td class="num dn">-1912</td><td class="num">136070</td><td class="num">2131</td><td class="num">8922</td><td class="num">147123</td><td class="num">38.46</td><td class="num">41.58</td></tr><tr><td>2026/10/14</td><td class="num up">243</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">3</td><td class="num up">2</td><td class="num up">248</td><td class="num">137614</td><td class="num">2339</td><td class="num">9082</td><td class="num">149035</td><td class="num">38.89</td><td class="num">42.12</td></tr><tr><td>2026/10/13</td><td class="num dn">-610</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-48</td><td class="num dn">-74</td><td class="num dn">-732</td><td class="num">137370</td><td class="num">2339</td><td class="num">9077</td><td class="num">148786</td><td class="num">38.82</td><td class="num">42.05</td></tr><tr><td>2026/10/12</td><td class="num up">518</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">16</td><td class="num up">534</td><td class="num">138392</td><td class="num">2339</td><td class="num">9199</td><td class="num">149930</td><td class="num">39.11</td><td class="num">42.37</td></tr><tr><td>2026/10/08</td><td class="num dn">-1053</td><td class="num flat">0</td><td class="num up">1</td><td class="num dn">-2</td><td class="num dn">-25</td><td class="num dn">-1079</td><td class="num">137726</td><td class="num">2339</td><td class="num">9183</td><td class="num">149248</td><td class="num">38.92</td><td class="num">42.18</td></tr><tr><td>2026/10/07</td><td class="num up">294</td><td class="num flat">0</td><td class="num dn">-1</td><td class="num up">2</td><td class="num up">11</td><td class="num up">306</td><td class="num">138720</td><td class="num">2338</td><td class="num">9210</td><td class="num">150268</td><td class="num">39.2</td><td class="num">42.46</td></tr><tr><td>2026/10/06</td><td class="num up">162</td><td class="num flat">0</td><td class="num dn">-607</td><td class="num up">25</td><td class="num up">10</td><td class="num dn">-410</td><td class="num">138660</td><td class="num">2339</td><td class="num">9197</td><td class="num">150196</td><td class="num">39.19</td><td class="num">42.45</td></tr><tr><td>2026/10/05</td><td class="num up">2177</td><td class="num flat">0</td><td class="num dn">-483</td><td class="num up">69</td><td class="num up">42</td><td class="num up">1805</td><td class="num">138692</td><td class="num">2946</td><td class="num">9161</td><td class="num">150799</td><td class="num">39.2</td><td class="num">42.62</td></tr><tr><td>2026/10/02</td><td class="num dn">-363</td><td class="num flat">0</td><td class="num dn">-250</td><td class="num flat">0</td><td class="num dn">-4</td><td class="num dn">-617</td><td class="num">136338</td><td class="num">3429</td><td class="num">9049</td><td class="num">148816</td><td class="num">38.53</td><td class="num">42.06</td></tr></tbody></table></div>
+<p class="tnote">買賣超欄位紅色為買超、綠色為賣超；持股張數與持股比重為中性數值不上色。已驗證五欄買賣超相加等於「總合」欄，8 檔 × 10 日共 80 列全數成立。</p>
+<h3 class="sh">主力進出（近 10 個交易日）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>收盤價</th><th>主力買賣超</th><th>家數差</th><th>5日集中度%</th><th>20日集中度%</th></tr></thead><tbody><tr><td>2026/10/15</td><td class="num">311.00</td><td class="num dn">-1328</td><td class="num dn">523</td><td class="num dn">-17.81%</td><td class="num up">2.17%</td></tr><tr><td>2026/10/14</td><td class="num">333.00</td><td class="num up">143</td><td class="num up">-68</td><td class="num dn">-8.71%</td><td class="num dn">-7.03%</td></tr><tr><td>2026/10/13</td><td class="num">327.00</td><td class="num dn">-561</td><td class="num dn">368</td><td class="num dn">-11.84%</td><td class="num dn">-5.85%</td></tr><tr><td>2026/10/12</td><td class="num">338.00</td><td class="num up">307</td><td class="num up">-110</td><td class="num up">5.28%</td><td class="num dn">-6.17%</td></tr><tr><td>2026/10/08</td><td class="num">332.50</td><td class="num dn">-1166</td><td class="num dn">505</td><td class="num dn">-1.51%</td><td class="num dn">-2.09%</td></tr><tr><td>2026/10/07</td><td class="num">342.50</td><td class="num up">282</td><td class="num up">-117</td><td class="num up">5.85%</td><td class="num dn">-1.84%</td></tr><tr><td>2026/10/06</td><td class="num">339.50</td><td class="num dn">-579</td><td class="num dn">345</td><td class="num up">4.29%</td><td class="num dn">-1.6%</td></tr><tr><td>2026/10/05</td><td class="num">345.50</td><td class="num up">1464</td><td class="num up">-390</td><td class="num up">15.14%</td><td class="num dn">-0.1%</td></tr><tr><td>2026/10/02</td><td class="num">332.50</td><td class="num dn">-487</td><td class="num dn">319</td><td class="num up">0.32%</td><td class="num dn">-2.64%</td></tr><tr><td>2026/10/01</td><td class="num">335.00</td><td class="num dn">-125</td><td class="num dn">130</td><td class="num dn">-1.28%</td><td class="num dn">-2.87%</td></tr></tbody></table></div>
+<p class="tnote">家數差為負值代表籌碼集中（較佳），故此欄以「負＝紅」呈現。收盤價為中性數值不上色。</p>
+<h3 class="sh">大戶籌碼（近 13 週，約 3 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>400張以上%</th><th>外資持股%</th><th>投信持股%</th><th>自營商持股%</th><th>董監持股%</th></tr></thead><tbody><tr><td>2026/10/08</td><td class="num">70.01</td><td class="num">38.92</td><td class="num">0.66</td><td class="num">2.6</td><td class="num">9.33</td></tr><tr><td>2026/10/02</td><td class="num">70.14</td><td class="num">38.53</td><td class="num">0.97</td><td class="num">2.56</td><td class="num">9.33</td></tr><tr><td>2026/09/24</td><td class="num">69.93</td><td class="num">38.5</td><td class="num">1.04</td><td class="num">2.54</td><td class="num">9.33</td></tr><tr><td>2026/09/18</td><td class="num">70.41</td><td class="num">38.88</td><td class="num">1.04</td><td class="num">2.55</td><td class="num">9.33</td></tr><tr><td>2026/09/11</td><td class="num">71.34</td><td class="num">39.92</td><td class="num">1.03</td><td class="num">2.61</td><td class="num">9.33</td></tr><tr><td>2026/09/04</td><td class="num">70.62</td><td class="num">39.03</td><td class="num">0.96</td><td class="num">2.63</td><td class="num">9.33</td></tr><tr><td>2026/08/28</td><td class="num">70.97</td><td class="num">38.44</td><td class="num">1.35</td><td class="num">2.59</td><td class="num">9.33</td></tr><tr><td>2026/08/21</td><td class="num">71.39</td><td class="num">38.55</td><td class="num">1.47</td><td class="num">2.58</td><td class="num">9.33</td></tr><tr><td>2026/08/14</td><td class="num">71.63</td><td class="num">39.33</td><td class="num">0.55</td><td class="num">2.7</td><td class="num">9.33</td></tr><tr><td>2026/08/07</td><td class="num">70.34</td><td class="num">38.44</td><td class="num">0.76</td><td class="num">2.72</td><td class="num">9.33</td></tr><tr><td>2026/07/31</td><td class="num">68.52</td><td class="num">36.66</td><td class="num">0.79</td><td class="num">2.54</td><td class="num">9.33</td></tr><tr><td>2026/07/24</td><td class="num">68.98</td><td class="num">36.64</td><td class="num">0.8</td><td class="num">2.57</td><td class="num">9.33</td></tr><tr><td>2026/07/17</td><td class="num">68.67</td><td class="num">36.37</td><td class="num">0.98</td><td class="num">2.56</td><td class="num">9.33</td></tr></tbody></table></div>
+<p class="tnote">全部為持股比重，屬中性數值不套用漲跌配色。<b>⚠ 大戶門檻各檔不同，本檔為「400張以上」</b>（門檻由來源網站決定、會隨個股條件而異，本報告一律以該檔頁面實際顯示的門檻為準；本組合出現的門檻有 1000張以上、400張以上，<b>跨個股比較此欄位時務必先確認門檻是否相同</b>）。為週資料，區間 2026/07/17 ~ 2026/10/08（共 13 週）。</p>
+<h3 class="sh">月營收（近 12 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow"><table><thead><tr><th>年月</th><th>營收(億)</th><th>YoY</th><th>MoM</th><th>累計 YoY</th></tr></thead><tbody><tr><td>2026-09</td><td class="num">27.20</td><td class="num up">+30.14%</td><td class="num up">+0.45%</td><td class="num up">+23.86%</td></tr><tr><td>2026-08</td><td class="num">27.08</td><td class="num up">+42.30%</td><td class="num up">+0.98%</td><td class="num up">+23.02%</td></tr><tr><td>2026-07</td><td class="num">26.82</td><td class="num up">+33.93%</td><td class="num up">+4.99%</td><td class="num up">+20.36%</td></tr><tr><td>2026-06</td><td class="num">25.54</td><td class="num up">+31.62%</td><td class="num up">+2.97%</td><td class="num up">+18.04%</td></tr><tr><td>2026-05</td><td class="num">24.80</td><td class="num up">+28.17%</td><td class="num up">+0.24%</td><td class="num up">+15.36%</td></tr><tr><td>2026-04</td><td class="num">24.74</td><td class="num up">+20.68%</td><td class="num up">+4.96%</td><td class="num up">+12.22%</td></tr><tr><td>2026-03</td><td class="num">23.57</td><td class="num up">+17.39%</td><td class="num up">+25.91%</td><td class="num up">+9.25%</td></tr><tr><td>2026-02</td><td class="num">18.72</td><td class="num dn">-3.02%</td><td class="num dn">-12.92%</td><td class="num up">+4.99%</td></tr><tr><td>2026-01</td><td class="num">21.50</td><td class="num up">+13.13%</td><td class="num dn">-3.13%</td><td class="num up">+13.13%</td></tr><tr><td>2025-12</td><td class="num">22.20</td><td class="num up">+7.62%</td><td class="num up">+1.71%</td><td class="num dn">-0.52%</td></tr><tr><td>2025-11</td><td class="num">21.82</td><td class="num up">+1.96%</td><td class="num up">+3.86%</td><td class="num dn">-1.28%</td></tr><tr><td>2025-10</td><td class="num">21.01</td><td class="num dn">-3.31%</td><td class="num up">+0.52%</td><td class="num dn">-1.62%</td></tr></tbody></table></div>
+<p class="tnote">單位：億元（原始仟元）。來源：玩股網月營收（轉載公開資訊觀測站公告）。★ 2026/09 27.20 億元（+30.14%、月增 0.45%）續創 2022/08 以來高點，Q3 81.10 億元（計算值）季增 8%；公司說明滾珠螺桿交期拉長至 6 個月、線性滑軌 4～5 個月（中央社 10/06）。</p>
+<h3 class="sh">每股盈餘（近 8 季）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow tn3"><table><thead><tr><th>季別</th><th>單季 EPS（元）</th><th>EPS YoY</th></tr></thead><tbody><tr><td>2026Q2</td><td class="num">2.40</td><td class="num up">+531.58%</td></tr><tr><td>2026Q1</td><td class="num">1.64</td><td class="num up">+20.59%</td></tr><tr><td>2025Q4</td><td class="num">1.31</td><td class="num up">+40.86%</td></tr><tr><td>2025Q3</td><td class="num">1.26</td><td class="num dn">-32.98%</td></tr><tr><td>2025Q2</td><td class="num">0.38</td><td class="num ">—</td></tr><tr><td>2025Q1</td><td class="num">1.36</td><td class="num ">—</td></tr><tr><td>2024Q4</td><td class="num">0.93</td><td class="num ">—</td></tr><tr><td>2024Q3</td><td class="num">1.88</td><td class="num ">—</td></tr></tbody></table></div>
+<p class="tnote">最新已公布季 <b>2026Q2</b>，來源 Yahoo 奇摩股市。 近四季 EPS 合計 6.61 元｜本益比 47.0｜股價淨值比 2.80。</p>
+<h3 class="sh">法人目標價</h3><p class="para tgt"><b>FactSet 彙總 10/02：2026 年 EPS 中位數 9.7 元、目標價中位數 450 元（15 位分析師，10/16 未更新）</b>；<b>機械公會 9 月機械出口 +29.9%、動力傳動件 +19.1%；10/13 優分析：Q3 營收 81.09 億、已接 2027Q2 訂單</b>；10/16 卓永財獲遠見終身成就獎（榮譽新聞）。<b>10/16 平盤 311.00（高 318.50 低 310.50、量 1,462 張）連二日收在布林下軌 314.59 外；外資 −325、投信 −117（連二日同賣）——不計價位出清</b>。</p>
+<h3 class="sh">五面向評分</h3><div class="sbs">
+<div class="sbr"><span class="sbl">籌碼面<em>30%</em></span><span class="sbt"><i class="s00" style="width:25%"></i></span><span class="sbv">25</span></div>
+<div class="sbr"><span class="sbl">技術面<em>20%</em></span><span class="sbt"><i class="s00" style="width:30%"></i></span><span class="sbv">30</span></div>
+<div class="sbr"><span class="sbl">基本面<em>30%</em></span><span class="sbt"><i class="s70" style="width:85%"></i></span><span class="sbv">85</span></div>
+<div class="sbr"><span class="sbl">大盤面<em>10%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">消息面<em>10%</em></span><span class="sbt"><i class="s55" style="width:60%"></i></span><span class="sbv">60</span></div>
+<div class="sbr tot"><span class="sbl">綜合分數</span><span class="sbt"><i class="s45" style="width:50%"></i></span><span class="sbv">50</span></div></div>
+<p class="tnote fdet">基本面 85 分內部拆解：月營收動能 19/20、三率與 EPS 趨勢 27/30、財務結構 17/20、獲利品質 19/20、評價 3/10</p>
+<p class="tnote fdet">技術面 30 分 ＝ 判讀分 30 ＋ 0（頂背離、突破前 20 日高、向上跳空的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）：本期無觸發項目</p>
+<h3 class="sh">建議｜兩種情境</h3><div class="acts">
+<div class="act"><div class="acth"><span class="actw">空手時</span><span class="actq">在什麼價位、滿足什麼條件才買？</span><span class="chip e-no big"><i>✕</i>不建議買進</span></div><div class="opbox"><span class="aol">買進區間</span><span class="aoz">暫不設買點<small>平盤 311.00（1,462 張 vr20 0.69、高 318.50 低 310.50）連二日收在布林下軌 314.59 外、收在前 20 日低（1/6）；外資 −325、投信 −117——外資投信連二日同賣</small></span><span class="aol">觸發條件</span><span class="aoc"><b>收盤站回月線 331.70 之上守穩兩日且外資、投信止賣，再重新評估</b></span></div><p class="actp"><b>不建議買進——連二日收在布林下軌外、外資投信同賣。</b></p></div>
+<div class="act"><div class="acth"><span class="actw">已持有</span><span class="actq">在什麼價位減碼、跌破什麼就出場？</span><span class="chip h-exit big"><i>✕</i>近期出場</span></div><div class="opbox"><span class="aol">出場區間</span><span class="aoz">314.6 – 318.5 元<small>布林下軌 314.59 ～ 10/16 高 318.50（5 日線 324.00 為更高執行位）</small></span><span class="aol">出場觸發</span><span class="aoc"><b>不計價位出清：不設任何等待價、逐日分批出；反彈至 314.6~318.5 元加速</b></span></div><p class="actp"><b>不計價位出清——連二日收下軌外，逐日分批出。</b></p></div></div>
+<h3 class="sh">操作參考（價位）</h3><p class="para ops">空手：暫不設買點。持有：<b>不設任何等待價、逐日分批出；反彈至 314.6~318.5 元加速</b>。</p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<section id="s8422" class="card stk"><div class="chd">
+<h2 class="cnm"><a href="#s8422">可寧衛*<em>8422</em></a></h2>
+<div class="cpx"><span class="px up">25.70</span><span class="pchg up">+0.60（+2.39%）</span></div>
+<div class="cspk"><svg class="spk" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,37.93 5.26,48.28 10.53,0.00 15.79,37.93 21.05,58.62 26.32,62.07 31.58,68.97 36.84,72.41 42.11,44.83 47.37,65.52 52.63,72.41 57.89,86.21 63.16,93.10 68.42,65.52 73.68,68.97 78.95,79.31 84.21,100.00 89.47,86.21 94.74,100.00 100.00,58.62" fill="none" stroke="var(--dn)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<div class="ctag"><span class="tg">上市</span><span class="tg">綠能環保（事業廢棄物處理）</span><span class="tg">8422.TW</span><span class="vd s00v">減碼／賣出 42</span></div></div>
+<h3 class="sh">股價與技術指標</h3><div class="grid">
+<div class="mc up"><span class="mcl">收盤</span><span class="mcv">25.70</span></div>
+<div class="mc up"><span class="mcl">漲跌</span><span class="mcv">+0.60（+2.39%）</span></div>
+<div class="mc "><span class="mcl">開／高／低</span><span class="mcv">25.30 / 25.85 / 25.30</span></div>
+<div class="mc "><span class="mcl">成交量（張）</span><span class="mcv">4,552<br><small>5日均 4,253／20日均 4,176</small></span></div>
+<div class="mc up"><span class="mcl">量比</span><span class="mcv">1.09<br><small>當日量 ÷ 20 日均量</small></span></div>
+<div class="mc "><span class="mcl">KD(9,3,3)</span><span class="mcv">K 42.17 / D 30.82<br><small>前日 K 22.08 / D 25.15</small></span></div>
+<div class="mc "><span class="mcl">RSI(14)</span><span class="mcv">49.63<br><small>前日 39.31</small></span></div>
+<div class="mc "><span class="mcl">MACD</span><span class="mcv">DIF -0.24<br>DEA -0.26<br>柱 0.018<small>（前日 -0.021）</small></span></div>
+<div class="mc "><span class="mcl">MACD 背離</span><span class="mcv">無<br><small>近 60 根內未出現</small></span></div>
+<div class="mc "><span class="mcl">DMA</span><span class="mcv">3-6 +0.01 <small>零上・<b>黃金交叉</b></small><br>6-12 -0.08 <small>零下・AMA上</small><br>5-20 -0.28 <small>零下・AMA上</small></span></div>
+<div class="mc "><span class="mcl">VWAP 均價線</span><span class="mcv">20日 25.68<br>60日 26.05<br><small>現價在 20 日線上（+0.07%）</small></span></div>
+<div class="mc "><span class="mcl">20日高低區間</span><span class="mcv">高 26.55／低 25.00<br><small>不含當日・區間內・距高 -3.2%</small></span></div>
+<div class="mc "><span class="mcl">跳空缺口（未回補）</span><span class="mcv">下方 24.65~24.75<small>（07-31）</small></span></div>
+<div class="mc "><span class="mcl">前波轉折壓／撐</span><span class="mcv">壓 26.55<small>（09-18）</small><br>撐 26.15<small>（08-17）</small><br><small>分形確認的最近轉折</small></span></div>
+<div class="mc "><span class="mcl">移動停利參考</span><span class="mcv">25.25<br><small>20日高 − 3×ATR14（0.43）・收盤在其上</small></span></div>
+<div class="mc "><span class="mcl">布林(20,2)</span><span class="mcv">上 26.28<br>中 25.60<br>下 24.92<br><small>%B 57.18</small></span></div>
+<div class="mc "><span class="mcl">乖離率</span><span class="mcv">20日 +0.38%<br>60日 -1.49%</span></div>
+<div class="mc "><span class="mcl">52週高／低</span><span class="mcv">51.90 / 20.55<br><small>距高點 -50.48%</small></span></div>
+<div class="mc "><span class="mcl">報酬率</span><span class="mcv">1月 -0.96%<br>3月 -2.65%<br>6月 -11.53%<br>1年 +21.23%</span></div>
+<div class="mc dn"><span class="mcl">今年以來</span><span class="mcv">-18.67%</span></div>
+<div class="mc "><span class="mcl">收盤價交叉驗證</span><span class="mcv">Yahoo 25.70<br>玩股網 25.70<br><small class="ok">一致</small></span></div>
+</div>
+<h3 class="sh">均線位置</h3><div class="mabh">均線位置：站上 <b>3/6</b> 條</div><div class="mabs"><span class="mab ok">5日 ✓ 25.32</span><span class="mab ok">10日 ✓ 25.38</span><span class="mab ok">月線 ✓ 25.60</span><span class="mab no">季線 ✗ 26.09</span><span class="mab no">半年線 ✗ 26.84</span><span class="mab no">年線 ✗ 28.35</span></div>
+<h3 class="sh">法人動態（近 10 個交易日，單位：張）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>外資(不含自營)</th><th>外資自營</th><th>投信</th><th>自營自行</th><th>自營避險</th><th>總合</th><th>估計持股外資(張)</th><th>投信(張)</th><th>自營(張)</th><th>三大法人合計(張)</th><th>外資持股比重%</th><th>三大法人持股比重%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num up">2339</td><td class="num flat">0</td><td class="num dn">-114</td><td class="num dn">-36</td><td class="num dn">-13</td><td class="num up">2176</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td></tr><tr><td>2026/10/15</td><td class="num up">1300</td><td class="num flat">0</td><td class="num dn">-68</td><td class="num up">7</td><td class="num dn">-22</td><td class="num up">1217</td><td class="num">76382</td><td class="num">54479</td><td class="num">查無</td><td class="num">130861</td><td class="num">5.62</td><td class="num">9.63</td></tr><tr><td>2026/10/14</td><td class="num up">1054</td><td class="num flat">0</td><td class="num dn">-38</td><td class="num up">9</td><td class="num dn">-23</td><td class="num up">1002</td><td class="num">75810</td><td class="num">54547</td><td class="num">查無</td><td class="num">130357</td><td class="num">5.58</td><td class="num">9.59</td></tr><tr><td>2026/10/13</td><td class="num dn">-53</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-103</td><td class="num dn">-11</td><td class="num dn">-167</td><td class="num">73955</td><td class="num">54585</td><td class="num">查無</td><td class="num">128540</td><td class="num">5.44</td><td class="num">9.46</td></tr><tr><td>2026/10/12</td><td class="num dn">-175</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-283</td><td class="num dn">-1</td><td class="num dn">-459</td><td class="num">73372</td><td class="num">54585</td><td class="num">查無</td><td class="num">127957</td><td class="num">5.4</td><td class="num">9.42</td></tr><tr><td>2026/10/08</td><td class="num up">93</td><td class="num flat">0</td><td class="num up">3</td><td class="num dn">-185</td><td class="num dn">-17</td><td class="num dn">-106</td><td class="num">73751</td><td class="num">54585</td><td class="num">查無</td><td class="num">128336</td><td class="num">5.43</td><td class="num">9.45</td></tr><tr><td>2026/10/07</td><td class="num up">664</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-157</td><td class="num dn">-2</td><td class="num up">505</td><td class="num">73723</td><td class="num">54582</td><td class="num">查無</td><td class="num">128305</td><td class="num">5.43</td><td class="num">9.45</td></tr><tr><td>2026/10/06</td><td class="num up">633</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-143</td><td class="num dn">-1</td><td class="num up">489</td><td class="num">72842</td><td class="num">54582</td><td class="num">查無</td><td class="num">127424</td><td class="num">5.36</td><td class="num">9.38</td></tr><tr><td>2026/10/05</td><td class="num dn">-2095</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-15</td><td class="num up">3</td><td class="num dn">-2107</td><td class="num">71989</td><td class="num">54582</td><td class="num">查無</td><td class="num">126571</td><td class="num">5.3</td><td class="num">9.32</td></tr><tr><td>2026/10/02</td><td class="num dn">-764</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-2</td><td class="num up">3</td><td class="num dn">-763</td><td class="num">74346</td><td class="num">54582</td><td class="num">5</td><td class="num">128933</td><td class="num">5.47</td><td class="num">9.49</td></tr></tbody></table></div>
+<p class="tnote">買賣超欄位紅色為買超、綠色為賣超；持股張數與持股比重為中性數值不上色。已驗證五欄買賣超相加等於「總合」欄，8 檔 × 10 日共 80 列全數成立。</p>
+<h3 class="sh">主力進出（近 10 個交易日）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>收盤價</th><th>主力買賣超</th><th>家數差</th><th>5日集中度%</th><th>20日集中度%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num">25.70</td><td class="num up">2012</td><td class="num up">-261</td><td class="num up">6.89%</td><td class="num dn">-8.18%</td></tr><tr><td>2026/10/15</td><td class="num">25.10</td><td class="num up">898</td><td class="num dn">10</td><td class="num up">5.45%</td><td class="num dn">-8.64%</td></tr><tr><td>2026/10/14</td><td class="num">25.30</td><td class="num up">564</td><td class="num up">-43</td><td class="num dn">-0.14%</td><td class="num dn">-9.11%</td></tr><tr><td>2026/10/13</td><td class="num">25.10</td><td class="num dn">-728</td><td class="num dn">214</td><td class="num dn">-2.8%</td><td class="num dn">-10.41%</td></tr><tr><td>2026/10/12</td><td class="num">25.40</td><td class="num dn">-444</td><td class="num dn">172</td><td class="num dn">-6.5%</td><td class="num dn">-9.33%</td></tr><tr><td>2026/10/08</td><td class="num">25.55</td><td class="num dn">-180</td><td class="num dn">128</td><td class="num dn">-7.87%</td><td class="num dn">-9.36%</td></tr><tr><td>2026/10/07</td><td class="num">25.60</td><td class="num up">426</td><td class="num up">-7</td><td class="num dn">-12.88%</td><td class="num dn">-7.76%</td></tr><tr><td>2026/10/06</td><td class="num">25.20</td><td class="num up">114</td><td class="num dn">115</td><td class="num dn">-12.01%</td><td class="num dn">-9.18%</td></tr><tr><td>2026/10/05</td><td class="num">25.30</td><td class="num dn">-1572</td><td class="num dn">283</td><td class="num dn">-16.48%</td><td class="num dn">-10.2%</td></tr><tr><td>2026/10/02</td><td class="num">25.50</td><td class="num dn">-653</td><td class="num dn">225</td><td class="num dn">-11.44%</td><td class="num dn">-8.48%</td></tr></tbody></table></div>
+<p class="tnote">家數差為負值代表籌碼集中（較佳），故此欄以「負＝紅」呈現。收盤價為中性數值不上色。</p>
+<h3 class="sh">大戶籌碼（近 13 週，約 3 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>1000張以上%</th><th>外資持股%</th><th>投信持股%</th><th>自營商持股%</th><th>董監持股%</th></tr></thead><tbody><tr><td>2026/10/08</td><td class="num">34.41</td><td class="num">5.43</td><td class="num">4.02</td><td class="num">0</td><td class="num">6.45</td></tr><tr><td>2026/10/02</td><td class="num">34.45</td><td class="num">5.47</td><td class="num">4.02</td><td class="num">0</td><td class="num">6.45</td></tr><tr><td>2026/09/24</td><td class="num">34.14</td><td class="num">5.3</td><td class="num">4.02</td><td class="num">0</td><td class="num">6.45</td></tr><tr><td>2026/09/18</td><td class="num">34.46</td><td class="num">5.75</td><td class="num">4.02</td><td class="num">0</td><td class="num">6.45</td></tr><tr><td>2026/09/11</td><td class="num">34.68</td><td class="num">5.46</td><td class="num">4.16</td><td class="num">0.01</td><td class="num">6.45</td></tr><tr><td>2026/09/04</td><td class="num">34.55</td><td class="num">5.5</td><td class="num">4.16</td><td class="num">0.02</td><td class="num">6.45</td></tr><tr><td>2026/08/28</td><td class="num">34.63</td><td class="num">5.49</td><td class="num">4.15</td><td class="num">0.05</td><td class="num">6.45</td></tr><tr><td>2026/08/21</td><td class="num">34.28</td><td class="num">5.27</td><td class="num">4.15</td><td class="num">0.06</td><td class="num">6.45</td></tr><tr><td>2026/08/14</td><td class="num">34.09</td><td class="num">5.18</td><td class="num">3.88</td><td class="num">0.05</td><td class="num">6.45</td></tr><tr><td>2026/08/07</td><td class="num">33.77</td><td class="num">5.12</td><td class="num">3.88</td><td class="num">0.04</td><td class="num">6.45</td></tr><tr><td>2026/07/31</td><td class="num">33.36</td><td class="num">4.74</td><td class="num">3.88</td><td class="num">0.03</td><td class="num">6.45</td></tr><tr><td>2026/07/24</td><td class="num">33.59</td><td class="num">4.49</td><td class="num">3.88</td><td class="num">0.01</td><td class="num">6.45</td></tr><tr><td>2026/07/17</td><td class="num">33.58</td><td class="num">4.14</td><td class="num">3.97</td><td class="num">0.02</td><td class="num">6.45</td></tr></tbody></table></div>
+<p class="tnote">全部為持股比重，屬中性數值不套用漲跌配色。<b>⚠ 大戶門檻各檔不同，本檔為「1000張以上」</b>（門檻由來源網站決定、會隨個股條件而異，本報告一律以該檔頁面實際顯示的門檻為準；本組合出現的門檻有 1000張以上、400張以上，<b>跨個股比較此欄位時務必先確認門檻是否相同</b>）。為週資料，區間 2026/07/17 ~ 2026/10/08（共 13 週）。</p>
+<h3 class="sh">月營收（近 12 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow"><table><thead><tr><th>年月</th><th>營收(億)</th><th>YoY</th><th>MoM</th><th>累計 YoY</th></tr></thead><tbody><tr><td>2026-09</td><td class="num">7.09</td><td class="num up">+97.80%</td><td class="num up">+1.13%</td><td class="num up">+41.74%</td></tr><tr><td>2026-08</td><td class="num">7.01</td><td class="num up">+105.84%</td><td class="num up">+22.35%</td><td class="num up">+35.88%</td></tr><tr><td>2026-07</td><td class="num">5.73</td><td class="num up">+59.86%</td><td class="num dn">-5.85%</td><td class="num up">+28.16%</td></tr><tr><td>2026-06</td><td class="num">6.08</td><td class="num up">+50.33%</td><td class="num dn">-52.19%</td><td class="num up">+24.00%</td></tr><tr><td>2026-05</td><td class="num">12.73</td><td class="num up">+199.60%</td><td class="num up">+227.59%</td><td class="num up">+19.42%</td></tr><tr><td>2026-04</td><td class="num">3.89</td><td class="num dn">-11.49%</td><td class="num dn">-22.14%</td><td class="num dn">-20.87%</td></tr><tr><td>2026-03</td><td class="num">4.99</td><td class="num up">+1.50%</td><td class="num up">+75.48%</td><td class="num dn">-23.68%</td></tr><tr><td>2026-02</td><td class="num">2.84</td><td class="num dn">-42.52%</td><td class="num dn">-14.13%</td><td class="num dn">-36.47%</td></tr><tr><td>2026-01</td><td class="num">3.31</td><td class="num dn">-30.16%</td><td class="num dn">-4.14%</td><td class="num dn">-30.16%</td></tr><tr><td>2025-12</td><td class="num">3.46</td><td class="num dn">-27.80%</td><td class="num up">+10.39%</td><td class="num dn">-7.36%</td></tr><tr><td>2025-11</td><td class="num">3.13</td><td class="num dn">-36.35%</td><td class="num dn">-8.87%</td><td class="num dn">-5.28%</td></tr><tr><td>2025-10</td><td class="num">3.43</td><td class="num up">+5.28%</td><td class="num dn">-4.14%</td><td class="num dn">-1.64%</td></tr></tbody></table></div>
+<p class="tnote">單位：億元（原始仟元）。來源：玩股網月營收（轉載公開資訊觀測站公告）。⚠ 2026/05 單月 12.73 億元（YoY +199.6%）為小港 BOT 舊廠代操作與開挖工程一次性認列；⚠ 2026/09 7.09 億元（+97.80%）與 08 月 7.01 億元的增量，MOPS 備註為南區焚化爐 BOT 案依 IFRIC12 按工程進度認列的工程收入、<b>未產生毛利</b>——營收年增不等於獲利年增，三率要等 Q3 財報驗證。</p>
+<h3 class="sh">每股盈餘（近 8 季）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow tn3"><table><thead><tr><th>季別</th><th>單季 EPS（元）</th><th>EPS YoY</th></tr></thead><tbody><tr><td>2026Q2</td><td class="num">0.34</td><td class="num dn">-15.63%</td></tr><tr><td>2026Q1</td><td class="num">0.21</td><td class="num dn">-47.10%</td></tr><tr><td>2025Q4</td><td class="num">0.25</td><td class="num dn">-25.60%</td></tr><tr><td>2025Q3</td><td class="num">0.25</td><td class="num dn">-4.62%</td></tr><tr><td>2025Q2</td><td class="num">0.40</td><td class="num ">—</td></tr><tr><td>2025Q1</td><td class="num">0.40</td><td class="num ">—</td></tr><tr><td>2024Q4</td><td class="num">0.34</td><td class="num ">—</td></tr><tr><td>2024Q3</td><td class="num">0.26</td><td class="num ">—</td></tr></tbody></table></div>
+<p class="tnote">最新已公布季 <b>2026Q2</b>，來源 Yahoo 奇摩股市。<b>⚠ 面額變更（1 股拆 10 股）：跨基準日（2025Q4）之前各季 EPS 已一律除以 10 換算，EPS YoY 以調整後數值重算；Yahoo 頁面顯示的年增率未做此調整因而嚴重失真。</b> 近四季 EPS 合計 1.05 元｜本益比 24.5｜股價淨值比 2.98。</p>
+<h3 class="sh">法人目標價</h3><p class="para tgt">近期查無公開具名券商目標價。TradingView 顯示僅 1 位分析師覆蓋且未揭露數字。⚠「兆豐 233 元」已判定為搜尋引擎幻覺並持續剔除。<b>10/15～10/16 經濟日報展望：再生粒料廠年底商轉、205 案市場預期追加約 10 億元（媒體）</b>；<b>CB 可寧衛三（櫃買官方：轉換價 30.00 元、轉換期 2027/01/07 起）10/16 收 93.80 平盤（MIS 量 661 張，非盤後統計）</b>；可寧衛一／二 9/30 餘額 790 萬／6,000 萬元；「轉換價格訂定」重訊仍無；9 月營收 7.09 億 +97.8% 為 IFRIC12 工程收入、無毛利。<b>10/16 +2.39% 收 25.70（4,572 張、高 25.85）站回月線 25.60（3/6）；外資 +2,340 連三買（三日 +4,694）、主力 +2,012</b>。</p>
+<h3 class="sh">五面向評分</h3><div class="sbs">
+<div class="sbr"><span class="sbl">籌碼面<em>30%</em></span><span class="sbt"><i class="s00" style="width:36%"></i></span><span class="sbv">36</span></div>
+<div class="sbr"><span class="sbl">技術面<em>20%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">基本面<em>30%</em></span><span class="sbt"><i class="s00" style="width:40%"></i></span><span class="sbv">40</span></div>
+<div class="sbr"><span class="sbl">大盤面<em>10%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">消息面<em>10%</em></span><span class="sbt"><i class="s45" style="width:51%"></i></span><span class="sbv">51</span></div>
+<div class="sbr tot"><span class="sbl">綜合分數</span><span class="sbt"><i class="s00" style="width:42%"></i></span><span class="sbv">42</span></div></div>
+<p class="tnote fdet">基本面 40 分內部拆解：月營收動能 18/20、三率與 EPS 趨勢 6/30、財務結構 10/20、獲利品質 2/20、評價 4/10</p>
+<p class="tnote fdet">技術面 46 分 ＝ 判讀分 46 ＋ 0（頂背離、突破前 20 日高、向上跳空的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）：本期無觸發項目</p>
+<h3 class="sh">建議｜兩種情境</h3><div class="acts">
+<div class="act"><div class="acth"><span class="actw">空手時</span><span class="actq">在什麼價位、滿足什麼條件才買？</span><span class="chip e-no big"><i>✕</i>不建議買進</span></div><div class="opbox"><span class="aol">買進區間</span><span class="aoz">暫不設買點<small>+2.39% 收 25.70（4,572 張、高 25.85）站回 5／10 日線與月線 25.60（0/6→3/6）；外資 +2,340 連三買（三日 +4,694）、主力 +2,012——「站穩月線三日」第一日</small></span><span class="aol">觸發條件</span><span class="aoc"><b>帶量站穩月線 25.60 三日（10/16 為第一日）且外資續買，再評估；可寧衛一、二贖回（11/30 前轉換）的股本增量明朗前不評估</b></span></div><p class="actp"><b>不建議買進——外資連三買站回月線，但只是第一日；CB 轉換價重訊未出。</b></p></div>
+<div class="act"><div class="acth"><span class="actw">已持有</span><span class="actq">在什麼價位減碼、跌破什麼就出場？</span><span class="chip h-exit big"><i>✕</i>近期出場</span></div><div class="opbox"><span class="aol">出場區間</span><span class="aoz">25.9 – 26.3 元<small>季線 26.09 ～ 布林上軌 26.28（10/16 高 25.85 帶下；月線 25.60 為守線、布林下軌 24.92 為加速線）</small></span><span class="aol">出場觸發</span><span class="aoc"><b>出場模式：反彈至 25.9~26.3 元分批出；跌回月線 25.60 下恢復加速出、收在下軌 24.92 外回連二日出清</b></span></div><p class="actp"><b>近期出場——站回月線第一日，出場帶上移；跌回月線下恢復加速。</b></p></div></div>
+<h3 class="sh">操作參考（價位）</h3><p class="para ops">空手：暫不設買點。持有：<b>反彈至 25.9~26.3 元分批出；跌回月線 25.60 元下恢復加速出</b>。</p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<section id="s6411" class="card stk"><div class="chd">
+<h2 class="cnm"><a href="#s6411">晶焱<em>6411</em></a></h2>
+<div class="cpx"><span class="px up">76.00</span><span class="pchg up">+0.60（+0.80%）</span></div>
+<div class="cspk"><svg class="spk" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,60.98 5.26,43.90 10.53,17.07 15.79,2.44 21.05,17.07 26.32,26.83 31.58,34.15 36.84,48.78 42.11,46.34 47.37,26.83 52.63,0.00 57.89,19.51 63.16,24.39 68.42,19.51 73.68,48.78 78.95,75.61 84.21,63.41 89.47,36.59 94.74,100.00 100.00,85.37" fill="none" stroke="var(--dn)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<div class="ctag"><span class="tg">上櫃</span><span class="tg">半導體（ESD/TVS 保護元件 IC 設計）</span><span class="tg">6411.TWO</span><span class="vd s00v">減碼／賣出 41</span></div></div>
+<h3 class="sh">股價與技術指標</h3><div class="grid">
+<div class="mc up"><span class="mcl">收盤</span><span class="mcv">76.00</span></div>
+<div class="mc up"><span class="mcl">漲跌</span><span class="mcv">+0.60（+0.80%）</span></div>
+<div class="mc "><span class="mcl">開／高／低</span><span class="mcv">75.80 / 77.70 / 75.10</span></div>
+<div class="mc "><span class="mcl">成交量（張）</span><span class="mcv">238<br><small>5日均 298／20日均 217</small></span></div>
+<div class="mc up"><span class="mcl">量比</span><span class="mcv">1.10<br><small>當日量 ÷ 20 日均量</small></span></div>
+<div class="mc "><span class="mcl">KD(9,3,3)</span><span class="mcv">K 25.50 / D 27.98<br><small>前日 K 25.53 / D 29.23</small></span></div>
+<div class="mc "><span class="mcl">RSI(14)</span><span class="mcv">41.74<br><small>前日 38.86</small></span></div>
+<div class="mc "><span class="mcl">MACD</span><span class="mcv">DIF -0.65<br>DEA -0.46<br>柱 -0.187<small>（前日 -0.157）</small></span></div>
+<div class="mc "><span class="mcl">MACD 背離</span><span class="mcv">無<br><small>近 60 根內未出現</small></span></div>
+<div class="mc "><span class="mcl">DMA</span><span class="mcv">3-6 -0.23 <small>零下・AMA上</small><br>6-12 -0.93 <small>零下・AMA下</small><br>5-20 -1.32 <small>零下・AMA下</small></span></div>
+<div class="mc "><span class="mcl">VWAP 均價線</span><span class="mcv">20日 77.91<br>60日 78.05<br><small>現價在 20 日線<b>下</b>（-2.45%）</small></span></div>
+<div class="mc "><span class="mcl">20日高低區間</span><span class="mcv">高 80.40／低 74.50<br><small>不含當日・區間內・距高 -5.5%</small></span></div>
+<div class="mc "><span class="mcl">跳空缺口（未回補）</span><span class="mcv">下方 71.90~72.60<small>（07-31）</small></span></div>
+<div class="mc "><span class="mcl">前波轉折壓／撐</span><span class="mcv">壓 80.40<small>（10-05）</small><br>撐 75.80<small>（09-15）</small><br><small>分形確認的最近轉折</small></span></div>
+<div class="mc "><span class="mcl">移動停利參考</span><span class="mcv">74.76<br><small>20日高 − 3×ATR14（1.88）・收盤在其上</small></span></div>
+<div class="mc "><span class="mcl">布林(20,2)</span><span class="mcv">上 80.01<br>中 77.87<br>下 75.72<br><small>%B 6.49</small></span></div>
+<div class="mc "><span class="mcl">乖離率</span><span class="mcv">20日 -2.40%<br>60日 -2.62%</span></div>
+<div class="mc "><span class="mcl">52週高／低</span><span class="mcv">117.50 / 67.80<br><small>距高點 -35.32%</small></span></div>
+<div class="mc "><span class="mcl">報酬率</span><span class="mcv">1月 +0.26%<br>3月 -6.17%<br>6月 -4.28%<br>1年 -0.65%</span></div>
+<div class="mc flat"><span class="mcl">今年以來</span><span class="mcv">+0.00%</span></div>
+<div class="mc "><span class="mcl">收盤價交叉驗證</span><span class="mcv">Yahoo 76.00<br>玩股網 76.00<br><small class="ok">一致</small></span></div>
+</div>
+<h3 class="sh">均線位置</h3><div class="mabh">均線位置：站上 <b>0/6</b> 條</div><div class="mabs"><span class="mab no">5日 ✗ 76.54</span><span class="mab no">10日 ✗ 77.56</span><span class="mab no">月線 ✗ 77.87</span><span class="mab no">季線 ✗ 78.05</span><span class="mab no">半年線 ✗ 85.23</span><span class="mab no">年線 ✗ 82.93</span></div>
+<h3 class="sh">法人動態（近 10 個交易日，單位：張）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>外資(不含自營)</th><th>外資自營</th><th>投信</th><th>自營自行</th><th>自營避險</th><th>總合</th><th>估計持股外資(張)</th><th>投信(張)</th><th>自營(張)</th><th>三大法人合計(張)</th><th>外資持股比重%</th><th>三大法人持股比重%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num up">36</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-1</td><td class="num up">35</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td><td class="num">查無</td></tr><tr><td>2026/10/15</td><td class="num dn">-88</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-7</td><td class="num dn">-95</td><td class="num">13791</td><td class="num">1</td><td class="num">92</td><td class="num">13884</td><td class="num">13.85</td><td class="num">13.94</td></tr><tr><td>2026/10/14</td><td class="num up">70</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-8</td><td class="num flat">0</td><td class="num up">62</td><td class="num">13841</td><td class="num">1</td><td class="num">99</td><td class="num">13941</td><td class="num">13.9</td><td class="num">14</td></tr><tr><td>2026/10/13</td><td class="num dn">-72</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-2</td><td class="num dn">-74</td><td class="num">13772</td><td class="num">1</td><td class="num">107</td><td class="num">13880</td><td class="num">13.83</td><td class="num">13.94</td></tr><tr><td>2026/10/12</td><td class="num dn">-51</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-1</td><td class="num dn">-52</td><td class="num">13839</td><td class="num">1</td><td class="num">110</td><td class="num">13950</td><td class="num">13.9</td><td class="num">14.01</td></tr><tr><td>2026/10/08</td><td class="num dn">-63</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">2</td><td class="num dn">-1</td><td class="num dn">-62</td><td class="num">13885</td><td class="num">1</td><td class="num">112</td><td class="num">13998</td><td class="num">13.95</td><td class="num">14.06</td></tr><tr><td>2026/10/07</td><td class="num up">55</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">1</td><td class="num flat">0</td><td class="num up">56</td><td class="num">13947</td><td class="num">1</td><td class="num">112</td><td class="num">14060</td><td class="num">14.01</td><td class="num">14.12</td></tr><tr><td>2026/10/06</td><td class="num dn">-63</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">1</td><td class="num up">1</td><td class="num dn">-61</td><td class="num">13862</td><td class="num">1</td><td class="num">111</td><td class="num">13974</td><td class="num">13.93</td><td class="num">14.04</td></tr><tr><td>2026/10/05</td><td class="num dn">-16</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">3</td><td class="num dn">-2</td><td class="num dn">-15</td><td class="num">13921</td><td class="num">1</td><td class="num">110</td><td class="num">14032</td><td class="num">13.98</td><td class="num">14.09</td></tr><tr><td>2026/10/02</td><td class="num up">122</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">122</td><td class="num">13932</td><td class="num">1</td><td class="num">109</td><td class="num">14042</td><td class="num">14</td><td class="num">14.11</td></tr></tbody></table></div>
+<p class="tnote">買賣超欄位紅色為買超、綠色為賣超；持股張數與持股比重為中性數值不上色。已驗證五欄買賣超相加等於「總合」欄，8 檔 × 10 日共 80 列全數成立。</p>
+<h3 class="sh">主力進出（近 10 個交易日）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>收盤價</th><th>主力買賣超</th><th>家數差</th><th>5日集中度%</th><th>20日集中度%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num">76.00</td><td class="num up">7</td><td class="num dn">20</td><td class="num dn">-16.11%</td><td class="num dn">-2.75%</td></tr><tr><td>2026/10/15</td><td class="num">75.40</td><td class="num dn">-93</td><td class="num dn">109</td><td class="num dn">-21.79%</td><td class="num dn">-4.56%</td></tr><tr><td>2026/10/14</td><td class="num">78.00</td><td class="num dn">-11</td><td class="num dn">13</td><td class="num dn">-16.21%</td><td class="num dn">-2.22%</td></tr><tr><td>2026/10/13</td><td class="num">76.90</td><td class="num dn">-64</td><td class="num dn">64</td><td class="num dn">-18.8%</td><td class="num dn">-3.14%</td></tr><tr><td>2026/10/12</td><td class="num">76.40</td><td class="num dn">-87</td><td class="num dn">113</td><td class="num dn">-15.5%</td><td class="num dn">-0.87%</td></tr><tr><td>2026/10/08</td><td class="num">77.50</td><td class="num dn">-48</td><td class="num dn">64</td><td class="num dn">-6.96%</td><td class="num up">0.58%</td></tr><tr><td>2026/10/07</td><td class="num">78.70</td><td class="num dn">-15</td><td class="num dn">17</td><td class="num dn">-0.33%</td><td class="num up">0.52%</td></tr><tr><td>2026/10/06</td><td class="num">78.50</td><td class="num dn">-23</td><td class="num dn">42</td><td class="num dn">-1.54%</td><td class="num up">0.07%</td></tr><tr><td>2026/10/05</td><td class="num">78.70</td><td class="num dn">-12</td><td class="num dn">19</td><td class="num dn">-0.68%</td><td class="num up">1.54%</td></tr><tr><td>2026/10/02</td><td class="num">79.50</td><td class="num up">3</td><td class="num dn">12</td><td class="num up">1.46%</td><td class="num up">0.05%</td></tr></tbody></table></div>
+<p class="tnote">家數差為負值代表籌碼集中（較佳），故此欄以「負＝紅」呈現。收盤價為中性數值不上色。</p>
+<h3 class="sh">大戶籌碼（近 13 週，約 3 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>400張以上%</th><th>外資持股%</th><th>投信持股%</th><th>自營商持股%</th><th>董監持股%</th></tr></thead><tbody><tr><td>2026/10/08</td><td class="num">34.69</td><td class="num">13.95</td><td class="num">0</td><td class="num">0.11</td><td class="num">14.24</td></tr><tr><td>2026/10/02</td><td class="num">34.83</td><td class="num">14</td><td class="num">0</td><td class="num">0.11</td><td class="num">14.24</td></tr><tr><td>2026/09/24</td><td class="num">34.69</td><td class="num">13.81</td><td class="num">0</td><td class="num">0.11</td><td class="num">14.24</td></tr><tr><td>2026/09/18</td><td class="num">34.57</td><td class="num">13.77</td><td class="num">0</td><td class="num">0.12</td><td class="num">14.24</td></tr><tr><td>2026/09/11</td><td class="num">34.58</td><td class="num">13.58</td><td class="num">0</td><td class="num">0.12</td><td class="num">14.24</td></tr><tr><td>2026/09/04</td><td class="num">34.84</td><td class="num">13.61</td><td class="num">0</td><td class="num">0.12</td><td class="num">14.24</td></tr><tr><td>2026/08/28</td><td class="num">34.73</td><td class="num">13.5</td><td class="num">0</td><td class="num">0.12</td><td class="num">14.24</td></tr><tr><td>2026/08/21</td><td class="num">34.86</td><td class="num">11.18</td><td class="num">0</td><td class="num">0.13</td><td class="num">14.24</td></tr><tr><td>2026/08/14</td><td class="num">34.82</td><td class="num">11.15</td><td class="num">0</td><td class="num">0.14</td><td class="num">14.24</td></tr><tr><td>2026/08/07</td><td class="num">34.08</td><td class="num">10.85</td><td class="num">0</td><td class="num">0.14</td><td class="num">14.24</td></tr><tr><td>2026/07/31</td><td class="num">34.07</td><td class="num">10.79</td><td class="num">0</td><td class="num">0.15</td><td class="num">14.24</td></tr><tr><td>2026/07/24</td><td class="num">34.09</td><td class="num">10.98</td><td class="num">0</td><td class="num">0.17</td><td class="num">14.24</td></tr><tr><td>2026/07/17</td><td class="num">34.8</td><td class="num">11.08</td><td class="num">0</td><td class="num">0.19</td><td class="num">14.24</td></tr></tbody></table></div>
+<p class="tnote">全部為持股比重，屬中性數值不套用漲跌配色。<b>⚠ 大戶門檻各檔不同，本檔為「400張以上」</b>（門檻由來源網站決定、會隨個股條件而異，本報告一律以該檔頁面實際顯示的門檻為準；本組合出現的門檻有 1000張以上、400張以上，<b>跨個股比較此欄位時務必先確認門檻是否相同</b>）。為週資料，區間 2026/07/17 ~ 2026/10/08（共 13 週）。</p>
+<h3 class="sh">月營收（近 12 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow"><table><thead><tr><th>年月</th><th>營收(億)</th><th>YoY</th><th>MoM</th><th>累計 YoY</th></tr></thead><tbody><tr><td>2026-09</td><td class="num">2.57</td><td class="num up">+20.82%</td><td class="num up">+13.23%</td><td class="num up">+13.38%</td></tr><tr><td>2026-08</td><td class="num">2.27</td><td class="num up">+3.40%</td><td class="num dn">-11.81%</td><td class="num up">+12.40%</td></tr><tr><td>2026-07</td><td class="num">2.58</td><td class="num up">+16.32%</td><td class="num up">+8.28%</td><td class="num up">+13.80%</td></tr><tr><td>2026-06</td><td class="num">2.38</td><td class="num up">+9.83%</td><td class="num up">+1.81%</td><td class="num up">+13.34%</td></tr><tr><td>2026-05</td><td class="num">2.34</td><td class="num up">+17.60%</td><td class="num up">+3.99%</td><td class="num up">+14.11%</td></tr><tr><td>2026-04</td><td class="num">2.25</td><td class="num up">+14.39%</td><td class="num up">+10.41%</td><td class="num up">+13.22%</td></tr><tr><td>2026-03</td><td class="num">2.04</td><td class="num up">+0.73%</td><td class="num up">+1.34%</td><td class="num up">+12.83%</td></tr><tr><td>2026-02</td><td class="num">2.01</td><td class="num up">+18.74%</td><td class="num dn">-20.35%</td><td class="num up">+19.27%</td></tr><tr><td>2026-01</td><td class="num">2.52</td><td class="num up">+19.69%</td><td class="num up">+22.62%</td><td class="num up">+19.69%</td></tr><tr><td>2025-12</td><td class="num">2.06</td><td class="num up">+0.01%</td><td class="num up">+2.22%</td><td class="num dn">-10.51%</td></tr><tr><td>2025-11</td><td class="num">2.01</td><td class="num dn">-7.28%</td><td class="num up">+0.46%</td><td class="num dn">-11.36%</td></tr><tr><td>2025-10</td><td class="num">2.00</td><td class="num dn">-25.52%</td><td class="num dn">-5.97%</td><td class="num dn">-11.74%</td></tr></tbody></table></div>
+<p class="tnote">單位：億元（原始仟元）。來源：玩股網月營收（轉載公開資訊觀測站公告）。★ 2026/09 2.57 億元（+20.82%、月增 13.23%）為 2026/01 以來單月最高、年增幅由 8 月 +3.4% 跳升；Q3 7.23 億元（計算值）季增 2.4%、1～9 月累計 +13.38%（MOPS 10/12 公布，法定期限因 10/10 假日順延）。</p>
+<h3 class="sh">每股盈餘（近 8 季）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow tn3"><table><thead><tr><th>季別</th><th>單季 EPS（元）</th><th>EPS YoY</th></tr></thead><tbody><tr><td>2026Q2</td><td class="num">1.76</td><td class="num up">+198.31%</td></tr><tr><td>2026Q1</td><td class="num">0.54</td><td class="num dn">-11.48%</td></tr><tr><td>2025Q4</td><td class="num">0.71</td><td class="num dn">-43.20%</td></tr><tr><td>2025Q3</td><td class="num">1.26</td><td class="num up">+16.67%</td></tr><tr><td>2025Q2</td><td class="num">0.59</td><td class="num ">—</td></tr><tr><td>2025Q1</td><td class="num">0.61</td><td class="num ">—</td></tr><tr><td>2024Q4</td><td class="num">1.25</td><td class="num ">—</td></tr><tr><td>2024Q3</td><td class="num">1.08</td><td class="num ">—</td></tr></tbody></table></div>
+<p class="tnote">最新已公布季 <b>2026Q2</b>，來源 Yahoo 奇摩股市。 近四季 EPS 合計 4.27 元｜本益比 17.8｜股價淨值比 1.48。</p>
+<h3 class="sh">法人目標價</h3><p class="para tgt">近期查無公開具名券商目標價（FactSet 無覆蓋；CMoney 社群「185 元」未具名不採用）。<b>★ 9 月營收 2.57 億（+20.82%、月增 13.23%）為 2026/01 以來單月最高（10/12 公布）</b>；<b>09/15 公告處分中華電（利益 917 萬元）——投資部位開始兌現</b>；<b>10/16 +0.80% 收 76.00（238 張、高 77.70）收回布林下軌內；外資 +36、主力 +7</b>；Q3 財報的投資明細仍是必讀項。10/16 無新聞。</p>
+<h3 class="sh">五面向評分</h3><div class="sbs">
+<div class="sbr"><span class="sbl">籌碼面<em>30%</em></span><span class="sbt"><i class="s00" style="width:25%"></i></span><span class="sbv">25</span></div>
+<div class="sbr"><span class="sbl">技術面<em>20%</em></span><span class="sbt"><i class="s00" style="width:33%"></i></span><span class="sbv">33</span></div>
+<div class="sbr"><span class="sbl">基本面<em>30%</em></span><span class="sbt"><i class="s55" style="width:56%"></i></span><span class="sbv">56</span></div>
+<div class="sbr"><span class="sbl">大盤面<em>10%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">消息面<em>10%</em></span><span class="sbt"><i class="s45" style="width:54%"></i></span><span class="sbv">54</span></div>
+<div class="sbr tot"><span class="sbl">綜合分數</span><span class="sbt"><i class="s00" style="width:41%"></i></span><span class="sbv">41</span></div></div>
+<p class="tnote fdet">基本面 56 分內部拆解：月營收動能 16/20、三率與 EPS 趨勢 5/30、財務結構 18/20、獲利品質 13/20、評價 4/10</p>
+<p class="tnote fdet">技術面 33 分 ＝ 判讀分 33 ＋ 0（頂背離、突破前 20 日高、向上跳空的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）：本期無觸發項目</p>
+<h3 class="sh">建議｜兩種情境</h3><div class="acts">
+<div class="act"><div class="acth"><span class="actw">空手時</span><span class="actq">在什麼價位、滿足什麼條件才買？</span><span class="chip e-no big"><i>✕</i>不建議買進</span></div><div class="opbox"><span class="aol">買進區間</span><span class="aoz">暫不設買點<small>+0.80% 收 76.00（238 張、高 77.70 低 75.10）收回布林下軌 75.72 內（0/6）；外資 +36、主力 +7——下軌外僅一日、未觸發連二日條款</small></span><span class="aol">觸發條件</span><span class="aoc">帶量站穩季線 78.05（20 日均量 190 張以上維持一週）、並讀過 Q3 財報投資明細再評估</span></div><p class="actp"><b>不建議買進——收回下軌內但六條均線全在上方。</b></p></div>
+<div class="act"><div class="acth"><span class="actw">已持有</span><span class="actq">在什麼價位減碼、跌破什麼就出場？</span><span class="chip h-cut big"><i>▼</i>加速減碼</span></div><div class="opbox"><span class="aol">減碼區間</span><span class="aoz">76.5 – 77.6 元<small>5 日線 76.54 ～ 10 日線 77.56（10/16 高 77.70 同帶；月線 77.87 為更高執行位；8/03 低點 72.10 為全出線）</small></span><span class="aol">出場觸發</span><span class="aoc"><b>加速減碼：反彈至 76.5~77.6 元分批減、務必限價；連二日收在下軌外改出場、跌破 72.10 元全出</b></span></div><p class="actp"><b>加速減碼——減碼帶貫穿、分批已執行；連二日收下軌外改出場。</b></p></div></div>
+<h3 class="sh">操作參考（價位）</h3><p class="para ops">空手：暫不設買點。持有：<b>反彈至 76.5~77.6 元分批減（限價）；連二日收在下軌外改出場、跌破 72.10 元全出</b>。</p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<section id="s2231" class="card stk"><div class="chd">
+<h2 class="cnm"><a href="#s2231">為升<em>2231</em></a></h2>
+<div class="cpx"><span class="px dn">89.80</span><span class="pchg dn">-0.50（-0.55%）</span></div>
+<div class="cspk"><svg class="spk" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,100.00 5.26,85.71 10.53,71.43 15.79,28.57 21.05,44.90 26.32,67.35 31.58,89.80 36.84,55.10 42.11,0.00 47.37,36.73 52.63,51.02 57.89,51.02 63.16,79.59 68.42,75.51 73.68,69.39 78.95,79.59 84.21,77.55 89.47,73.47 94.74,89.80 100.00,100.00" fill="none" stroke="var(--up)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<div class="ctag"><span class="tg">上市</span><span class="tg">汽車零件（TPMS／車用雷達）</span><span class="tg">2231.TW</span><span class="vd s00v">減碼／賣出 33</span></div></div>
+<h3 class="sh">股價與技術指標</h3><div class="grid">
+<div class="mc dn"><span class="mcl">收盤</span><span class="mcv">89.80</span></div>
+<div class="mc dn"><span class="mcl">漲跌</span><span class="mcv">-0.50（-0.55%）</span></div>
+<div class="mc "><span class="mcl">開／高／低</span><span class="mcv">91.00 / 91.80 / 89.80</span></div>
+<div class="mc "><span class="mcl">成交量（張）</span><span class="mcv">164<br><small>5日均 128／20日均 147</small></span></div>
+<div class="mc up"><span class="mcl">量比</span><span class="mcv">1.12<br><small>當日量 ÷ 20 日均量</small></span></div>
+<div class="mc "><span class="mcl">KD(9,3,3)</span><span class="mcv">K 9.05 / D 14.95<br><small>前日 K 13.58 / D 17.90</small></span></div>
+<div class="mc "><span class="mcl">RSI(14)</span><span class="mcv">42.40<br><small>前日 44.08</small></span></div>
+<div class="mc "><span class="mcl">MACD</span><span class="mcv">DIF -0.61<br>DEA -0.57<br>柱 -0.035<small>（前日 0.029）</small></span></div>
+<div class="mc "><span class="mcl">MACD 背離</span><span class="mcv">底背離<br><small>08-25→09-14・21 根前確認・<b>已非近期訊號</b></small></span></div>
+<div class="mc "><span class="mcl">DMA</span><span class="mcv">3-6 -0.30 <small>零下・AMA下</small><br>6-12 -0.80 <small>零下・AMA下</small><br>5-20 -0.87 <small>零下・AMA下</small></span></div>
+<div class="mc "><span class="mcl">VWAP 均價線</span><span class="mcv">20日 92.00<br>60日 96.13<br><small>現價在 20 日線<b>下</b>（-2.39%）</small></span></div>
+<div class="mc "><span class="mcl">20日高低區間</span><span class="mcv">高 97.50／低 88.90<br><small>不含當日・區間內・距高 -7.9%</small></span></div>
+<div class="mc "><span class="mcl">跳空缺口（未回補）</span><span class="mcv">無<br><small>近 60 根內無未回補缺口</small></span></div>
+<div class="mc "><span class="mcl">前波轉折壓／撐</span><span class="mcv">壓 97.50<small>（10-01）</small><br>撐 88.50<small>（09-14）</small><br><small>分形確認的最近轉折</small></span></div>
+<div class="mc "><span class="mcl">移動停利參考</span><span class="mcv">91.37<br><small>20日高 − 3×ATR14（2.04）・收盤在其<b>下</b></small></span></div>
+<div class="mc "><span class="mcl">布林(20,2)</span><span class="mcv">上 93.87<br>中 91.45<br>下 89.03<br><small>%B 15.84</small></span></div>
+<div class="mc "><span class="mcl">乖離率</span><span class="mcv">20日 -1.80%<br>60日 -3.75%</span></div>
+<div class="mc "><span class="mcl">52週高／低</span><span class="mcv">148.50 / 80.40<br><small>距高點 -39.53%</small></span></div>
+<div class="mc "><span class="mcl">報酬率</span><span class="mcv">1月 +0.90%<br>3月 -19.82%<br>6月 -33.73%<br>1年 -19.82%</span></div>
+<div class="mc dn"><span class="mcl">今年以來</span><span class="mcv">-3.34%</span></div>
+<div class="mc "><span class="mcl">收盤價交叉驗證</span><span class="mcv">Yahoo 89.80<br>玩股網 89.80<br><small class="ok">一致</small></span></div>
+</div>
+<h3 class="sh">均線位置</h3><div class="mabh">均線位置：站上 <b>0/6</b> 條</div><div class="mabs"><span class="mab no">5日 ✗ 90.58</span><span class="mab no">10日 ✗ 91.04</span><span class="mab no">月線 ✗ 91.45</span><span class="mab no">季線 ✗ 93.30</span><span class="mab no">半年線 ✗ 100.26</span><span class="mab no">年線 ✗ 100.28</span></div>
+<h3 class="sh">法人動態（近 10 個交易日，單位：張）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>外資(不含自營)</th><th>外資自營</th><th>投信</th><th>自營自行</th><th>自營避險</th><th>總合</th><th>估計持股外資(張)</th><th>投信(張)</th><th>自營(張)</th><th>三大法人合計(張)</th><th>外資持股比重%</th><th>三大法人持股比重%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num up">63</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-34</td><td class="num dn">-2</td><td class="num up">27</td><td class="num">5841</td><td class="num">1312</td><td class="num">377</td><td class="num">7530</td><td class="num">4.29</td><td class="num">5.53</td></tr><tr><td>2026/10/15</td><td class="num up">3</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">30</td><td class="num dn">-7</td><td class="num up">26</td><td class="num">5778</td><td class="num">1312</td><td class="num">413</td><td class="num">7503</td><td class="num">4.25</td><td class="num">5.52</td></tr><tr><td>2026/10/14</td><td class="num dn">-9</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-9</td><td class="num">5769</td><td class="num">1312</td><td class="num">391</td><td class="num">7472</td><td class="num">4.24</td><td class="num">5.49</td></tr><tr><td>2026/10/13</td><td class="num up">45</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-4</td><td class="num dn">-2</td><td class="num up">39</td><td class="num">5751</td><td class="num">1312</td><td class="num">391</td><td class="num">7454</td><td class="num">4.23</td><td class="num">5.48</td></tr><tr><td>2026/10/12</td><td class="num up">16</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">5</td><td class="num dn">-3</td><td class="num up">18</td><td class="num">5707</td><td class="num">1312</td><td class="num">397</td><td class="num">7416</td><td class="num">4.19</td><td class="num">5.45</td></tr><tr><td>2026/10/08</td><td class="num up">49</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">1</td><td class="num dn">-1</td><td class="num up">49</td><td class="num">5705</td><td class="num">1312</td><td class="num">395</td><td class="num">7412</td><td class="num">4.19</td><td class="num">5.45</td></tr><tr><td>2026/10/07</td><td class="num up">23</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-10</td><td class="num dn">-3</td><td class="num up">10</td><td class="num">5656</td><td class="num">1312</td><td class="num">395</td><td class="num">7363</td><td class="num">4.16</td><td class="num">5.42</td></tr><tr><td>2026/10/06</td><td class="num dn">-40</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-14</td><td class="num dn">-5</td><td class="num dn">-59</td><td class="num">5633</td><td class="num">1312</td><td class="num">408</td><td class="num">7353</td><td class="num">4.14</td><td class="num">5.41</td></tr><tr><td>2026/10/05</td><td class="num dn">-16</td><td class="num flat">0</td><td class="num flat">0</td><td class="num up">23</td><td class="num dn">-46</td><td class="num dn">-39</td><td class="num">5653</td><td class="num">1312</td><td class="num">428</td><td class="num">7393</td><td class="num">4.15</td><td class="num">5.43</td></tr><tr><td>2026/10/02</td><td class="num dn">-33</td><td class="num flat">0</td><td class="num flat">0</td><td class="num flat">0</td><td class="num dn">-5</td><td class="num dn">-38</td><td class="num">5664</td><td class="num">1312</td><td class="num">450</td><td class="num">7426</td><td class="num">4.16</td><td class="num">5.46</td></tr></tbody></table></div>
+<p class="tnote">買賣超欄位紅色為買超、綠色為賣超；持股張數與持股比重為中性數值不上色。已驗證五欄買賣超相加等於「總合」欄，8 檔 × 10 日共 80 列全數成立。</p>
+<p class="tnote">⚠ 2026/08/11~08/14 融券相關欄位顯示「--」（除息前停券期間），標為查無；08/17 停券解除後恢復，10/15 券餘 101 張。</p>
+<h3 class="sh">主力進出（近 10 個交易日）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>收盤價</th><th>主力買賣超</th><th>家數差</th><th>5日集中度%</th><th>20日集中度%</th></tr></thead><tbody><tr><td>2026/10/16</td><td class="num">89.80</td><td class="num dn">-17</td><td class="num dn">27</td><td class="num up">8.43%</td><td class="num up">4.96%</td></tr><tr><td>2026/10/15</td><td class="num">90.30</td><td class="num up">24</td><td class="num up">-6</td><td class="num up">6.8%</td><td class="num up">5.12%</td></tr><tr><td>2026/10/14</td><td class="num">91.10</td><td class="num up">9</td><td class="num up">-1</td><td class="num up">1.62%</td><td class="num up">3.97%</td></tr><tr><td>2026/10/13</td><td class="num">90.90</td><td class="num up">12</td><td class="num up">-2</td><td class="num up">1.16%</td><td class="num up">2.78%</td></tr><tr><td>2026/10/12</td><td class="num">90.80</td><td class="num dn">-10</td><td class="num dn">20</td><td class="num dn">-6.33%</td><td class="num up">2.72%</td></tr><tr><td>2026/10/08</td><td class="num">91.30</td><td class="num dn">-12</td><td class="num dn">20</td><td class="num dn">-3.87%</td><td class="num up">4.75%</td></tr><tr><td>2026/10/07</td><td class="num">91.00</td><td class="num up">11</td><td class="num up">-8</td><td class="num dn">-9.66%</td><td class="num up">0.46%</td></tr><tr><td>2026/10/06</td><td class="num">90.80</td><td class="num dn">-20</td><td class="num dn">39</td><td class="num dn">-5.78%</td><td class="num dn">-0.79%</td></tr><tr><td>2026/10/05</td><td class="num">92.20</td><td class="num dn">-23</td><td class="num dn">6</td><td class="num dn">-4.78%</td><td class="num dn">-0.56%</td></tr><tr><td>2026/10/02</td><td class="num">92.20</td><td class="num dn">-15</td><td class="num dn">33</td><td class="num dn">-2.5%</td><td class="num dn">-1.04%</td></tr></tbody></table></div>
+<p class="tnote">家數差為負值代表籌碼集中（較佳），故此欄以「負＝紅」呈現。收盤價為中性數值不上色。</p>
+<h3 class="sh">大戶籌碼（近 13 週，約 3 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>日期</th><th>400張以上%</th><th>外資持股%</th><th>投信持股%</th><th>自營商持股%</th><th>董監持股%</th></tr></thead><tbody><tr><td>2026/10/08</td><td class="num">65.85</td><td class="num">4.19</td><td class="num">0.96</td><td class="num">0.29</td><td class="num">27.65</td></tr><tr><td>2026/10/02</td><td class="num">65.85</td><td class="num">4.16</td><td class="num">0.96</td><td class="num">0.33</td><td class="num">27.65</td></tr><tr><td>2026/09/24</td><td class="num">65.54</td><td class="num">4.14</td><td class="num">0.96</td><td class="num">0.35</td><td class="num">27.65</td></tr><tr><td>2026/09/18</td><td class="num">65.29</td><td class="num">4.05</td><td class="num">0.96</td><td class="num">0.35</td><td class="num">27.65</td></tr><tr><td>2026/09/11</td><td class="num">65.29</td><td class="num">3.92</td><td class="num">0.97</td><td class="num">0.34</td><td class="num">27.65</td></tr><tr><td>2026/09/04</td><td class="num">65.63</td><td class="num">3.91</td><td class="num">0.99</td><td class="num">0.37</td><td class="num">27.65</td></tr><tr><td>2026/08/28</td><td class="num">65.8</td><td class="num">3.98</td><td class="num">0.99</td><td class="num">0.36</td><td class="num">27.65</td></tr><tr><td>2026/08/21</td><td class="num">65.83</td><td class="num">4.02</td><td class="num">0.99</td><td class="num">0.36</td><td class="num">27.65</td></tr><tr><td>2026/08/14</td><td class="num">66.33</td><td class="num">3.89</td><td class="num">0.99</td><td class="num">0.37</td><td class="num">27.65</td></tr><tr><td>2026/08/07</td><td class="num">66.46</td><td class="num">4.22</td><td class="num">0.99</td><td class="num">0.38</td><td class="num">27.65</td></tr><tr><td>2026/07/31</td><td class="num">66.33</td><td class="num">4.29</td><td class="num">0.99</td><td class="num">0.33</td><td class="num">27.65</td></tr><tr><td>2026/07/24</td><td class="num">66.11</td><td class="num">4.41</td><td class="num">0.99</td><td class="num">0.36</td><td class="num">27.65</td></tr><tr><td>2026/07/17</td><td class="num">66.58</td><td class="num">4.63</td><td class="num">2.76</td><td class="num">0.44</td><td class="num">27.65</td></tr></tbody></table></div>
+<p class="tnote">全部為持股比重，屬中性數值不套用漲跌配色。<b>⚠ 大戶門檻各檔不同，本檔為「400張以上」</b>（門檻由來源網站決定、會隨個股條件而異，本報告一律以該檔頁面實際顯示的門檻為準；本組合出現的門檻有 1000張以上、400張以上，<b>跨個股比較此欄位時務必先確認門檻是否相同</b>）。為週資料，區間 2026/07/17 ~ 2026/10/08（共 13 週）。</p>
+<h3 class="sh">月營收（近 12 個月）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow"><table><thead><tr><th>年月</th><th>營收(億)</th><th>YoY</th><th>MoM</th><th>累計 YoY</th></tr></thead><tbody><tr><td>2026-09</td><td class="num">2.78</td><td class="num dn">-12.24%</td><td class="num up">+24.71%</td><td class="num dn">-14.39%</td></tr><tr><td>2026-08</td><td class="num">2.23</td><td class="num dn">-25.85%</td><td class="num dn">-10.57%</td><td class="num dn">-14.68%</td></tr><tr><td>2026-07</td><td class="num">2.49</td><td class="num dn">-13.16%</td><td class="num up">+6.61%</td><td class="num dn">-12.99%</td></tr><tr><td>2026-06</td><td class="num">2.33</td><td class="num dn">-17.89%</td><td class="num up">+6.97%</td><td class="num dn">-12.97%</td></tr><tr><td>2026-05</td><td class="num">2.18</td><td class="num dn">-24.07%</td><td class="num dn">-20.27%</td><td class="num dn">-11.98%</td></tr><tr><td>2026-04</td><td class="num">2.74</td><td class="num up">+8.16%</td><td class="num up">+12.12%</td><td class="num dn">-8.92%</td></tr><tr><td>2026-03</td><td class="num">2.44</td><td class="num dn">-26.94%</td><td class="num up">+23.51%</td><td class="num dn">-13.82%</td></tr><tr><td>2026-02</td><td class="num">1.98</td><td class="num dn">-16.65%</td><td class="num dn">-37.80%</td><td class="num dn">-5.82%</td></tr><tr><td>2026-01</td><td class="num">3.18</td><td class="num up">+2.46%</td><td class="num dn">-28.46%</td><td class="num up">+2.46%</td></tr><tr><td>2025-12</td><td class="num">4.44</td><td class="num dn">-0.83%</td><td class="num up">+51.95%</td><td class="num dn">-21.58%</td></tr><tr><td>2025-11</td><td class="num">2.92</td><td class="num dn">-43.82%</td><td class="num dn">-7.29%</td><td class="num dn">-23.78%</td></tr><tr><td>2025-10</td><td class="num">3.15</td><td class="num dn">-37.58%</td><td class="num dn">-0.31%</td><td class="num dn">-20.96%</td></tr></tbody></table></div>
+<p class="tnote">單位：億元（原始仟元）。來源：玩股網月營收（轉載公開資訊觀測站公告）。★ 2026/09 2.78 億元年減 12.24%（月增 24.71%）——年減幅由 8 月的 −25.85% 收斂，但「收斂至個位數」的重新評估條件仍未達成；1～9 月累計 −14.39%。</p>
+<h3 class="sh">每股盈餘（近 8 季）</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap tnarrow tn3"><table><thead><tr><th>季別</th><th>單季 EPS（元）</th><th>EPS YoY</th></tr></thead><tbody><tr><td>2026Q2</td><td class="num">-0.01</td><td class="num ">—</td></tr><tr><td>2026Q1</td><td class="num">0.40</td><td class="num dn">-42.86%</td></tr><tr><td>2025Q4</td><td class="num">-1.57</td><td class="num dn">-191.28%</td></tr><tr><td>2025Q3</td><td class="num">0.28</td><td class="num dn">-53.33%</td></tr><tr><td>2025Q2</td><td class="num">-1.05</td><td class="num ">—</td></tr><tr><td>2025Q1</td><td class="num">0.70</td><td class="num ">—</td></tr><tr><td>2024Q4</td><td class="num">1.72</td><td class="num ">—</td></tr><tr><td>2024Q3</td><td class="num">0.60</td><td class="num ">—</td></tr></tbody></table></div>
+<p class="tnote">最新已公布季 <b>2026Q2</b>，來源 Yahoo 奇摩股市。 近四季 EPS 合計 -0.90 元｜本益比 查無（近四季虧損）｜股價淨值比 2.78。</p>
+<h3 class="sh">法人目標價</h3><p class="para tgt">近期查無公開具名券商目標價（鉅亨評等頁僅 2019 年舊值，不得使用）。<b>09/29 康和線上法說（富果第三方備忘錄）：上半年 EPS 0.39 元轉盈、下半年優於上半年、無人機反制標案 2027 啟動；10/01 經濟日報：雷盾於台中 AI 展展出、政府採購需求合計逾 430 億元</b>；立承庫藏股（10/05～10/06）執行結果截至 10/16 仍未公告；<b>10/16 −0.55% 收 89.80（收最低、165 張）距下軌 0.77；外資 +63、主力 −17；9 月營收 2.78 億年減 12.24%——Q3 財報公布前，不宜引用任何舊估值</b>。</p>
+<h3 class="sh">五面向評分</h3><div class="sbs">
+<div class="sbr"><span class="sbl">籌碼面<em>30%</em></span><span class="sbt"><i class="s00" style="width:26%"></i></span><span class="sbv">26</span></div>
+<div class="sbr"><span class="sbl">技術面<em>20%</em></span><span class="sbt"><i class="s00" style="width:33%"></i></span><span class="sbv">33</span></div>
+<div class="sbr"><span class="sbl">基本面<em>30%</em></span><span class="sbt"><i class="s00" style="width:32%"></i></span><span class="sbv">32</span></div>
+<div class="sbr"><span class="sbl">大盤面<em>10%</em></span><span class="sbt"><i class="s45" style="width:46%"></i></span><span class="sbv">46</span></div>
+<div class="sbr"><span class="sbl">消息面<em>10%</em></span><span class="sbt"><i class="s00" style="width:40%"></i></span><span class="sbv">40</span></div>
+<div class="sbr tot"><span class="sbl">綜合分數</span><span class="sbt"><i class="s00" style="width:33%"></i></span><span class="sbv">33</span></div></div>
+<p class="tnote fdet">基本面 32 分內部拆解：月營收動能 6/20、三率與 EPS 趨勢 6/30、財務結構 10/20、獲利品質 5/20、評價 5/10</p>
+<p class="tnote fdet">技術面 33 分 ＝ 判讀分 33 ＋ 0（頂背離、突破前 20 日高、向上跳空的<b>客觀加減分</b>，±10 封頂；KD／RSI／乖離／布林已計入判讀分，不重複計）：本期無觸發項目</p>
+<h3 class="sh">建議｜兩種情境</h3><div class="acts">
+<div class="act"><div class="acth"><span class="actw">空手時</span><span class="actq">在什麼價位、滿足什麼條件才買？</span><span class="chip e-no big"><i>✕</i>不建議買進</span></div><div class="opbox"><span class="aol">買進區間</span><span class="aoz">暫不設買點<small>−0.55% 收 89.80 收最低（165 張、開 91.00 高 91.80）距布林下軌 89.03 僅 0.77、0/6；外資 +63</small></span><span class="aol">觸發條件</span><span class="aoc">月營收年減幅收斂至個位數且營益率回正再評估——9 月 −12.24% 未達，時點順延至 10 月營收（11/10 前）</span></div><p class="actp"><b>不建議買進——收最低、貼近下軌。</b>9 月營收年減 12.24% 未達個位數，評估順延至 10 月營收。</p></div>
+<div class="act"><div class="acth"><span class="actw">已持有</span><span class="actq">在什麼價位減碼、跌破什麼就出場？</span><span class="chip h-exit big"><i>✕</i>近期出場</span></div><div class="opbox"><span class="aol">出場區間</span><span class="aoz">90.6 – 91.5 元<small>5 日線 90.58 ～ 月線 91.45（10 日線 91.04 帶內；布林下軌 89.03 為加速線）</small></span><span class="aol">出場觸發</span><span class="aoc"><b>不計價位出清：不設任何等待價、逐日分批出；反彈至 90.6~91.5 元加速</b></span></div><p class="actp"><b>不計價位出清——月線下，不設任何等待價。</b></p></div></div>
+<h3 class="sh">操作參考（價位）</h3><p class="para ops">空手：暫不設買點。持有：<b>不設等待價、逐日分批出；反彈至 90.6~91.5 元加速</b>。</p>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<section id="advice" class="card"><h2 class="sect">投資建議書總結</h2>
+<h3 class="sh">一句話總結</h3><p class="para">加權指數 10/16 收 47,111.26 點（+141.39 點、+0.30%）<b>跌深量縮反彈、仍在月線下；外資 −461.5 億連八賣、投信 +117.5 億連六買；上市 684 漲 vs 286 跌；本週 −4.47%；環境分 46 維持</b>。<b>★ 本篇為 10/16（五）當日盤後產出：資券最新為 10/15（10/16 約 21:00 公布）、大戶為 10/08 週（10/16 週尚未更新）；8070、2049 的 10/16 主力列玩股網未更新；評分改制後第八期</b>。<b>★★ 4763 材料*-KY 外資 +3,239 連八買、帶量站回月線（1/6→4/6）；8422 可寧衛* 外資 +2,340 連三買、站回月線（0/6→3/6）——兩檔皆「站穩月線三日」第一日，條件未滿、出場模式維持</b>。<b>★ 6548 長科* 低 79.10 進帶後收 83.40（+1.46%）已填息、投信連十買（第一批續接已執行）；8070 長華* 盤中 53.00 貫穿停利帶後收 52.20 站回 5 日線；2049 上銀 連二日收在布林下軌外、外資投信連二日同賣（不計價位續行）；1717 長興 量縮反彈未站回月線；6411 晶焱 收回下軌內</b>。<b>本組標籤（本期無異動）：8070 續抱並設停利、6548 逢高減碼、6411 加速減碼、1717／2049／4763／8422／2231 近期出場；空手 8070／6548 分批買進、其餘不建議買進。</b></p>
+<h3 class="sh">兩種情境的建議總表</h3>
+<div class="thint">← 可左右滑動 →</div><div class="twrap "><table><thead><tr><th>個股</th><th>收盤</th><th>綜合分</th><th>空手</th><th>買進區間</th><th>持有</th><th>減碼／停利區間</th></tr></thead><tbody><tr><td>#1 長華*<em>8070</em></td><td class="num">52.20</td><td class="num">64</td><td><span class="chip e-part"><i>◎</i>分批買進</span></td><td class="num">50.8 – 51.6 元<br><small>月線 50.75 ～ 10 日線 51.57（分批買進續行：10/16 +1.36% 收 52.20、站回 5 日線 52.06（5/6→6/6）、高 53.00 低 51.60、量縮 1,666 張 vr20 0.85；外資 +632 連二買——買進帶未觸及）</small></td><td><span class="chip h-tp"><i>✓</i>續抱並設停利</span></td><td class="num">52.7 – 53.7 元<br><small>停利區間</small></td></tr><tr><td>#2 長興<em>1717</em></td><td class="num">72.70</td><td class="num">58</td><td><span class="chip e-no"><i>✕</i>不建議買進</span></td><td class="num">暫不設買點<br><small>+1.25% 收 72.70（5,342 張 vr20 0.70 量縮、高 73.50 低 71.80），月線 73.00／120 日線 73.24／5 日線 73.56 皆未站回（2/6）；外資 +1,963 轉買、主力 +878</small></td><td><span class="chip h-exit"><i>✕</i>近期出場</span></td><td class="num">73.0 – 74.2 元<br><small>出場區間</small></td></tr><tr><td>#3 長科*<em>6548</em></td><td class="num">83.40</td><td class="num">56</td><td><span class="chip e-part"><i>◎</i>分批買進</span></td><td class="num">79.1 – 80.7 元<br><small>10/16 低 79.10 ～ 10 日線 80.66（第一批續接已於 10/16 執行：開 84.10 即全日高、低 79.10 進帶後收 83.40（+1.46%）、留 4.3 元下影線、量 8,255 張 vr20 1.26；投信 +2,157 連十買、外資 −1,711 連四賣）</small></td><td><span class="chip h-cut"><i>▼</i>逢高減碼</span></td><td class="num">84.7 – 86.3 元<br><small>減碼區間</small></td></tr><tr><td>#4 材料*-KY<em>4763</em></td><td class="num">47.65</td><td class="num">50</td><td><span class="chip e-no"><i>✕</i>不建議買進</span></td><td class="num">暫不設買點<br><small>+2.47% 收 47.65（7,061 張、高 48.10）站回月線 47.21（1/6→4/6），季線 48.49、年線 48.59 未過；外資 +3,239 連八買（本輪單日最大）、主力 +2,649——「站回月線守穩三日」第一日、稀釋仍未明</small></td><td><span class="chip h-exit"><i>✕</i>近期出場</span></td><td class="num">48.1 – 48.6 元<br><small>出場區間</small></td></tr><tr><td>#5 上銀<em>2049</em></td><td class="num">311.00</td><td class="num">50</td><td><span class="chip e-no"><i>✕</i>不建議買進</span></td><td class="num">暫不設買點<br><small>平盤 311.00（1,462 張 vr20 0.69、高 318.50 低 310.50）連二日收在布林下軌 314.59 外、收在前 20 日低（1/6）；外資 −325、投信 −117——外資投信連二日同賣</small></td><td><span class="chip h-exit"><i>✕</i>近期出場</span></td><td class="num">314.6 – 318.5 元<br><small>出場區間</small></td></tr><tr><td>#6 可寧衛*<em>8422</em></td><td class="num">25.70</td><td class="num">42</td><td><span class="chip e-no"><i>✕</i>不建議買進</span></td><td class="num">暫不設買點<br><small>+2.39% 收 25.70（4,572 張、高 25.85）站回 5／10 日線與月線 25.60（0/6→3/6）；外資 +2,340 連三買（三日 +4,694）、主力 +2,012——「站穩月線三日」第一日</small></td><td><span class="chip h-exit"><i>✕</i>近期出場</span></td><td class="num">25.9 – 26.3 元<br><small>出場區間</small></td></tr><tr><td>#7 晶焱<em>6411</em></td><td class="num">76.00</td><td class="num">41</td><td><span class="chip e-no"><i>✕</i>不建議買進</span></td><td class="num">暫不設買點<br><small>+0.80% 收 76.00（238 張、高 77.70 低 75.10）收回布林下軌 75.72 內（0/6）；外資 +36、主力 +7——下軌外僅一日、未觸發連二日條款</small></td><td><span class="chip h-cut"><i>▼</i>加速減碼</span></td><td class="num">76.5 – 77.6 元<br><small>減碼區間</small></td></tr><tr><td>#8 為升<em>2231</em></td><td class="num">89.80</td><td class="num">33</td><td><span class="chip e-no"><i>✕</i>不建議買進</span></td><td class="num">暫不設買點<br><small>−0.55% 收 89.80 收最低（165 張、開 91.00 高 91.80）距布林下軌 89.03 僅 0.77、0/6；外資 +63</small></td><td><span class="chip h-exit"><i>✕</i>近期出場</span></td><td class="num">90.6 – 91.5 元<br><small>出場區間</small></td></tr></tbody></table></div>
+<p class="tnote"><b>分數建議與情境建議的差別</b>：分數建議只是五面向加權後的綜合評比，回答「這家公司整體好不好」；情境建議回答兩個完全不同的操作問題——空手看「現在這個價位的風險報酬比」，持有看「機會成本與時間壓力」。<b>兩者不一致是常態而非錯誤。</b></p>
+<h3 class="sh">依綜合分數分組</h3>
+<div class="grps"><div class="grp"><h4>買進　<small>0 檔</small></h4><p>無</p></div><div class="grp"><h4>觀察偏多　<small>3 檔</small></h4><p>長華*(8070) 64 分、長興(1717) 58 分、長科*(6548) 56 分</p></div><div class="grp"><h4>觀察　<small>2 檔</small></h4><p>材料*-KY(4763) 50 分、上銀(2049) 50 分</p></div><div class="grp"><h4>減碼／賣出　<small>3 檔</small></h4><p>可寧衛*(8422) 42 分、晶焱(6411) 41 分、為升(2231) 33 分</p></div></div>
+<h3 class="sh">當日關鍵變化</h3><ul class="lst"><li><b>★★ 4763 材料*-KY ＋ 8422 可寧衛*：外資連買帶量站回月線（第一日）</b>：4763 收 47.65（+2.47%、高 48.10、量 7,061 張、量增約六成）站回 5／10 日線與月線 47.21（1/6→4/6）、季線 48.49／年線 48.59 未過、K 47.1；<b>外資 +3,239 連八買（本輪單日最大、10 日 +7,994）、投信 −34、自營 +165——合計 +3,370；主力 +2,649、5 日集中 13.19%</b>——<b>盤中 48.10 貫穿出場帶、分批出已執行；「帶量站穩月線三日＋稀釋明朗」第一日，出場模式維持（出場帶上移 48.1~48.6、跌回月線下恢復加速）</b>。8422 收 25.70（+2.39%、高 25.85、量 4,572 張）站回 5／10 日線與月線 25.60（0/6→3/6）、季線 26.09 未過；<b>外資 +2,340 連三買（三日 +4,694）、投信 −114——合計 +2,177；主力 +2,012</b>——<b>高 25.85 貫穿出場帶、分批出已執行；「站穩月線三日」第一日，出場模式維持（出場帶上移 25.9~26.3）</b>。</li><li><b>★ 6548 長科*：低點進帶後收高、已填息</b>：10/16 收 83.40（+1.46%、開 84.10 即全日高、低 79.10、量 8,255 張）高於除息前收盤 82.90——已填息；5 日線 84.02 差 0.62、守 10 日線 80.66（5/6）；<b>投信 +2,157 連十買、外資 −1,712 連四賣、自營 −94——合計 +351；主力 +179</b>；10/12～10/16 因除息暫停先賣後買當沖、10/19 恢復（櫃買公告）——<b>e-part：低 79.10 進入買進帶、第一批續接已執行（79.1~80.7、收盤跌破 79.05 即停）；h-cut：84.7~86.3 再減、收盤跌破 10 日線 80.66 回出場模式</b>。</li><li><b>★ 8070 長華* ＋ 1717 長興：站回 5 日線 vs 未站回月線</b>：8070 收 52.20（+1.36%、高 53.00 低 51.60、量縮 1,666 張）站回 5 日線 52.06（6/6）；<b>外資 +632 連二買、投信 −4——合計 +587</b>；10/16 主力列玩股網未更新——<b>h-tp：盤中 53.00 貫穿停利帶 51.9~52.5、停利（加速）已執行、加速條款暫解（停利帶 52.7~53.7）；e-part 續行、買進帶 50.8~51.6 未觸及</b>。1717 收 72.70（+1.25%、高 73.50、量縮 5,342 張）月線 73.00／120 日線 73.24 未站回（2/6）；<b>外資 +1,963 轉買、主力 +878</b>——<b>h-exit：高 73.50 進入出場帶、分批出已執行；e-no：收盤站回月線且外資連買兩日（10/16 第一日）再評估</b>。</li><li><b>2049 上銀 ＋ 6411 晶焱 ＋ 2231 為升</b>：2049 平盤 311.00（高 318.50 低 310.50、量 1,462 張）連二日收在布林下軌 314.59 外；<b>外資 −325、投信 −117（連二日同賣）——合計 −440</b>——<b>不計價位出清續行：反彈至 314.6~318.5 加速</b>。6411 收 76.00（+0.80%、高 77.70、238 張）收回布林下軌 75.72 內（0/6）；<b>外資 +36</b>——<b>盤中貫穿減碼帶、分批已執行；連二日下軌外條款未成立，加速減碼續行</b>。2231 收 89.80（−0.55%、收最低、165 張）距下軌 89.03 僅 0.77；外資 +63——<b>出清帶貫穿、分批出已執行；反彈至 90.6~91.5 加速</b>。</li><li><b>大盤：跌深量縮反彈、仍在月線下</b>：+0.30% 收 47,111.26、盤中高 47,520.60 後回落，月線 48,121 未站回（3/6）；<b>量 9,864 億（−31.3%）、OSC −263.2、K 28.3；外資 −461.5 億連八賣、投信 +117.5 億；期貨淨空 93,675 口（−3,907）；684 漲 vs 286 跌</b>；★ 本週加權 −4.47%、櫃買 −6.20%、外資本週賣超 5,862.3 億——<b>環境分 46 維持</b>；華許談話後 10 月升息機率降至 15% 以下。</li></ul>
+<h3 class="sh">必須注意的事件</h3><ul class="lst"><li><b>★★ 今日與週末</b>：<b>華許（10/16 11:30，曼谷 IMF 年會與喬治艾娃對談）：不預判會議結果、全球經濟自 9 月以來大致符合預期、多數央行同步緊縮；AI 為「一生最深遠的經濟變革」——市場 10 月升息機率由約 27%～33% 降至 15% 以下、12 月仍多預期升息 1 碼</b>。亞股 10/16：日經 +1.39%（65,324.29）、KOSPI +2.05%（5,668.05）、恒指 +0.52%、上證 +0.24%；印尼綜指盤中跌逾 11%（MSCI 擬改列）。美股期指（17:04）：ES 7,803（+0.15%）、NQ 約平盤、YM +0.25%；美股 21:30 開盤（本篇未含收盤）。台幣收 32.338（貶 7.3 分、盤中最弱 32.52）。<b>行事曆：10/19（一）多檔 ETF 除息、6548 恢復先賣後買當沖；10/21（三）台指期 10 月結算；10/26（一）台股休市；10/27～28 FOMC；10/29 美國 9 月 PCE、三星完整財報；11/03 美國期中選舉；11/16 Fed AI 聽證會</b>。</li><li><b>★ 外資連八賣後的部位紀律</b>——外資八日 −6,818 億、期貨淨空 93,675 口、10/21 台指期結算：8070 分批買進只在 50.8~51.6、收回 51.20 下即停；6548 只在 79.1~80.7 續接、收盤跌破 79.05 即停；4763、8422 站回月線僅第一日，出場模式不因單日反彈解除（跌回月線下即恢復加速）；1717 出場帶 73.0~74.2；2049 不計價位出清；6411 連二日收下軌外改出場。</li><li><b>★ 本週回顧（10/12～10/16）</b>：加權 −2,202 點（−4.47%）終結週線連四紅、櫃買 −6.20%；外資本週賣超 5,862.3 億（10/15 單日 −3,025.6 億為史上最大）、投信買超 888.3 億、自營賣超 2,119.8 億，三大法人合計 −7,093.8 億；台積電法說（10/15）上修全年美元營收成長至約 44%、Q4 財測中值季增 14%，但股價週線收黑；本組週內：1717 由分批買進翻回近期出場、2049 由出場加速轉不計價位、8070 與 6548 維持分批買進。</li><li><b>★ 6548 除息與當沖限制更正</b>——上期報告寫「10/16 列入暫停先賣後買當沖名單（未載原因）」有誤：櫃買公告原因為除息，期間 10/12～10/16、10/19 恢復（已更正 20261015 報告原檔）；10/16 收 83.40 高於除息前收盤 82.90——已填息；台虹 10/16 漲停 311.50（媒體歸因 PCB 族群上漲，未提長科）。</li><li><b>本週其餘</b>：2049 卓永財獲遠見終身成就獎（榮譽新聞）、FactSet 450 未更新；8422 可寧衛三 10/16 收 93.80 平盤、轉換價格訂定重訊仍無；1717 長廣 10/16 −6.27%（原因查無）；2231 立承庫藏股執行結果截至 10/16 仍未公告；4763 Cerdia 無新官方進度；<b>10/16 資券約 21:00 公布，本篇資券最新為 10/15；大戶籌碼仍為 10/08 週（10/16 週預計 10/19 前後更新）；10/26（一）台股休市</b>。</li></ul>
+<h3 class="sh">資料完整性說明</h3>
+<p class="para chipnote"><b>★ 關於「有抓但不顯示」的資料</b>：本版個股卡片只呈現決策所需項目（技術指標、均線、法人／資券／主力／大戶、月營收 12 期與 EPS 8 季、目標價、五面向評分、雙情境建議、操作參考）。以下資料<b>仍完整抓取並用於計算分數</b>，只是不再逐檔顯示：財報三表（損益表近 8 季、資產負債表三期、現金流量表含 CFO÷淨利與 FCF，用於基本面 30% 中的「三率與 EPS 趨勢 30%」「財務結構 20%」「獲利品質 20%」）、公司題材與近 30 天新聞（用於消息面 10%）、個股對基準指數的超額報酬與 Beta／相關係數（用於大盤面說明；2026-10-06 起 RS 不計分，大盤面 10% 只取環境分）。各檔卡片的「建議」與「操作參考」段落已把其中的關鍵數字（如 CFO÷淨利、三率方向、負債比）直接引述出來。</p>
+<ul class="lst"><li><b>行情</b>：Yahoo Finance chart API（基準指數與各標的，range=2y、interval=1d），全部技術指標於本地計算，未採用任何第三方計算值。<b>本報告為 2026/10/16（週五）盤後當日產出，基準日 2026/10/16 收盤；8 檔 K 棒完整（收盤與證交所 STOCK_DAY／櫃買 tradingStock 逐檔核對一致）</b>。依報告保留政策（守則第 12 節），本次跑報告前已刪除 20261001（現存最新 10 期）。</li><li><b>陷阱 36 檢查（量欄補值）</b>：Yahoo ^TWII 10/16 列 OHLC 完整（46,995.03／47,520.60／46,995.03／47,111.26 與證交所 MI_5MINS_HIST 一致）但成交量欄為 0，已以 FMTQIK 成交筆數 4,986,542 補值（量比 1.04）。6548 10/15 除息 0.451 元：技術指標採未還原價，均線與布林軌含除息前價格，zones.py 條件價位已用除息後口徑（79.05）。</li><li><b>★ 資券變化（陷阱 8）：10/16 資券約 21:00 公布，本篇資券最新為 10/15</b>——6548 融資 7,844、券 11；8070 融資 5,628、券 19；8422 融資 23,214、券 120；6411 融資 2,034；1717 融資 16,770、券 469；4763 融資 39,083、券 27；2231 融資 2,638、券 101；2049 融資 3,948、券 37（皆 10/15 官方值）；資券區塊依守則自動略過，最新可得值用於籌碼評分。</li><li><b>★ 法人動態與主力進出：10/16 列於當日 17:1x～17:2x 擷取，8 檔買賣超與證交所 T86／櫃買法人官方數逐檔一致（當晚初版，隔日可能回修）</b>；★ 陷阱 43：10/16 法人列 6548、8070、8422、6411 的估計持股六欄當日空白（下期重抓補齊）；10/15 法人列與前版逐欄一致、本次無回修。<b>⚠ 8070、2049 的 10/16 主力列玩股網截至 17:26 仍未更新——兩檔主力表最新為 10/15（下期補齊）</b>；其餘 6 檔主力列 17:1x 已出。已驗證法人五欄相加＝總合 80 列全數成立。</li><li><b>大戶籌碼：10/08 當週（期間 07/17～10/08）——10/16 週集保與玩股網截至 17:2x 皆未更新</b>：8070 為 400 張以上（74.03）、8422 與 4763 為 1000 張以上（34.41；55.31）、其餘為 400 張以上；<b>10/16 週預計 10/19 前後更新</b>。</li><li><b>三大法人買賣金額（上市，證交所 BFI82U）</b>：10/16 <b>合計賣超 678.07 億元（10/16 17:1x 查詢，當晚初版——10/13～10/15 皆曾在當晚被回修）</b>（外資及陸資 −461.47 億連八賣、10/06～10/16 合計 −6,817.81 億；投信 +117.54 億連六買；自營自行 −101.79 億、避險 −232.36 億）。10/15 列 10/16 17:1x 再查無變動（−3,690.96 億）。外資個股（TWT38U）：買超 中鋼 4.4 萬張、群益台灣精選高息 4.1 萬張、友達 2.3 萬張、鴻海 2.3 萬張、華航 2.3 萬張、合庫金 2.1 萬張、凱基金 1.9 萬張、華通 1.5 萬張；賣超 元大台灣50 2.8 萬張、台積電 2.2 萬張、南亞 1.9 萬張、台塑 1.4 萬張、群創 1.2 萬張、凱基台灣TOP50 1.0 萬張、主動統一升級50 8,092 張、南亞科 7,784 張；權值 台積電 −22,047、鴻海 +22,670、聯發科 −1,623、台達電 −2,134、聯電 +2,382、國巨* −3,717。本組個股面（T86／櫃買官方）：4763 外資 +3,239、8422 +2,340、1717 +1,963、8070 +632、2231 +63、6411 +36 為外資買方；6548 −1,712（投信 +2,157）、2049 −325（投信 −117）為賣方。</li><li><b>台指期（期交所官方 futContractsDate CSV）</b>：10/16 外資未平倉淨空 <b>93,675 口</b>（10/15 為 97,582，−3,907 口回補）；投信淨多 82,464 口、自營淨多 3,197 口；10 月合約開 47,228、高 47,634、低 47,140、收 47,242（+311、+0.66%）、結算 47,284、未沖銷 97,247 口（轉倉中）、正價差 130.74（收盤−現貨）；10/15 夜盤（歸屬 10/16）收 47,366（+435）；10/16 夜盤 17:17 報 47,279（−5，期交所 MIS）；<b>10/21（三）10 月合約結算</b>。</li><li><b>櫃買指數</b>：10/16 收 400.26（+3.36、+0.85%）取自櫃買中心「上櫃股票當日彙總資訊」官方 10/16 頁（10/16 17:1x 擷取）：上漲 542 家（漲停 21）vs 下跌 247 家（跌停 2）、平盤 76；上櫃成交值 2,216.28 億元（−9.4%）；上櫃三大法人 10/16（櫃買官方彙總）：外資 −32.84 億、投信 +14.35 億、自營 −32.81 億、合計 −51.30 億（兩市外資合計 −494.31 億，計算值）。</li><li><b>加權指數成交量與家數</b>：成交金額與成交股數用<b>證交所官方 FMTQIK API</b>：10/16 成交金額 <b>9,864 億元（−31.3%）</b>、成交股數 11,806,923 千股、成交筆數 4,986,542；10/14、10/15 列與前版一致（陷阱 38 零回修）。⚠ 媒體成交金額 9,359.59 億為撮合口徑——以官方為準。漲跌家數（官方 MI_INDEX 上市股票）：684 漲（漲停 19）／286 跌（跌停 0）／106 平。</li><li><b>月營收：卡片「近 12 個月」表含 9 月列（8 檔全數）</b>；本期無新營收。</li><li><b>財報三表：本期無新公布數</b>——4763 續以「H1 減 Q1」推算單季（詳 q2est.py）、<b>單季現金流查無</b>；4763 併購案交割前不入帳，基本面分本期不調。<b>面額變更調整</b>：8422（2025Q4 起 1:10）與 4763（2025Q2 起 1:10）跨基準日 EPS 已統一還原。</li><li><b>技術判讀分（守則 §9.0 錨定表）</b>：本期換帶三檔——4763 36→55（1/6→4/6 站回月線 → 錨定 58~70 帶下緣 −3：一日站回、季線與年線緊壓、前兩度站回均一日即失守，理由已寫在 scores.py）、8422 31→46（0/6→3/6 → 45~57 帶下緣）、8070 63→72（5/6→6/6 → 72~85 帶下緣：量縮站回）；帶內調整：6548 68→67、1717 46→47、6411 31→33、2231 34→33、2049 30 維持。build_report.py 的 lib.tech_anchor 驗證 8 檔判讀分落在各自錨定區間 ±5 內。</li><li><b>★ 技術面的客觀加減分（守則 §9.1，2026-10-06 精簡版）</b>：技術面分 ＝ scores.py 的判讀分 ＋ lib.tech_adj 計算的客觀加減分（只留頂背離 −6、突破前 20 日高 +3、向上跳空 +2；±10 封頂），明細已逐檔列在卡片上。本期訊號：6548 <b>頂背離半權 −3（第 16 根）</b>；其餘 7 檔無觸發項目。</li><li><b>法人目標價：8 檔全部查無單一具名券商目標價數字</b>。可引用：<b>2049——FactSet 彙總 10/02：目標價中位數 450 元（10/16 未更新）</b>；<b>頎邦（8070 持股 4.12%）——FactSet 280 元；新應材（8070 轉投資）——FactSet 917.5 元</b>；1717——09/24 優分析引法人估 2026／2027 EPS 2.43／3.74 元（分析師觀點）。<b>8422 CB 轉換價 30.00 元＝櫃買官方發行資料（MOPS「轉換價格訂定」重訊仍無）</b>。</li><li><b>當日漲跌原因查證</b>：大盤 +0.30%＝外資史上最大賣超後跌深反彈、隨日韓股回升、題材輪動，台積電法說後收黑壓抑指數（中央社、經濟日報、鉅亨歸因一致）。<b>8 檔 10/16 漲跌皆查無媒體解讀，以官方法人數字為佐證</b>：4763（+2.47%）：外資 +3,239；8422（+2.39%）：外資 +2,340；6548（+1.46%）：投信 +2,157；8070（+1.36%）：外資 +632；1717（+1.25%）：外資 +1,963；6411（+0.80%）：外資 +36；2049（平盤）：外資投信同賣；2231（−0.55%）：165 張。</li><li><b>查無項目（逐項列出）</b>：(1) <b>10/16 資券</b>——約 21:00 公布，本篇未含；(2) <b>8070、2049 的 10/16 主力列</b>——玩股網截至 17:26 未更新；(3) <b>10/16 週大戶籌碼</b>——尚未更新；(4) <b>4763 的 Q2 單季現金流、速動比與資本支出</b>——Yahoo 財報頁未提供；(5) <b>8 檔的具名券商目標價數字</b>——見上條；(6) <b>8070 極端價量（8/18 起）的原因</b>——第四十一個交易日仍無說明；(7) <b>4763 法說簡報 PDF 內文、EPS 稀釋量化、債務再融資、Cerdia 反托辣斯進度</b>——各來源皆無；(8) <b>8422 MOPS「轉換價格訂定」重訊、可寧衛一／二 10 月起轉換量、可寧衛三官方成交量</b>——仍無；(9) <b>2231 立承庫藏股執行結果公告</b>——尚未出現；(10) <b>長廣 10/16 −6.27% 原因、10/16 美股收盤</b>——查無／未開盤。</li></ul>
+<a class="top" href="#top">↑ 回頂端</a></section>
+<footer class="foot"><h3>免責聲明</h3><p>本報告由自動化流程彙整公開資訊產生，僅供研究與教育參考，不構成任何投資建議、要約或招攬，亦不保證資料之完整性與正確性。所有評分為依既定公式計算之相對參考值，不代表對個股未來表現之預測。與公司正式公告或主管機關公開資訊有出入時，一律以官方公告為準。投資有風險，過去績效不代表未來表現。</p><p class="gen">資料基準日 2026-10-16（週五收盤）｜產出時間 2026-10-16 17:28（台北時間）</p></footer>
+</body></html>
