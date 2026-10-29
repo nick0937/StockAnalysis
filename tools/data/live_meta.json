@@ -1,9 +1,9 @@
 {
- "quote_time": "2026-10-28 10:42",
- "gen_time": "2026-10-28 10:42",
+ "quote_time": "2026-10-29 11:26",
+ "gen_time": "2026-10-29 11:25",
  "phase": "盤中",
- "base_date": "2026-10-27",
- "alerts": 12,
+ "base_date": "2026-10-28",
+ "alerts": 13,
  "source": "玩股網",
  "lag_min": 0,
  "delayed": false
